@@ -136,4 +136,4 @@ orderSchema.pre('save', async function(next) {
 
 // Check if model already exists to prevent OverwriteModelError
 export const Order: Model<IOrder> = 
-  mongoose.models.Order || mongoose.model<IStore>('Order', orderSchema);
+  mongoose.models.Order || mongoose.model<IOrder>('Order', orderSchema);
