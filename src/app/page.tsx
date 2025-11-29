@@ -6,7 +6,7 @@ import { useState, useEffect, useRef } from 'react';
 export default function Home() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [currentSlide, setCurrentSlide] = useState(0);
-  const [openFAQ, setOpenFAQ] = useState(null);
+  const [openFAQ, setOpenFAQ] = useState<number | null>(null); // Fixed: Added type annotation
 
   // Refs for scrolling
   const servicesRef = useRef(null);
