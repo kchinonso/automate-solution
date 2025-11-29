@@ -41,7 +41,7 @@ export async function PUT(request: Request) {
 
     // Verify the order belongs to user's store
     const store = await Store.findOne({ userId: user._id });
-    if (!store || order.storeId._id.toString() !== store._id.toString()) {
+    if (!store || order.storeId._id.toString() !== (store as any)._id.toString()) {
       return NextResponse.json(
         { error: 'Unauthorized to update this order' },
         { status: 403 }
