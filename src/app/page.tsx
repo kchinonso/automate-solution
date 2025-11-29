@@ -47,7 +47,7 @@ export default function Home() {
     setIsMenuOpen(false);
   };
 
-  const toggleFAQ = (index) => {
+  const toggleFAQ = (index: number) => {
     setOpenFAQ(openFAQ === index ? null : index);
   };
 
