@@ -42,7 +42,7 @@ export default function Home() {
   ];
 
   // Scroll functions
-  const scrollToSection = (ref) => {
+  const scrollToSection = (ref: any) => {
     ref.current?.scrollIntoView({ behavior: 'smooth' });
     setIsMenuOpen(false);
   };
