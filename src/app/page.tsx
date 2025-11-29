@@ -826,7 +826,7 @@ export default function Home() {
                   </label>
                   <textarea
                     id="message"
-                    rows="4"
+                    rows={4}
                     className="w-full px-4 py-3 bg-gray-700 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
                     placeholder="Tell us about your project..."
                   ></textarea>
