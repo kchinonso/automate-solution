@@ -29,7 +29,7 @@ export async function GET(request: Request) {
     }
 
     // Forward request to WhatsApp server
-    const response = await fetch(`${WHATSAPP_SERVER_URL}/api/whatsapp/status/${user._id.toString()}`);
+   const response = await fetch(`${WHATSAPP_SERVER_URL}/api/whatsapp/status/${(user as any)._id.toString()}`);
     
     // If server is down, return demo status
     if (!response.ok) {
