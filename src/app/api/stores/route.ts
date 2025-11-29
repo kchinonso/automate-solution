@@ -250,19 +250,19 @@ export async function PUT(request: Request) {
     );
 
     return NextResponse.json(
-      { 
-        message: 'Store updated successfully', 
-store: {
-  id: updatedStore!._id,
-  storeName: updatedStore!.storeName,
-  storeSlug: updatedStore!.storeSlug,
-  currency: updatedStore!.currency,
-          welcomeMessage: updatedStore.welcomeMessage,
-          whatsappNumber: updatedStore.whatsappNumber,
-        }
-      },
-      { status: 200 }
-    );
+  { 
+    message: 'Store updated successfully', 
+    store: {
+      id: updatedStore!._id,
+      storeName: updatedStore!.storeName,
+      storeSlug: updatedStore!.storeSlug,
+      currency: updatedStore!.currency,
+      welcomeMessage: updatedStore!.welcomeMessage,     // ← ADD !
+      whatsappNumber: updatedStore!.whatsappNumber,     // ← ADD !
+    }
+  },
+  { status: 200 }
+);
   } catch (error: any) {
     console.error('Store update error:', error);
     return NextResponse.json(
