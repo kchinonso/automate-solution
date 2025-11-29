@@ -29,7 +29,7 @@ export async function POST(request: Request) {
     }
 
     // Forward request to WhatsApp server
-    const response = await fetch(`${WHATSAPP_SERVER_URL}/api/whatsapp/disconnect/${user._id.toString()}`, {
+    const response = await fetch(`${WHATSAPP_SERVER_URL}/api/whatsapp/disconnect/${(user as any)._id.toString()}`, {
       method: 'POST',
     });
 
