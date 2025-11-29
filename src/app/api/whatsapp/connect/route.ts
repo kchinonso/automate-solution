@@ -44,8 +44,8 @@ export async function POST(request: Request) {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        userId: user._id.toString(),
-        storeId: store._id.toString(),
+        userId: (user as any)._id.toString(),
+        storeId: (store as any)._id.toString(),
       }),
     });
 
