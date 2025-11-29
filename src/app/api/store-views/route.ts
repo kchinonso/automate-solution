@@ -86,7 +86,7 @@ export async function POST(request: Request) {
     console.log('✅ Store view tracked:', {
       store: store.storeName,
       sessionId,
-      country: locationData.country || 'Unknown'
+      country: (locationData as any).country || 'Unknown'
     });
 
     return NextResponse.json(
