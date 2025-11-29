@@ -29,7 +29,7 @@ export async function GET(request: Request) {
     }
 
     // Forward request to WhatsApp server to get QR code
-    const response = await fetch(`${WHATSAPP_SERVER_URL}/api/whatsapp/qr/${user._id.toString()}`);
+    const response = await fetch(`${WHATSAPP_SERVER_URL}/api/whatsapp/qr/${(user as any)._id.toString()}`);
     
     if (!response.ok) {
       return NextResponse.json(
