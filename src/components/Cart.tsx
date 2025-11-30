@@ -8,7 +8,7 @@ interface CartProps {
   currency?: string;
 }
 
-export default function Cart({ currency = '$' }: CartProps) {
+export default function Cart({ currency = '' }: CartProps) {
   const { cartItems, removeFromCart, updateQuantity, getCartTotal, clearCart, getCartItemsCount } = useCart();
   const [isOpen, setIsOpen] = useState(false);
   const [showCheckout, setShowCheckout] = useState(false);
