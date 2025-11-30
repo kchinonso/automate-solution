@@ -47,6 +47,11 @@ export default function Home() {
     setIsMenuOpen(false);
   };
 
+  // Add this function for navigation
+  const navigateToSignup = () => {
+    window.location.href = '/auth/signup';
+  };
+
   const toggleFAQ = (index: number) => {
     setOpenFAQ(openFAQ === index ? null : index);
   };
@@ -493,10 +498,10 @@ export default function Home() {
                 </div>
               </div>
 
-              {/* CTA Button */}
+              {/* CTA Button - UPDATED: Now navigates to /auth/signup */}
               <div className="pt-4">
                 <button 
-                  onClick={() => scrollToSection(contactRef)}
+                  onClick={navigateToSignup}
                   className="inline-flex items-center bg-blue-600 hover:bg-blue-500 text-white px-8 py-4 rounded-lg text-lg font-semibold transition-all duration-300 transform hover:scale-105 hover:shadow-2xl shadow-blue-500/25"
                 >
                   <span className="flex items-center">
