@@ -74,7 +74,7 @@ export default function StoreClient({ store }: StoreClientProps) {
     }
   }, [sessionId, store]);
 
-  // Fetch view count for display
+  // Fetch view count for display (kept for analytics but not displayed to customers)
   useEffect(() => {
     const fetchViewCount = async () => {
       try {
@@ -124,8 +124,8 @@ export default function StoreClient({ store }: StoreClientProps) {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      {/* Store Header */}
-      <header className="bg-white shadow-sm border-b">
+      {/* Fixed Navigation Header */}
+      <header className="bg-white shadow-sm border-b fixed top-0 left-0 right-0 z-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           {/* Top Navigation */}
           <div className="flex justify-between items-center py-4">
@@ -149,27 +149,25 @@ export default function StoreClient({ store }: StoreClientProps) {
             </div>
           </div>
 
-          {/* Store Info Bar */}
+          {/* Store Address Bar */}
           <div className="pb-3">
             <div className="flex justify-between items-center">
               <div>
-                {store.storeDescription && (
-                  <span className="text-gray-600 text-sm">{store.storeDescription}</span>
+                {store.storeAddress && (
+                  <span className="text-gray-600 text-sm">📍 {store.storeAddress}</span>
                 )}
               </div>
-              {viewCount > 0 && (
-                <div className="text-sm text-gray-500 flex items-center space-x-1">
-                  <span>👀</span>
-                  <span>{viewCount.toLocaleString()} views this week</span>
-                </div>
-              )}
+              {/* View count removed from customer view */}
             </div>
           </div>
         </div>
       </header>
 
-      {/* Category Navigation */}
-      <nav className="bg-white shadow-sm border-b">
+      {/* Spacer for fixed header */}
+      <div className="h-32"></div>
+
+      {/* Category Navigation - Fixed below main header */}
+      <nav className="bg-white shadow-sm border-b fixed top-32 left-0 right-0 z-40">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex space-x-6 overflow-x-auto py-3">
             {categories.map((category) => (
@@ -188,6 +186,9 @@ export default function StoreClient({ store }: StoreClientProps) {
           </div>
         </div>
       </nav>
+
+      {/* Spacer for category navigation */}
+      <div className="h-20"></div>
 
       {/* Main Content */}
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
@@ -307,13 +308,18 @@ export default function StoreClient({ store }: StoreClientProps) {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center">
             <p>&copy; {new Date().getFullYear()} {store.storeName}. All rights reserved.</p>
-            <p className="text-gray-400 mt-2">Powered by AutoMate Solutions</p>
-            {store.contactEmail && (
-              <p className="text-gray-400 mt-1">Contact: {store.contactEmail}</p>
-            )}
-            {store.storeAddress && (
-              <p className="text-gray-400 mt-1">Address: {store.storeAddress}</p>
-            )}
+            <p className="text-gray-400 mt-2">
+              Powered by{' '}
+              <a 
+                href="https://automate-solution.vercel.app" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="text-blue-400 hover:text-blue-300 underline transition-colors"
+              >
+                AutoMate Solutions
+              </a>
+            </p>
+            {/* Contact and Address removed from footer */}
           </div>
         </div>
       </footer>
