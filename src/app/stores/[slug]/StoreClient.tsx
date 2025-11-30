@@ -127,29 +127,37 @@ export default function StoreClient({ store }: StoreClientProps) {
       {/* Fixed Navigation Header */}
       <header className="bg-white shadow-sm border-b fixed top-0 left-0 right-0 z-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          {/* Top Navigation */}
-          <div className="flex justify-between items-center py-4">
-            <div className="flex items-center space-x-8 flex-1">
+          {/* Top Navigation - Stack on mobile, row on desktop */}
+          <div className="flex flex-col md:flex-row md:justify-between md:items-center py-4 space-y-3 md:space-y-0">
+            {/* Store name and cart - row on mobile, adjusted on desktop */}
+            <div className="flex justify-between items-center md:items-start md:space-x-8">
               <h1 className="text-2xl font-bold text-gray-900">{store.storeName}</h1>
-              <div className="relative flex-1 max-w-2xl">
-                <input
-                  type="text"
-                  placeholder="Search products, brands and categories"
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                  className="w-full px-4 py-2 rounded-lg border border-gray-300 text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                />
-                <button className="absolute right-0 top-0 bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-r-lg transition duration-300">
-                  Search
-                </button>
+              <div className="md:hidden">
+                <Cart />
               </div>
             </div>
-            <div className="flex items-center">
+            
+            {/* Search bar - full width on mobile, flex-1 on desktop */}
+            <div className="relative w-full md:flex-1 md:max-w-2xl">
+              <input
+                type="text"
+                placeholder="Search products, brands and categories"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                className="w-full px-4 py-2 rounded-lg border border-gray-300 text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              />
+              <button className="absolute right-0 top-0 bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-r-lg transition duration-300">
+                Search
+              </button>
+            </div>
+
+            {/* Cart - hidden on mobile, visible on desktop */}
+            <div className="hidden md:flex items-center">
               <Cart />
             </div>
           </div>
 
-          {/* Store Address Bar */}
+          {/* Store Address Bar - below search on mobile */}
           <div className="pb-3">
             <div className="flex justify-between items-center">
               <div>
@@ -163,11 +171,11 @@ export default function StoreClient({ store }: StoreClientProps) {
         </div>
       </header>
 
-      {/* Spacer for fixed header */}
-      <div className="h-32"></div>
+      {/* Spacer for fixed header - increased height for mobile */}
+      <div className="h-40 md:h-32"></div>
 
       {/* Category Navigation - Fixed below main header */}
-      <nav className="bg-white shadow-sm border-b fixed top-32 left-0 right-0 z-40">
+      <nav className="bg-white shadow-sm border-b fixed top-40 md:top-32 left-0 right-0 z-40">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex space-x-6 overflow-x-auto py-3">
             {categories.map((category) => (
