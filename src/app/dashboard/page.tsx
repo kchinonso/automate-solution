@@ -76,35 +76,35 @@ export default function Dashboard() {
     <div className="min-h-screen bg-gray-50">
       <DashboardNav user={session!.user} pageTitle="Dashboard" />
 
-      {/* Dashboard Content */}
-      <div className="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
+      {/* Dashboard Content - Added pt-24 for fixed navbar */}
+      <div className="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8 pt-24">
         <div className="px-4 py-6 sm:px-0">
-          <div className="border-4 border-dashed border-gray-200 rounded-lg p-8">
+          <div className="border-4 border-dashed border-gray-200 rounded-lg p-4 md:p-8">
             <div className="text-center">
-              <h2 className="text-3xl font-bold text-gray-900 mb-4">
+              <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-4">
                 Welcome to Your Dashboard, {user?.companyName || 'Beta Tester'}!
               </h2>
-              <p className="text-xl text-gray-600 mb-8">
+              <p className="text-lg md:text-xl text-gray-600 mb-6 md:mb-8">
                 You're now part of the AutoMate Solutions Beta Program.
               </p>
               
               {/* Store URL Section */}
               {store && (
-                <div className="mb-8 bg-white rounded-lg border border-gray-200 p-6 max-w-2xl mx-auto shadow-sm">
-                  <h3 className="text-xl font-semibold text-gray-900 mb-3">Your Store URL</h3>
-                  <p className="text-gray-600 mb-4">Share this link with your customers to start receiving orders:</p>
-                  <div className="flex items-center space-x-2 mb-4">
-                    <code className="flex-1 bg-gray-100 text-gray-800 px-3 py-2 rounded text-sm truncate border">
+                <div className="mb-6 md:mb-8 bg-white rounded-lg border border-gray-200 p-4 md:p-6 max-w-2xl mx-auto shadow-sm">
+                  <h3 className="text-lg md:text-xl font-semibold text-gray-900 mb-3">Your Store URL</h3>
+                  <p className="text-gray-600 mb-4 text-sm md:text-base">Share this link with your customers to start receiving orders:</p>
+                  <div className="flex flex-col sm:flex-row items-stretch sm:items-center space-y-2 sm:space-y-0 sm:space-x-2 mb-4">
+                    <code className="flex-1 bg-gray-100 text-gray-800 px-3 py-2 rounded text-sm truncate border font-mono">
                       {typeof window !== 'undefined' ? `${window.location.origin}/stores/${store.storeSlug}` : ''}
                     </code>
                     <button
                       onClick={copyStoreUrl}
-                      className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded text-sm transition duration-300 flex items-center space-x-1"
+                      className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded text-sm transition duration-300 flex items-center justify-center space-x-1 whitespace-nowrap"
                     >
                       <span>{copied ? '✅ Copied!' : '📋 Copy'}</span>
                     </button>
                   </div>
-                  <p className="text-sm text-gray-500">
+                  <p className="text-xs md:text-sm text-gray-500">
                     Customers can visit this URL to browse your products and place orders directly via WhatsApp.
                   </p>
                 </div>
@@ -112,54 +112,54 @@ export default function Dashboard() {
 
               {/* Quick Stats */}
               {store && (
-                <div className="grid grid-cols-1 md:grid-cols-4 gap-6 max-w-4xl mx-auto mb-8">
-                  <div className="bg-white p-6 rounded-lg border border-gray-200 shadow-sm">
-                    <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center mb-4 mx-auto">
-                      <span className="text-blue-600 font-bold">🏪</span>
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-6 max-w-4xl mx-auto mb-6 md:mb-8">
+                  <div className="bg-white p-4 md:p-6 rounded-lg border border-gray-200 shadow-sm">
+                    <div className="w-8 h-8 md:w-12 md:h-12 bg-blue-100 rounded-lg flex items-center justify-center mb-2 md:mb-4 mx-auto">
+                      <span className="text-blue-600 font-bold text-sm md:text-base">🏪</span>
                     </div>
-                    <h3 className="text-lg font-semibold text-gray-900 mb-2">Your Store</h3>
-                    <p className="text-gray-600 text-sm">{store.storeName}</p>
+                    <h3 className="text-sm md:text-lg font-semibold text-gray-900 mb-1 md:mb-2">Your Store</h3>
+                    <p className="text-gray-600 text-xs md:text-sm truncate">{store.storeName}</p>
                   </div>
 
-                  <div className="bg-white p-6 rounded-lg border border-gray-200 shadow-sm">
-                    <div className="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center mb-4 mx-auto">
-                      <span className="text-green-600 font-bold">📦</span>
+                  <div className="bg-white p-4 md:p-6 rounded-lg border border-gray-200 shadow-sm">
+                    <div className="w-8 h-8 md:w-12 md:h-12 bg-green-100 rounded-lg flex items-center justify-center mb-2 md:mb-4 mx-auto">
+                      <span className="text-green-600 font-bold text-sm md:text-base">📦</span>
                     </div>
-                    <h3 className="text-lg font-semibold text-gray-900 mb-2">Products</h3>
-                    <p className="text-gray-600 text-sm">{store.products?.length || 0} products</p>
+                    <h3 className="text-sm md:text-lg font-semibold text-gray-900 mb-1 md:mb-2">Products</h3>
+                    <p className="text-gray-600 text-xs md:text-sm">{store.products?.length || 0} products</p>
                   </div>
 
-                  <div className="bg-white p-6 rounded-lg border border-gray-200 shadow-sm">
-                    <div className="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center mb-4 mx-auto">
-                      <span className="text-purple-600 font-bold">📱</span>
+                  <div className="bg-white p-4 md:p-6 rounded-lg border border-gray-200 shadow-sm">
+                    <div className="w-8 h-8 md:w-12 md:h-12 bg-purple-100 rounded-lg flex items-center justify-center mb-2 md:mb-4 mx-auto">
+                      <span className="text-purple-600 font-bold text-sm md:text-base">📱</span>
                     </div>
-                    <h3 className="text-lg font-semibold text-gray-900 mb-2">WhatsApp</h3>
-                    <p className="text-gray-600 text-sm">
+                    <h3 className="text-sm md:text-lg font-semibold text-gray-900 mb-1 md:mb-2">WhatsApp</h3>
+                    <p className="text-gray-600 text-xs md:text-sm">
                       {store.whatsappNumber ? 'Connected' : 'Not Connected'}
                     </p>
                   </div>
 
-                  <div className="bg-white p-6 rounded-lg border border-gray-200 shadow-sm">
-                    <div className="w-12 h-12 bg-orange-100 rounded-lg flex items-center justify-center mb-4 mx-auto">
-                      <span className="text-orange-600 font-bold">🛒</span>
+                  <div className="bg-white p-4 md:p-6 rounded-lg border border-gray-200 shadow-sm">
+                    <div className="w-8 h-8 md:w-12 md:h-12 bg-orange-100 rounded-lg flex items-center justify-center mb-2 md:mb-4 mx-auto">
+                      <span className="text-orange-600 font-bold text-sm md:text-base">🛒</span>
                     </div>
-                    <h3 className="text-lg font-semibold text-gray-900 mb-2">Orders</h3>
-                    <p className="text-gray-600 text-sm">Manage customer orders</p>
+                    <h3 className="text-sm md:text-lg font-semibold text-gray-900 mb-1 md:mb-2">Orders</h3>
+                    <p className="text-gray-600 text-xs md:text-sm">Manage orders</p>
                   </div>
                 </div>
               )}
 
               {/* Action Cards */}
-              <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 max-w-6xl mx-auto mb-8">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6 max-w-6xl mx-auto mb-6 md:mb-8">
                 {/* Store Management */}
-                <div className="bg-white p-6 rounded-lg border border-gray-200 shadow-sm hover:shadow-md transition-shadow">
-                  <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center mb-4">
-                    <span className="text-blue-600 font-bold">🏪</span>
+                <div className="bg-white p-4 md:p-6 rounded-lg border border-gray-200 shadow-sm hover:shadow-md transition-shadow">
+                  <div className="w-8 h-8 md:w-12 md:h-12 bg-blue-100 rounded-lg flex items-center justify-center mb-3 md:mb-4">
+                    <span className="text-blue-600 font-bold text-sm md:text-base">🏪</span>
                   </div>
-                  <h3 className="text-lg font-semibold text-gray-900 mb-2">
+                  <h3 className="text-base md:text-lg font-semibold text-gray-900 mb-2">
                     {store ? 'Store Settings' : 'Setup Store'}
                   </h3>
-                  <p className="text-gray-600 text-sm mb-4">
+                  <p className="text-gray-600 text-xs md:text-sm mb-3 md:mb-4">
                     {store 
                       ? 'Update your store name, description, and settings.' 
                       : 'Set up your store to start accepting orders.'
@@ -167,58 +167,58 @@ export default function Dashboard() {
                   </p>
                   <button 
                     onClick={() => router.push(store ? '/dashboard/store-edit' : '/dashboard/store-setup')}
-                    className="w-full bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg font-semibold transition duration-300"
+                    className="w-full bg-blue-600 hover:bg-blue-700 text-white px-3 py-2 md:px-4 md:py-2 rounded-lg font-semibold transition duration-300 text-sm md:text-base"
                   >
                     {store ? 'Edit Store' : 'Setup Store'}
                   </button>
                 </div>
 
                 {/* Product Management */}
-                <div className="bg-white p-6 rounded-lg border border-gray-200 shadow-sm hover:shadow-md transition-shadow">
-                  <div className="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center mb-4">
-                    <span className="text-green-600 font-bold">📦</span>
+                <div className="bg-white p-4 md:p-6 rounded-lg border border-gray-200 shadow-sm hover:shadow-md transition-shadow">
+                  <div className="w-8 h-8 md:w-12 md:h-12 bg-green-100 rounded-lg flex items-center justify-center mb-3 md:mb-4">
+                    <span className="text-green-600 font-bold text-sm md:text-base">📦</span>
                   </div>
-                  <h3 className="text-lg font-semibold text-gray-900 mb-2">Products</h3>
-                  <p className="text-gray-600 text-sm mb-4">
+                  <h3 className="text-base md:text-lg font-semibold text-gray-900 mb-2">Products</h3>
+                  <p className="text-gray-600 text-xs md:text-sm mb-3 md:mb-4">
                     Add, edit, or remove products from your catalog.
                   </p>
                   <button 
                     onClick={() => router.push('/dashboard/products')}
-                    className="w-full bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg font-semibold transition duration-300"
+                    className="w-full bg-green-600 hover:bg-green-700 text-white px-3 py-2 md:px-4 md:py-2 rounded-lg font-semibold transition duration-300 text-sm md:text-base"
                   >
                     Manage Products
                   </button>
                 </div>
 
-                {/* Order Management - NEW */}
-                <div className="bg-white p-6 rounded-lg border border-gray-200 shadow-sm hover:shadow-md transition-shadow">
-                  <div className="w-12 h-12 bg-orange-100 rounded-lg flex items-center justify-center mb-4">
-                    <span className="text-orange-600 font-bold">🛒</span>
+                {/* Order Management */}
+                <div className="bg-white p-4 md:p-6 rounded-lg border border-gray-200 shadow-sm hover:shadow-md transition-shadow">
+                  <div className="w-8 h-8 md:w-12 md:h-12 bg-orange-100 rounded-lg flex items-center justify-center mb-3 md:mb-4">
+                    <span className="text-orange-600 font-bold text-sm md:text-base">🛒</span>
                   </div>
-                  <h3 className="text-lg font-semibold text-gray-900 mb-2">Order Management</h3>
-                  <p className="text-gray-600 text-sm mb-4">
+                  <h3 className="text-base md:text-lg font-semibold text-gray-900 mb-2">Order Management</h3>
+                  <p className="text-gray-600 text-xs md:text-sm mb-3 md:mb-4">
                     View and manage customer orders, update status, and track payments.
                   </p>
                   <button 
                     onClick={() => router.push('/dashboard/orders')}
-                    className="w-full bg-orange-600 hover:bg-orange-700 text-white px-4 py-2 rounded-lg font-semibold transition duration-300"
+                    className="w-full bg-orange-600 hover:bg-orange-700 text-white px-3 py-2 md:px-4 md:py-2 rounded-lg font-semibold transition duration-300 text-sm md:text-base"
                   >
                     Manage Orders
                   </button>
                 </div>
 
                 {/* Store Analytics */}
-                <div className="bg-white p-6 rounded-lg border border-gray-200 shadow-sm hover:shadow-md transition-shadow">
-                  <div className="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center mb-4">
-                    <span className="text-purple-600 font-bold">📊</span>
+                <div className="bg-white p-4 md:p-6 rounded-lg border border-gray-200 shadow-sm hover:shadow-md transition-shadow">
+                  <div className="w-8 h-8 md:w-12 md:h-12 bg-purple-100 rounded-lg flex items-center justify-center mb-3 md:mb-4">
+                    <span className="text-purple-600 font-bold text-sm md:text-base">📊</span>
                   </div>
-                  <h3 className="text-lg font-semibold text-gray-900 mb-2">Store Analytics</h3>
-                  <p className="text-gray-600 text-sm mb-4">
+                  <h3 className="text-base md:text-lg font-semibold text-gray-900 mb-2">Store Analytics</h3>
+                  <p className="text-gray-600 text-xs md:text-sm mb-3 md:mb-4">
                     View your store performance and order statistics.
                   </p>
                   <button 
                     onClick={() => router.push('/dashboard/analytics')}
-                    className="w-full bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 rounded-lg font-semibold transition duration-300"
+                    className="w-full bg-purple-600 hover:bg-purple-700 text-white px-3 py-2 md:px-4 md:py-2 rounded-lg font-semibold transition duration-300 text-sm md:text-base"
                   >
                     View Analytics
                   </button>
@@ -227,12 +227,12 @@ export default function Dashboard() {
 
               {/* Setup Guide */}
               {!store && (
-                <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-6 max-w-2xl mx-auto">
-                  <h3 className="text-lg font-semibold text-yellow-800 mb-2">Get Started</h3>
-                  <p className="text-yellow-700 mb-4">
+                <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-4 md:p-6 max-w-2xl mx-auto mb-6">
+                  <h3 className="text-base md:text-lg font-semibold text-yellow-800 mb-2">Get Started</h3>
+                  <p className="text-yellow-700 mb-3 md:mb-4 text-sm md:text-base">
                     Welcome to AutoMate Solutions! To start using your WhatsApp e-commerce bot, follow these steps:
                   </p>
-                  <ol className="text-yellow-700 text-left space-y-2 list-decimal list-inside">
+                  <ol className="text-yellow-700 text-left space-y-1 md:space-y-2 text-xs md:text-sm list-decimal list-inside">
                     <li>Set up your store information</li>
                     <li>Add your products with prices and inventory</li>
                     <li>Connect your WhatsApp number</li>
@@ -241,7 +241,7 @@ export default function Dashboard() {
                   </ol>
                   <button 
                     onClick={() => router.push('/dashboard/store-setup')}
-                    className="mt-4 bg-yellow-600 hover:bg-yellow-700 text-white px-6 py-3 rounded-lg font-semibold"
+                    className="mt-3 md:mt-4 bg-yellow-600 hover:bg-yellow-700 text-white px-4 py-2 md:px-6 md:py-3 rounded-lg font-semibold text-sm md:text-base"
                   >
                     Start Setup
                   </button>
@@ -250,9 +250,9 @@ export default function Dashboard() {
 
               {/* Store Management Tips */}
               {store && (
-                <div className="bg-blue-50 border border-blue-200 rounded-lg p-6 max-w-2xl mx-auto">
-                  <h3 className="text-lg font-semibold text-blue-800 mb-2">Store Management Tips</h3>
-                  <ul className="text-blue-700 text-left space-y-2">
+                <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 md:p-6 max-w-2xl mx-auto mb-6">
+                  <h3 className="text-base md:text-lg font-semibold text-blue-800 mb-2">Store Management Tips</h3>
+                  <ul className="text-blue-700 text-left space-y-1 md:space-y-2 text-xs md:text-sm">
                     <li>• Keep your product inventory updated regularly</li>
                     <li>• Share your store URL on social media and with customers</li>
                     <li>• Respond promptly to WhatsApp orders for better customer experience</li>
@@ -263,7 +263,7 @@ export default function Dashboard() {
                 </div>
               )}
 
-              <p className="mt-8 text-sm text-gray-500 max-w-2xl mx-auto">
+              <p className="mt-6 md:mt-8 text-xs md:text-sm text-gray-500 max-w-2xl mx-auto">
                 This is your central hub for managing your WhatsApp E-Commerce Bot. 
                 We'll be adding more features as we continue development. Thank you for being a beta tester!
               </p>
