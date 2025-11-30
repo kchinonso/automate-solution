@@ -220,21 +220,21 @@ export default function Products() {
     <div className="min-h-screen bg-gray-50">
       <DashboardNav user={session!.user} pageTitle="Product Management" />
 
-      {/* Products Content */}
-      <div className="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
+      {/* Products Content - Added pt-24 for fixed navbar */}
+      <div className="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8 pt-24">
         <div className="px-4 py-6 sm:px-0">
           <div className="bg-white shadow rounded-lg">
             <div className="px-6 py-4 border-b border-gray-200">
-              <div className="flex justify-between items-center">
+              <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
                 <div>
-                  <h2 className="text-2xl font-bold text-gray-900">Your Products</h2>
+                  <h2 className="text-xl sm:text-2xl font-bold text-gray-900">Your Products</h2>
                   <p className="text-sm text-gray-600">
                     Manage products for your store: {store.storeName}
                   </p>
                 </div>
                 <button
                   onClick={() => setShowAddForm(true)}
-                  className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg font-semibold transition duration-300"
+                  className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg font-semibold transition duration-300 text-sm sm:text-base whitespace-nowrap"
                 >
                   Add New Product
                 </button>
@@ -243,7 +243,7 @@ export default function Products() {
 
             {/* Add Product Form */}
             {showAddForm && (
-              <div className="p-6 border-b border-gray-200 bg-gray-50">
+              <div className="p-4 sm:p-6 border-b border-gray-200 bg-gray-50">
                 <h3 className="text-lg font-semibold text-gray-900 mb-4">Add New Product</h3>
                 <form onSubmit={handleAddProduct} className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div>
@@ -347,7 +347,7 @@ export default function Products() {
 
             {/* Edit Product Form */}
             {editingProduct && (
-              <div className="p-6 border-b border-gray-200 bg-yellow-50">
+              <div className="p-4 sm:p-6 border-b border-gray-200 bg-yellow-50">
                 <h3 className="text-lg font-semibold text-gray-900 mb-4">Edit Product</h3>
                 <form onSubmit={handleUpdateProduct} className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div>
@@ -444,7 +444,7 @@ export default function Products() {
             )}
 
             {/* Products List */}
-            <div className="p-6">
+            <div className="p-4 sm:p-6">
               {products.length === 0 ? (
                 <div className="text-center py-8">
                   <div className="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
@@ -460,53 +460,67 @@ export default function Products() {
                   </button>
                 </div>
               ) : (
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6">
                   {products.map((product, index) => (
-                    <div key={index} className="border border-gray-200 rounded-lg p-4 bg-white shadow-sm relative">
+                    <div key={index} className="border border-gray-200 rounded-lg p-4 bg-white shadow-sm hover:shadow-md transition-shadow relative group">
                       {/* Edit and Delete buttons */}
-                      <div className="absolute top-2 right-2 flex space-x-2">
+                      <div className="absolute top-3 right-3 flex space-x-2 opacity-0 group-hover:opacity-100 transition-opacity z-10">
                         <button
                           onClick={() => handleEditProduct(product, index)}
-                          className="bg-blue-600 hover:bg-blue-700 text-white p-1 rounded"
+                          className="bg-blue-600 hover:bg-blue-700 text-white p-2 rounded-full shadow-lg"
                           title="Edit product"
                         >
-                          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <svg className="w-3 h-3 sm:w-4 sm:h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
                           </svg>
                         </button>
                         <button
                           onClick={() => setDeleteConfirm(product._id || `temp-${index}`)}
-                          className="bg-red-600 hover:bg-red-700 text-white p-1 rounded"
+                          className="bg-red-600 hover:bg-red-700 text-white p-2 rounded-full shadow-lg"
                           title="Delete product"
                         >
-                          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <svg className="w-3 h-3 sm:w-4 sm:h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
                           </svg>
                         </button>
                       </div>
 
-                      {product.imageUrl && (
-                        <img 
-                          src={product.imageUrl} 
-                          alt={product.name}
-                          className="w-full h-48 object-cover rounded-md mb-3"
-                          onError={(e) => {
-                            (e.target as HTMLImageElement).style.display = 'none';
-                          }}
-                        />
-                      )}
-                      <h3 className="font-semibold text-gray-900 text-lg mb-2">{product.name}</h3>
-                      <p className="text-gray-600 text-sm mb-2 line-clamp-2">{product.description}</p>
-                      <div className="flex justify-between items-center">
-                        <span className="font-bold text-blue-600">
+                      {/* Product Image - Improved display */}
+                      <div className="w-full h-48 sm:h-40 md:h-48 flex items-center justify-center bg-gray-100 rounded-md mb-3 overflow-hidden">
+                        {product.imageUrl ? (
+                          <img 
+                            src={product.imageUrl} 
+                            alt={product.name}
+                            className="w-full h-full object-contain p-2"
+                            onError={(e) => {
+                              (e.target as HTMLImageElement).style.display = 'none';
+                              (e.target as HTMLImageElement).nextElementSibling?.classList.remove('hidden');
+                            }}
+                          />
+                        ) : null}
+                        {!product.imageUrl && (
+                          <div className="w-full h-full flex items-center justify-center bg-gray-100">
+                            <span className="text-gray-400 text-3xl">🛍️</span>
+                          </div>
+                        )}
+                        {/* Fallback placeholder - hidden by default */}
+                        <div className={`hidden w-full h-full flex items-center justify-center bg-gray-100 ${product.imageUrl ? 'hidden' : ''}`}>
+                          <span className="text-gray-400 text-3xl">🛍️</span>
+                        </div>
+                      </div>
+
+                      <h3 className="font-semibold text-gray-900 text-base sm:text-lg mb-2 line-clamp-1">{product.name}</h3>
+                      <p className="text-gray-600 text-xs sm:text-sm mb-2 line-clamp-2">{product.description}</p>
+                      <div className="flex justify-between items-center mb-2">
+                        <span className="font-bold text-blue-600 text-sm sm:text-base">
                           {store.currency} {product.price.toFixed(2)}
                         </span>
-                        <span className={`text-sm ${product.stock > 0 ? 'text-green-600' : 'text-red-600'}`}>
+                        <span className={`text-xs sm:text-sm ${product.stock > 0 ? 'text-green-600' : 'text-red-600'}`}>
                           Stock: {product.stock}
                         </span>
                       </div>
                       {product.category && (
-                        <span className="inline-block bg-gray-100 text-gray-600 text-xs px-2 py-1 rounded mt-2">
+                        <span className="inline-block bg-gray-100 text-gray-600 text-xs px-2 py-1 rounded">
                           {product.category}
                         </span>
                       )}
