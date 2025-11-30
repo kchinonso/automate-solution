@@ -462,12 +462,12 @@ export default function Products() {
               ) : (
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6">
                   {products.map((product, index) => (
-                    <div key={index} className="border border-gray-200 rounded-lg p-4 bg-white shadow-sm hover:shadow-md transition-shadow relative group">
-                      {/* Edit and Delete buttons */}
-                      <div className="absolute top-3 right-3 flex space-x-2 opacity-0 group-hover:opacity-100 transition-opacity z-10">
+                    <div key={index} className="border border-gray-200 rounded-lg p-4 bg-white shadow-sm hover:shadow-md transition-shadow relative">
+                      {/* Edit and Delete buttons - Always visible */}
+                      <div className="absolute top-3 right-3 flex space-x-2 z-10">
                         <button
                           onClick={() => handleEditProduct(product, index)}
-                          className="bg-blue-600 hover:bg-blue-700 text-white p-2 rounded-full shadow-lg"
+                          className="bg-blue-600 hover:bg-blue-700 text-white p-2 rounded-full shadow-lg transition-colors"
                           title="Edit product"
                         >
                           <svg className="w-3 h-3 sm:w-4 sm:h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -476,7 +476,7 @@ export default function Products() {
                         </button>
                         <button
                           onClick={() => setDeleteConfirm(product._id || `temp-${index}`)}
-                          className="bg-red-600 hover:bg-red-700 text-white p-2 rounded-full shadow-lg"
+                          className="bg-red-600 hover:bg-red-700 text-white p-2 rounded-full shadow-lg transition-colors"
                           title="Delete product"
                         >
                           <svg className="w-3 h-3 sm:w-4 sm:h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -509,7 +509,7 @@ export default function Products() {
                         </div>
                       </div>
 
-                      <h3 className="font-semibold text-gray-900 text-base sm:text-lg mb-2 line-clamp-1">{product.name}</h3>
+                      <h3 className="font-semibold text-gray-900 text-base sm:text-lg mb-2 line-clamp-1 pr-12">{product.name}</h3>
                       <p className="text-gray-600 text-xs sm:text-sm mb-2 line-clamp-2">{product.description}</p>
                       <div className="flex justify-between items-center mb-2">
                         <span className="font-bold text-blue-600 text-sm sm:text-base">
