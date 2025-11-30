@@ -207,7 +207,7 @@ export default function Orders() {
     return (
       <div className="min-h-screen bg-gray-50">
         <DashboardNav user={session!.user} pageTitle="Orders" />
-        <div className="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
+        <div className="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8 pt-24">
           <div className="px-4 py-6 sm:px-0">
             <div className="border-4 border-dashed border-gray-200 rounded-lg p-8 text-center">
               <h2 className="text-2xl font-bold text-gray-900 mb-4">Error Loading Orders</h2>
@@ -237,7 +237,7 @@ export default function Orders() {
     return (
       <div className="min-h-screen bg-gray-50">
         <DashboardNav user={session!.user} pageTitle="Orders" />
-        <div className="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
+        <div className="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8 pt-24">
           <div className="px-4 py-6 sm:px-0">
             <div className="border-4 border-dashed border-gray-200 rounded-lg p-8 text-center">
               <h2 className="text-2xl font-bold text-gray-900 mb-4">No Store Found</h2>
@@ -259,20 +259,20 @@ export default function Orders() {
     <div className="min-h-screen bg-gray-50">
       <DashboardNav user={session!.user} pageTitle="Orders" />
 
-      <div className="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
+      <div className="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8 pt-24">
         <div className="px-4 py-6 sm:px-0">
           {/* Header */}
-          <div className="mb-8">
-            <div className="flex justify-between items-center">
+          <div className="mb-6 md:mb-8">
+            <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
               <div>
-                <h1 className="text-3xl font-bold text-gray-900">Order Management</h1>
-                <p className="text-gray-600 mt-2">
+                <h1 className="text-2xl sm:text-3xl font-bold text-gray-900">Order Management</h1>
+                <p className="text-gray-600 mt-2 text-sm sm:text-base">
                   Manage and track orders for {store.storeName}
                 </p>
               </div>
               <button
                 onClick={fetchStoreAndOrders}
-                className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg text-sm font-semibold transition duration-300"
+                className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg text-sm font-semibold transition duration-300 whitespace-nowrap"
               >
                 Refresh Orders
               </button>
@@ -280,28 +280,28 @@ export default function Orders() {
           </div>
 
           {/* Orders Summary */}
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
-            <div className="bg-white p-4 rounded-lg border border-gray-200 shadow-sm">
-              <div className="text-2xl font-bold text-blue-600">{orders.length}</div>
-              <div className="text-sm text-gray-600">Total Orders</div>
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4 mb-6 md:mb-8">
+            <div className="bg-white p-3 md:p-4 rounded-lg border border-gray-200 shadow-sm">
+              <div className="text-xl md:text-2xl font-bold text-blue-600">{orders.length}</div>
+              <div className="text-xs md:text-sm text-gray-600">Total Orders</div>
             </div>
-            <div className="bg-white p-4 rounded-lg border border-gray-200 shadow-sm">
-              <div className="text-2xl font-bold text-yellow-600">
+            <div className="bg-white p-3 md:p-4 rounded-lg border border-gray-200 shadow-sm">
+              <div className="text-xl md:text-2xl font-bold text-yellow-600">
                 {orders.filter(o => o.orderStatus === 'pending').length}
               </div>
-              <div className="text-sm text-gray-600">Pending</div>
+              <div className="text-xs md:text-sm text-gray-600">Pending</div>
             </div>
-            <div className="bg-white p-4 rounded-lg border border-gray-200 shadow-sm">
-              <div className="text-2xl font-bold text-green-600">
+            <div className="bg-white p-3 md:p-4 rounded-lg border border-gray-200 shadow-sm">
+              <div className="text-xl md:text-2xl font-bold text-green-600">
                 {orders.filter(o => o.orderStatus === 'completed').length}
               </div>
-              <div className="text-sm text-gray-600">Completed</div>
+              <div className="text-xs md:text-sm text-gray-600">Completed</div>
             </div>
-            <div className="bg-white p-4 rounded-lg border border-gray-200 shadow-sm">
-              <div className="text-2xl font-bold text-purple-600">
+            <div className="bg-white p-3 md:p-4 rounded-lg border border-gray-200 shadow-sm">
+              <div className="text-xl md:text-2xl font-bold text-purple-600">
                 {store.currency} {orders.filter(o => o.orderStatus === 'completed').reduce((sum, order) => sum + order.totalAmount, 0).toLocaleString()}
               </div>
-              <div className="text-sm text-gray-600">Revenue</div>
+              <div className="text-xs md:text-sm text-gray-600">Revenue</div>
             </div>
           </div>
 
@@ -311,22 +311,22 @@ export default function Orders() {
               <table className="min-w-full divide-y divide-gray-200">
                 <thead className="bg-gray-50">
                   <tr>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                       Order Details
                     </th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider hidden sm:table-cell">
                       Customer
                     </th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                       Amount
                     </th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                      Order Status
+                    <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      Status
                     </th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                      Payment Status
+                    <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider hidden md:table-cell">
+                      Payment
                     </th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider hidden lg:table-cell">
                       Date
                     </th>
                   </tr>
@@ -335,40 +335,43 @@ export default function Orders() {
                   {orders.length > 0 ? (
                     orders.map((order) => (
                       <tr key={order._id} className="hover:bg-gray-50">
-                        <td className="px-6 py-4 whitespace-nowrap">
+                        <td className="px-4 py-4">
                           <div>
                             <div className="text-sm font-medium text-gray-900">
                               {order.orderNumber}
                             </div>
-                            <div className="text-sm text-gray-500">
+                            <div className="text-xs text-gray-500 sm:hidden">
+                              {order.customerName} • {order.items.length} item(s)
+                            </div>
+                            <div className="text-xs text-gray-500 hidden sm:block">
                               {order.items.length} item(s)
                             </div>
                           </div>
                         </td>
-                        <td className="px-6 py-4 whitespace-nowrap">
+                        <td className="px-4 py-4 whitespace-nowrap hidden sm:table-cell">
                           <div>
                             <div className="text-sm font-medium text-gray-900">
                               {order.customerName}
                             </div>
-                            <div className="text-sm text-gray-500">
+                            <div className="text-xs text-gray-500">
                               {order.customerPhone}
                             </div>
                             {order.customerEmail && (
-                              <div className="text-sm text-gray-500">
+                              <div className="text-xs text-gray-500">
                                 {order.customerEmail}
                               </div>
                             )}
                           </div>
                         </td>
-                        <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                        <td className="px-4 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
                           {store.currency} {order.totalAmount.toFixed(2)}
                         </td>
-                        <td className="px-6 py-4 whitespace-nowrap">
+                        <td className="px-4 py-4 whitespace-nowrap">
                           <select
                             value={order.orderStatus}
                             onChange={(e) => updateOrderStatus(order._id, e.target.value as Order['orderStatus'])}
                             disabled={updatingOrder === order._id}
-                            className={`text-xs font-semibold rounded-full px-3 py-1 ${getStatusColor(order.orderStatus)} border-none focus:ring-2 focus:ring-blue-500`}
+                            className={`text-xs font-semibold rounded-full px-2 py-1 sm:px-3 sm:py-1 ${getStatusColor(order.orderStatus)} border-none focus:ring-2 focus:ring-blue-500 w-full max-w-32`}
                           >
                             <option value="pending">Pending</option>
                             <option value="confirmed">Confirmed</option>
@@ -376,35 +379,35 @@ export default function Orders() {
                             <option value="cancelled">Cancelled</option>
                           </select>
                         </td>
-                        <td className="px-6 py-4 whitespace-nowrap">
+                        <td className="px-4 py-4 whitespace-nowrap hidden md:table-cell">
                           <select
                             value={order.paymentStatus}
                             onChange={(e) => updatePaymentStatus(order._id, e.target.value as Order['paymentStatus'])}
                             disabled={updatingOrder === order._id}
-                            className={`text-xs font-semibold rounded-full px-3 py-1 ${getStatusColor(order.paymentStatus)} border-none focus:ring-2 focus:ring-blue-500`}
+                            className={`text-xs font-semibold rounded-full px-2 py-1 sm:px-3 sm:py-1 ${getStatusColor(order.paymentStatus)} border-none focus:ring-2 focus:ring-blue-500 w-full max-w-28`}
                           >
                             <option value="pending">Pending</option>
                             <option value="paid">Paid</option>
                             <option value="refunded">Refunded</option>
                           </select>
                         </td>
-                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                        <td className="px-4 py-4 whitespace-nowrap text-xs text-gray-500 hidden lg:table-cell">
                           {formatDate(order.createdAt)}
                         </td>
                       </tr>
                     ))
                   ) : (
                     <tr>
-                      <td colSpan={6} className="px-6 py-8 text-center text-gray-500">
+                      <td colSpan={6} className="px-4 py-8 text-center text-gray-500">
                         <div className="flex flex-col items-center">
                           <div className="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mb-4">
                             <span className="text-gray-400 text-2xl">🛒</span>
                           </div>
                           <p className="text-lg font-medium text-gray-900 mb-2">No orders yet</p>
-                          <p className="text-gray-600 mb-4">
+                          <p className="text-gray-600 mb-4 text-sm text-center">
                             Orders will appear here when customers place them via your store.
                           </p>
-                          <p className="text-sm text-gray-500">
+                          <p className="text-xs text-gray-500 text-center max-w-md">
                             Share your store URL: {typeof window !== 'undefined' ? `${window.location.origin}/stores/${store.storeSlug}` : ''}
                           </p>
                         </div>
@@ -417,21 +420,21 @@ export default function Orders() {
           </div>
 
           {/* Quick Actions */}
-          <div className="mt-8 grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div className="mt-6 md:mt-8 grid grid-cols-1 md:grid-cols-2 gap-4">
             <button
               onClick={() => router.push('/dashboard/analytics')}
               className="bg-white border border-gray-300 rounded-lg p-4 text-left hover:bg-gray-50 transition duration-300"
             >
-              <h4 className="font-semibold text-gray-900 mb-2">View Analytics</h4>
-              <p className="text-sm text-gray-600">See detailed analytics and reports</p>
+              <h4 className="font-semibold text-gray-900 mb-2 text-sm md:text-base">View Analytics</h4>
+              <p className="text-xs md:text-sm text-gray-600">See detailed analytics and reports</p>
             </button>
             
             <button
               onClick={() => router.push('/dashboard/products')}
               className="bg-white border border-gray-300 rounded-lg p-4 text-left hover:bg-gray-50 transition duration-300"
             >
-              <h4 className="font-semibold text-gray-900 mb-2">Manage Products</h4>
-              <p className="text-sm text-gray-600">Update your product catalog</p>
+              <h4 className="font-semibold text-gray-900 mb-2 text-sm md:text-base">Manage Products</h4>
+              <p className="text-xs md:text-sm text-gray-600">Update your product catalog</p>
             </button>
           </div>
         </div>
