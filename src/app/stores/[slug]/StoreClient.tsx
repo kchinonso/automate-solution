@@ -124,48 +124,41 @@ export default function StoreClient({ store }: StoreClientProps) {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      {/* Jumia-style Header */}
-      <header className="bg-orange-500 text-white">
+      {/* Store Header */}
+      <header className="bg-white shadow-sm border-b">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           {/* Top Navigation */}
-          <div className="flex justify-between items-center py-3">
-            <div className="flex items-center space-x-8">
-              <h1 className="text-2xl font-bold">JUMIA</h1>
+          <div className="flex justify-between items-center py-4">
+            <div className="flex items-center space-x-8 flex-1">
+              <h1 className="text-2xl font-bold text-gray-900">{store.storeName}</h1>
               <div className="relative flex-1 max-w-2xl">
                 <input
                   type="text"
                   placeholder="Search products, brands and categories"
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  className="w-full px-4 py-2 rounded text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-orange-300"
+                  className="w-full px-4 py-2 rounded-lg border border-gray-300 text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                 />
-                <button className="absolute right-0 top-0 bg-orange-500 hover:bg-orange-600 px-4 py-2 rounded-r">
+                <button className="absolute right-0 top-0 bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-r-lg transition duration-300">
                   Search
                 </button>
               </div>
             </div>
-            <div className="flex items-center space-x-6">
-              <button className="hover:text-orange-100 transition-colors">
-                Account
-              </button>
-              <button className="hover:text-orange-100 transition-colors">
-                Help
-              </button>
+            <div className="flex items-center">
               <Cart />
             </div>
           </div>
 
           {/* Store Info Bar */}
-          <div className="bg-orange-600 py-2">
+          <div className="pb-3">
             <div className="flex justify-between items-center">
               <div>
-                <span className="font-semibold">{store.storeName}</span>
                 {store.storeDescription && (
-                  <span className="ml-4 text-orange-100 text-sm">{store.storeDescription}</span>
+                  <span className="text-gray-600 text-sm">{store.storeDescription}</span>
                 )}
               </div>
               {viewCount > 0 && (
-                <div className="text-sm text-orange-100 flex items-center space-x-1">
+                <div className="text-sm text-gray-500 flex items-center space-x-1">
                   <span>👀</span>
                   <span>{viewCount.toLocaleString()} views this week</span>
                 </div>
@@ -178,15 +171,15 @@ export default function StoreClient({ store }: StoreClientProps) {
       {/* Category Navigation */}
       <nav className="bg-white shadow-sm border-b">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex space-x-8 overflow-x-auto py-3">
+          <div className="flex space-x-6 overflow-x-auto py-3">
             {categories.map((category) => (
               <button
                 key={category}
                 onClick={() => setSelectedCategory(category)}
-                className={`whitespace-nowrap px-3 py-1 rounded-full transition-colors ${
+                className={`whitespace-nowrap px-4 py-2 rounded-lg transition-colors ${
                   selectedCategory === category
-                    ? 'bg-orange-500 text-white'
-                    : 'text-gray-600 hover:bg-gray-100'
+                    ? 'bg-blue-600 text-white'
+                    : 'text-gray-600 hover:bg-gray-100 border border-gray-200'
                 }`}
               >
                 {category}
@@ -201,28 +194,45 @@ export default function StoreClient({ store }: StoreClientProps) {
         {filteredProducts.length > 0 ? (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
             {filteredProducts.map((product) => (
-              <div key={product._id} className="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden hover:shadow-md transition-all duration-300">
-                {product.imageUrl ? (
-                  <img 
-                    src={product.imageUrl} 
-                    alt={product.name}
-                    className="w-full h-48 object-cover"
-                  />
-                ) : (
-                  <div className="w-full h-48 bg-gray-100 flex items-center justify-center">
-                    <span className="text-gray-400 text-2xl">🛍️</span>
+              <div key={product._id} className="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden hover:shadow-md transition-all duration-300 flex flex-col">
+                {/* Image Container with fixed aspect ratio */}
+                <div className="w-full h-48 flex items-center justify-center bg-gray-100 overflow-hidden">
+                  {product.imageUrl ? (
+                    <img 
+                      src={product.imageUrl} 
+                      alt={product.name}
+                      className="w-full h-full object-contain p-2"
+                      onError={(e) => {
+                        // Fallback if image fails to load
+                        e.currentTarget.style.display = 'none';
+                        e.currentTarget.nextElementSibling?.classList.remove('hidden');
+                      }}
+                    />
+                  ) : null}
+                  {!product.imageUrl && (
+                    <div className="w-full h-full flex items-center justify-center bg-gray-100">
+                      <span className="text-gray-400 text-4xl">🛍️</span>
+                    </div>
+                  )}
+                  {/* Fallback placeholder - hidden by default */}
+                  <div className={`hidden w-full h-full flex items-center justify-center bg-gray-100 ${product.imageUrl ? 'hidden' : ''}`}>
+                    <span className="text-gray-400 text-4xl">🛍️</span>
                   </div>
-                )}
+                </div>
                 
-                <div className="p-4">
-                  <h3 className="font-semibold text-gray-900 mb-2 line-clamp-2 h-12">
+                <div className="p-4 flex-1 flex flex-col">
+                  <h3 className="font-semibold text-gray-900 mb-2 line-clamp-2 flex-shrink-0">
                     {product.name}
                   </h3>
                   
-                  {/* Price Section - Jumia Style */}
-                  <div className="mb-3">
+                  <p className="text-gray-600 text-sm mb-3 line-clamp-2 flex-shrink-0">
+                    {product.description}
+                  </p>
+                  
+                  {/* Price Section */}
+                  <div className="mb-3 flex-shrink-0">
                     <div className="flex items-center space-x-2 mb-1">
-                      <span className="text-lg font-bold text-gray-900">
+                      <span className="text-lg font-bold text-blue-600">
                         {store.currency} {product.price.toLocaleString()}
                       </span>
                       {product.price < product.price * 1.2 && ( // Example discount calculation
@@ -247,19 +257,21 @@ export default function StoreClient({ store }: StoreClientProps) {
 
                   {/* Category Tag */}
                   {product.category && (
-                    <span className="inline-block bg-gray-100 text-gray-600 text-xs px-2 py-1 rounded mb-3">
+                    <span className="inline-block bg-gray-100 text-gray-600 text-xs px-2 py-1 rounded mb-3 flex-shrink-0">
                       {product.category}
                     </span>
                   )}
 
                   {/* Add to Cart Button */}
-                  <button 
-                    onClick={() => handleAddToCart(product)}
-                    className="w-full bg-orange-500 hover:bg-orange-600 text-white py-3 px-4 rounded-md transition duration-300 disabled:opacity-50 disabled:cursor-not-allowed font-medium"
-                    disabled={product.stock === 0}
-                  >
-                    {product.stock > 0 ? 'Add to Cart' : 'Out of Stock'}
-                  </button>
+                  <div className="mt-auto pt-3">
+                    <button 
+                      onClick={() => handleAddToCart(product)}
+                      className="w-full bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded-md transition duration-300 disabled:opacity-50 disabled:cursor-not-allowed font-medium"
+                      disabled={product.stock === 0}
+                    >
+                      {product.stock > 0 ? 'Add to Cart' : 'Out of Stock'}
+                    </button>
+                  </div>
                 </div>
               </div>
             ))}
@@ -281,7 +293,7 @@ export default function StoreClient({ store }: StoreClientProps) {
                   setSearchQuery('');
                   setSelectedCategory('All');
                 }}
-                className="mt-4 bg-orange-500 hover:bg-orange-600 text-white py-2 px-6 rounded-md transition duration-300"
+                className="mt-4 bg-blue-600 hover:bg-blue-700 text-white py-2 px-6 rounded-md transition duration-300"
               >
                 Clear Filters
               </button>
