@@ -6,7 +6,13 @@ import { useState, useEffect, useRef } from 'react';
 export default function Home() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [currentSlide, setCurrentSlide] = useState(0);
-  const [openFAQ, setOpenFAQ] = useState<number | null>(null); // Fixed: Added type annotation
+  const [openFAQ, setOpenFAQ] = useState<number | null>(null);
+  const [formStatus, setFormStatus] = useState<{
+    type: 'success' | 'error' | null;
+    message: string;
+  }>({ type: null, message: '' });
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [showSuccessPopup, setShowSuccessPopup] = useState(false);
 
   // Refs for scrolling
   const servicesRef = useRef(null);
@@ -54,6 +60,52 @@ export default function Home() {
 
   const toggleFAQ = (index: number) => {
     setOpenFAQ(openFAQ === index ? null : index);
+  };
+
+  // FormSubmit handler
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setIsSubmitting(true);
+    setFormStatus({ type: null, message: '' });
+
+    const form = e.currentTarget;
+    const formData = new FormData(form);
+
+    try {
+      const response = await fetch('https://formsubmit.co/automatesolutions011@gmail.com', {
+        method: 'POST',
+        body: formData,
+        headers: {
+          'Accept': 'application/json'
+        }
+      });
+
+      if (response.ok) {
+        // Show success popup
+        setShowSuccessPopup(true);
+        // Reset form
+        form.reset();
+        // Also show inline success message
+        setFormStatus({
+          type: 'success',
+          message: 'Thank you for your message! We will get back to you soon.'
+        });
+        
+        // Auto-hide the popup after 8 seconds
+        setTimeout(() => {
+          setShowSuccessPopup(false);
+        }, 8000);
+      } else {
+        throw new Error('Form submission failed');
+      }
+    } catch (error) {
+      setFormStatus({
+        type: 'error',
+        message: 'Something went wrong. Please try again or email us directly at automatesolutions011@gmail.com'
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   useEffect(() => {
@@ -167,6 +219,36 @@ export default function Home() {
           )}
         </div>
       </header>
+
+      {/* Success Popup Modal */}
+      {showSuccessPopup && (
+        <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black bg-opacity-50 p-4">
+          <div className="bg-white rounded-2xl max-w-md w-full p-8 shadow-2xl transform transition-all duration-300 animate-fadeIn">
+            <div className="text-center">
+              <div className="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6">
+                <svg className="w-10 h-10 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                </svg>
+              </div>
+              
+              <h3 className="text-2xl font-bold text-gray-900 mb-4">Thank You!</h3>
+              <p className="text-gray-600 mb-6">
+                Your message has been successfully sent to our team. We've received your inquiry and will review it shortly.
+              </p>
+              <p className="text-gray-600 mb-8">
+                Please check your email inbox (and spam folder) for our automatic confirmation. Our team will get back to you within <span className="font-semibold text-blue-600">24 hours</span>.
+              </p>
+              
+              <button
+                onClick={() => setShowSuccessPopup(false)}
+                className="bg-blue-600 hover:bg-blue-500 text-white px-8 py-3 rounded-lg font-semibold transition-all duration-300 transform hover:scale-105 w-full"
+              >
+                Close
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* Hero Section with Background Image and Carousel */}
       <section className="relative h-screen flex items-center justify-center overflow-hidden pt-20">
@@ -736,7 +818,7 @@ export default function Home() {
                   </div>
                   <div>
                     <h4 className="text-lg font-semibold text-white mb-1">Phone</h4>
-                    <p className="text-gray-300">+1 (555) 123-4567</p>
+                    <p className="text-gray-300">+2349040360635</p>
                     <p className="text-gray-400 text-sm">Mon-Fri from 8am to 6pm</p>
                   </div>
                 </div>
@@ -770,52 +852,102 @@ export default function Home() {
               </div>
             </div>
 
-            {/* Contact Form */}
+            {/* Contact Form - Updated with FormSubmit */}
             <div className="bg-gray-800 rounded-2xl p-8 border border-gray-700">
               <h3 className="text-2xl font-bold text-white mb-6">Send us a Message</h3>
-              <form className="space-y-6">
+              
+              {/* Form Status Messages */}
+              {formStatus.type === 'success' && (
+                <div className="mb-6 p-4 bg-green-100 border border-green-400 text-green-700 rounded-lg">
+                  {formStatus.message}
+                </div>
+              )}
+              
+              {formStatus.type === 'error' && (
+                <div className="mb-6 p-4 bg-red-100 border border-red-400 text-red-700 rounded-lg">
+                  {formStatus.message}
+                </div>
+              )}
+
+              <form 
+                onSubmit={handleSubmit}
+                className="space-y-6"
+                method="POST"
+                action={`https://formsubmit.co/automatesolutions011@gmail.com`}
+              >
+                {/* Hidden inputs for FormSubmit configuration */}
+                <input type="hidden" name="_subject" value="New Contact Form Submission - AutoMATE Solutions" />
+                <input type="hidden" name="_template" value="table" />
+                <input type="hidden" name="_captcha" value="false" />
+                <input type="hidden" name="_honey" style={{display: 'none'}} />
+
                 <div className="grid md:grid-cols-2 gap-6">
                   <div>
                     <label htmlFor="firstName" className="block text-sm font-medium text-gray-300 mb-2">
-                      First Name
+                      First Name *
                     </label>
                     <input
                       type="text"
                       id="firstName"
+                      name="firstName"
+                      required
                       className="w-full px-4 py-3 bg-gray-700 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
                       placeholder="John"
+                      disabled={isSubmitting}
                     />
                   </div>
                   <div>
                     <label htmlFor="lastName" className="block text-sm font-medium text-gray-300 mb-2">
-                      Last Name
+                      Last Name *
                     </label>
                     <input
                       type="text"
                       id="lastName"
+                      name="lastName"
+                      required
                       className="w-full px-4 py-3 bg-gray-700 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
                       placeholder="Doe"
+                      disabled={isSubmitting}
                     />
                   </div>
                 </div>
                 <div>
                   <label htmlFor="email" className="block text-sm font-medium text-gray-300 mb-2">
-                    Email Address
+                    Email Address *
                   </label>
                   <input
                     type="email"
                     id="email"
+                    name="email"
+                    required
                     className="w-full px-4 py-3 bg-gray-700 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
                     placeholder="john@example.com"
+                    disabled={isSubmitting}
+                  />
+                </div>
+                <div>
+                  <label htmlFor="phone" className="block text-sm font-medium text-gray-300 mb-2">
+                    Phone Number
+                  </label>
+                  <input
+                    type="tel"
+                    id="phone"
+                    name="phone"
+                    className="w-full px-4 py-3 bg-gray-700 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
+                    placeholder="+234 123 456 7890"
+                    disabled={isSubmitting}
                   />
                 </div>
                 <div>
                   <label htmlFor="service" className="block text-sm font-medium text-gray-300 mb-2">
-                    Service Interest
+                    Service Interest *
                   </label>
                   <select
                     id="service"
-                    className="w-full px-4 py-3 bg-gray-700 border border-gray-600 rounded-lg text-white focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
+                    name="service"
+                    required
+                    className="w-full px-4 py-3 bg-gray-700 border border-gray-600 rounded-lg text-white focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 disabled:opacity-50"
+                    disabled={isSubmitting}
                   >
                     <option value="">Select a service</option>
                     <option value="ecommerce">E-commerce Store</option>
@@ -823,25 +955,43 @@ export default function Home() {
                     <option value="smartcontract">Smart Contract Development</option>
                     <option value="email">Email Automation</option>
                     <option value="bot">Bot Development</option>
+                    <option value="other">Other</option>
                   </select>
                 </div>
                 <div>
                   <label htmlFor="message" className="block text-sm font-medium text-gray-300 mb-2">
-                    Message
+                    Message *
                   </label>
                   <textarea
                     id="message"
+                    name="message"
                     rows={4}
-                    className="w-full px-4 py-3 bg-gray-700 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
-                    placeholder="Tell us about your project..."
+                    required
+                    className="w-full px-4 py-3 bg-gray-700 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 disabled:opacity-50"
+                    placeholder="Tell us about your project, requirements, or any questions you have..."
+                    disabled={isSubmitting}
                   ></textarea>
                 </div>
                 <button
                   type="submit"
-                  className="w-full bg-blue-600 hover:bg-blue-500 text-white py-3 px-6 rounded-lg font-semibold transition-all duration-300 transform hover:scale-105 hover:shadow-lg"
+                  disabled={isSubmitting}
+                  className="w-full bg-blue-600 hover:bg-blue-500 text-white py-3 px-6 rounded-lg font-semibold transition-all duration-300 transform hover:scale-105 hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed"
                 >
-                  Send Message
+                  {isSubmitting ? (
+                    <span className="flex items-center justify-center">
+                      <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                        <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                        <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                      </svg>
+                      Sending...
+                    </span>
+                  ) : (
+                    'Send Message'
+                  )}
                 </button>
+                <p className="text-xs text-gray-400 text-center mt-4">
+                  By submitting this form, you agree to be contacted by AutoMATE Solutions regarding your inquiry.
+                </p>
               </form>
             </div>
           </div>
@@ -896,7 +1046,6 @@ export default function Home() {
               <ul className="space-y-2 text-gray-400">
                 <li>Email: automatesolutions011@gmail.com</li>
                 <li>Phone: +2349040360635</li>
-                {/* <li>Support: support@automate.com</li> */}
               </ul>
             </div>
           </div>
