@@ -749,7 +749,7 @@ export default function Home() {
                   </div>
                   <div>
                     <h4 className="text-lg font-semibold text-white mb-1">Email</h4>
-                    <p className="text-gray-300">info@automate.com</p>
+                    <p className="text-gray-300">automatesolutions011@gmail.com</p>
                     <p className="text-gray-400 text-sm">We'll respond within 24 hours</p>
                   </div>
                 </div>
@@ -763,8 +763,8 @@ export default function Home() {
                   </div>
                   <div>
                     <h4 className="text-lg font-semibold text-white mb-1">Office</h4>
-                    <p className="text-gray-300">123 Business Avenue</p>
-                    <p className="text-gray-400 text-sm">Suite 100, Tech City, TC 10101</p>
+                    <p className="text-gray-300">12 Independece Layout</p>
+                    <p className="text-gray-400 text-sm">Suite 100, Enugu State, TC 40001</p>
                   </div>
                 </div>
               </div>
@@ -894,9 +894,9 @@ export default function Home() {
             <div>
               <h4 className="text-lg font-semibold text-white mb-4">Contact</h4>
               <ul className="space-y-2 text-gray-400">
-                <li>Email: info@automate.com</li>
-                <li>Phone: +1 (555) 123-4567</li>
-                <li>Support: support@automate.com</li>
+                <li>Email: automatesolutions011@gmail.com</li>
+                <li>Phone: +2349040360635</li>
+                {/* <li>Support: support@automate.com</li> */}
               </ul>
             </div>
           </div>
