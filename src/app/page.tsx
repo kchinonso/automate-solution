@@ -1,107 +1,328 @@
 "use client";
 
-import Link from 'next/link';
-import { useState, useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from "react";
+
+type HeroSlide = {
+  title: string;
+  subtitle: string;
+  accent: string;
+};
+
+type FAQItem = {
+  question: string;
+  answer: string;
+};
+
+type ServiceItem = {
+  title: string;
+  description: string;
+  icon: JSX.Element;
+  color: string;
+};
+
+type ValueItem = {
+  title: string;
+  description: string;
+  icon: JSX.Element;
+  color: string;
+};
+
+type IndustryItem = {
+  title: string;
+  description: string;
+};
+
+type ProcessItem = {
+  step: string;
+  title: string;
+  description: string;
+};
 
 export default function Home() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [currentSlide, setCurrentSlide] = useState(0);
-  const [openFAQ, setOpenFAQ] = useState<number | null>(null);
-  const [formStatus, setFormStatus] = useState<{
-    type: 'success' | 'error' | null;
-    message: string;
-  }>({ type: null, message: '' });
+  const [openFAQ, setOpenFAQ] = useState<number | null>(0);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [showSuccessPopup, setShowSuccessPopup] = useState(false);
+  const [formStatus, setFormStatus] = useState<{
+    type: "success" | "error" | null;
+    message: string;
+  }>({ type: null, message: "" });
 
-  // Refs for scrolling
-  const servicesRef = useRef(null);
-  const productsRef = useRef(null);
-  const faqRef = useRef(null);
-  const contactRef = useRef(null);
+  const servicesRef = useRef<HTMLElement | null>(null);
+  const productsRef = useRef<HTMLElement | null>(null);
+  const industriesRef = useRef<HTMLElement | null>(null);
+  const faqRef = useRef<HTMLElement | null>(null);
+  const contactRef = useRef<HTMLElement | null>(null);
 
-  const heroTexts = [
+  const heroSlides: HeroSlide[] = [
     {
-      title: "Transform Your Business",
-      subtitle: "With AI-Powered Automation Solutions",
-      titleColor: "text-white",
-      subtitleColor: "text-gray-200"
+      title: "Transform Your Business with Intelligent Automation",
+      subtitle:
+        "We build modern digital systems, AI-powered workflows, and scalable platforms that help businesses automate, optimize, and grow faster.",
+      accent: "AI Automation",
     },
     {
-      title: "Data-Driven Decisions",
-      subtitle: "Turn Insights into Actionable Results",
-      titleColor: "text-gray-200",
-      subtitleColor: "text-white"
+      title: "Build Smarter Systems for Modern Operations",
+      subtitle:
+        "From websites and e-commerce to bots, blockchain, and business workflows — AutoMATE Solutions helps you move from manual work to smart execution.",
+      accent: "Digital Systems",
     },
     {
-      title: "Digital Transformation",
-      subtitle: "Modern Solutions for Modern Businesses",
-      titleColor: "text-white",
-      subtitleColor: "text-gray-300"
+      title: "Turn Ideas into Reliable, Revenue-Driving Products",
+      subtitle:
+        "We help founders, startups, and growing businesses launch digital solutions that look professional, work efficiently, and scale with confidence.",
+      accent: "Growth-Focused",
     },
-    {
-      title: "Streamline Operations",
-      subtitle: "Automate, Optimize, and Scale Efficiently",
-      titleColor: "text-gray-100",
-      subtitleColor: "text-white"
-    }
   ];
 
-  // Scroll functions
-  const scrollToSection = (ref: any) => {
-    ref.current?.scrollIntoView({ behavior: 'smooth' });
+  const values: ValueItem[] = [
+    {
+      title: "Innovation",
+      description:
+        "We combine modern engineering, AI, and automation to create solutions that keep businesses ahead.",
+      color: "from-blue-500/20 to-cyan-500/20 border-blue-500/20",
+      icon: (
+        <svg className="w-7 h-7 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
+        </svg>
+      ),
+    },
+    {
+      title: "Efficiency",
+      description:
+        "Our work is designed to reduce manual effort, save time, and improve business performance.",
+      color: "from-emerald-500/20 to-green-500/20 border-emerald-500/20",
+      icon: (
+        <svg className="w-7 h-7 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
+        </svg>
+      ),
+    },
+    {
+      title: "Trust & Security",
+      description:
+        "We value dependable systems, secure workflows, and long-term partnerships built on trust.",
+      color: "from-orange-500/20 to-amber-500/20 border-orange-500/20",
+      icon: (
+        <svg className="w-7 h-7 text-orange-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 11c0 .552-.448 1-1 1s-1-.448-1-1 .448-1 1-1 1 .448 1 1zm0 0V9m0 6h.01M5.071 19h13.858c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+        </svg>
+      ),
+    },
+    {
+      title: "Human-Centered",
+      description:
+        "Technology should make life and work easier for people, not more complicated.",
+      color: "from-purple-500/20 to-fuchsia-500/20 border-purple-500/20",
+      icon: (
+        <svg className="w-7 h-7 text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5V9H2v11h5m10 0v-6a3 3 0 10-6 0v6m6 0H7" />
+        </svg>
+      ),
+    },
+  ];
+
+  const services: ServiceItem[] = [
+    {
+      title: "Web Development",
+      description:
+        "Professional websites, dashboards, portals, and custom web apps built for real business needs and growth.",
+      color: "bg-blue-500/10 border-blue-500/20",
+      icon: (
+        <svg className="w-7 h-7 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 9l3 3-3 3m5 0h3M4 5h16a2 2 0 012 2v10a2 2 0 01-2 2H4a2 2 0 01-2-2V7a2 2 0 012-2z" />
+        </svg>
+      ),
+    },
+    {
+      title: "AI & Business Automation",
+      description:
+        "Automate repetitive workflows, simplify operations, and improve team productivity using smart systems.",
+      color: "bg-cyan-500/10 border-cyan-500/20",
+      icon: (
+        <svg className="w-7 h-7 text-cyan-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.75 3v2.25M14.25 3v2.25M9 9h6m-9 8.25h12A2.25 2.25 0 0020.25 15V9A2.25 2.25 0 0018 6.75H6A2.25 2.25 0 003.75 9v6A2.25 2.25 0 006 17.25z" />
+        </svg>
+      ),
+    },
+    {
+      title: "Bot Development",
+      description:
+        "Custom WhatsApp bots, support bots, lead-generation bots, and automated customer interaction systems.",
+      color: "bg-orange-500/10 border-orange-500/20",
+      icon: (
+        <svg className="w-7 h-7 text-orange-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 3v2m6-2v2m-9 4h12M5 21h14a2 2 0 002-2V9a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+        </svg>
+      ),
+    },
+    {
+      title: "Email Automation",
+      description:
+        "Lead capture, customer follow-up, transactional messaging, and automated email workflows that stay consistent.",
+      color: "bg-purple-500/10 border-purple-500/20",
+      icon: (
+        <svg className="w-7 h-7 text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l9 6 9-6m-18 8h18a2 2 0 002-2V8a2 2 0 00-2-2H3a2 2 0 00-2 2v6a2 2 0 002 2z" />
+        </svg>
+      ),
+    },
+    {
+      title: "E-commerce Solutions",
+      description:
+        "Launch online stores, product management systems, checkout flows, and order processes that convert visitors into buyers.",
+      color: "bg-emerald-500/10 border-emerald-500/20",
+      icon: (
+        <svg className="w-7 h-7 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 3h2l.4 2m0 0L7 13h10l2-8H5.4zM7 13l-1.5 4.5A1 1 0 006.45 19H19m-11 0a1 1 0 100 2 1 1 0 000-2zm10 0a1 1 0 100 2 1 1 0 000-2z" />
+        </svg>
+      ),
+    },
+    {
+      title: "Blockchain Solutions",
+      description:
+        "Smart contracts, Web3 integrations, and blockchain-powered business tools built with reliability and security in mind.",
+      color: "bg-pink-500/10 border-pink-500/20",
+      icon: (
+        <svg className="w-7 h-7 text-pink-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 2l7 4v12l-7 4-7-4V6l7-4zm0 0v20m7-16L5 18" />
+        </svg>
+      ),
+    },
+  ];
+
+  const industries: IndustryItem[] = [
+    {
+      title: "Real Estate",
+      description: "Property platforms, listing systems, CRM flows, and lead automation.",
+    },
+    {
+      title: "Logistics",
+      description: "Operations dashboards, shipping workflows, and service request systems.",
+    },
+    {
+      title: "E-commerce",
+      description: "Online stores, order management, product systems, and payment-ready platforms.",
+    },
+    {
+      title: "Education",
+      description: "Learning portals, student systems, and intelligent educational tools.",
+    },
+    {
+      title: "Startups",
+      description: "Fast MVP delivery, scalable architecture, and product validation support.",
+    },
+    {
+      title: "Professional Services",
+      description: "Modern websites, automation, lead capture, and digital client experiences.",
+    },
+  ];
+
+  const processSteps: ProcessItem[] = [
+    {
+      step: "01",
+      title: "Discovery",
+      description:
+        "We understand your business goals, pain points, and what success should look like.",
+    },
+    {
+      step: "02",
+      title: "Strategy",
+      description:
+        "We define the right digital solution, user flow, and automation approach for your needs.",
+    },
+    {
+      step: "03",
+      title: "Build",
+      description:
+        "We design and develop the platform, workflow, or system using modern technologies.",
+    },
+    {
+      step: "04",
+      title: "Launch & Support",
+      description:
+        "We deploy, refine, and support your solution so it continues to perform effectively.",
+    },
+  ];
+
+  const faqs: FAQItem[] = [
+    {
+      question: "Who does AutoMATE Solutions work with?",
+      answer:
+        "We work with startups, founders, growing businesses, e-commerce brands, service-based businesses, and organizations looking to improve operations with modern digital systems.",
+    },
+    {
+      question: "What kind of projects can you build?",
+      answer:
+        "We build websites, dashboards, e-commerce platforms, automation systems, WhatsApp bots, email workflows, smart contract solutions, and custom business tools tailored to your use case.",
+    },
+    {
+      question: "How fast can we get started?",
+      answer:
+        "We can begin discussions immediately. Smaller solutions can start very quickly, while custom projects typically begin after a short discovery and planning phase.",
+    },
+    {
+      question: "Do you offer support after delivery?",
+      answer:
+        "Yes. We provide post-launch support, updates, and technical guidance to help keep your system reliable and useful after deployment.",
+    },
+    {
+      question: "Can you help improve an existing business platform?",
+      answer:
+        "Yes. If you already have a website, dashboard, or workflow, we can audit it, redesign it, add new features, improve performance, and automate manual processes.",
+    },
+  ];
+
+  const scrollToSection = (ref: React.RefObject<HTMLElement | null>) => {
+    ref.current?.scrollIntoView({ behavior: "smooth" });
     setIsMenuOpen(false);
   };
 
-  // Add this function for navigation
   const navigateToSignup = () => {
-    window.location.href = '/auth/signup';
+    window.location.href = "/auth/signup";
   };
 
   const toggleFAQ = (index: number) => {
-    setOpenFAQ(openFAQ === index ? null : index);
+    setOpenFAQ((prev) => (prev === index ? null : index));
   };
 
-  // FormSubmit handler
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setIsSubmitting(true);
-    setFormStatus({ type: null, message: '' });
+    setFormStatus({ type: null, message: "" });
 
     const form = e.currentTarget;
     const formData = new FormData(form);
 
     try {
-      const response = await fetch('https://formsubmit.co/automatesolutions011@gmail.com', {
-        method: 'POST',
+      const response = await fetch("https://formsubmit.co/automatesolutions011@gmail.com", {
+        method: "POST",
         body: formData,
         headers: {
-          'Accept': 'application/json'
-        }
+          Accept: "application/json",
+        },
       });
 
-      if (response.ok) {
-        // Show success popup
-        setShowSuccessPopup(true);
-        // Reset form
-        form.reset();
-        // Also show inline success message
-        setFormStatus({
-          type: 'success',
-          message: 'Thank you for your message! We will get back to you soon.'
-        });
-        
-        // Auto-hide the popup after 8 seconds
-        setTimeout(() => {
-          setShowSuccessPopup(false);
-        }, 8000);
-      } else {
-        throw new Error('Form submission failed');
+      if (!response.ok) {
+        throw new Error("Form submission failed");
       }
+
+      form.reset();
+      setShowSuccessPopup(true);
+      setFormStatus({
+        type: "success",
+        message: "Thank you for your message! We will get back to you soon.",
+      });
+
+      setTimeout(() => {
+        setShowSuccessPopup(false);
+      }, 8000);
     } catch (error) {
       setFormStatus({
-        type: 'error',
-        message: 'Something went wrong. Please try again or email us directly at automatesolutions011@gmail.com'
+        type: "error",
+        message:
+          "Something went wrong. Please try again or email us directly at automatesolutions011@gmail.com",
       });
     } finally {
       setIsSubmitting(false);
@@ -110,109 +331,117 @@ export default function Home() {
 
   useEffect(() => {
     const interval = setInterval(() => {
-      setCurrentSlide((prev) => (prev + 1) % heroTexts.length);
-    }, 4000);
+      setCurrentSlide((prev) => (prev + 1) % heroSlides.length);
+    }, 5000);
+
     return () => clearInterval(interval);
-  }, []);
+  }, [heroSlides.length]);
 
   return (
-    <div className="min-h-screen bg-white">
-      {/* Fixed Header with Black Theme */}
-      <header className="fixed top-0 left-0 right-0 bg-gray-900 border-b border-gray-800 shadow-lg z-50">
+    <div className="min-h-screen bg-white text-gray-900 overflow-x-hidden">
+      {/* Header */}
+      <header className="fixed top-0 left-0 right-0 z-50 border-b border-white/10 bg-slate-950/80 backdrop-blur-xl">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center h-20">
-            {/* Logo */}
-            <div className="flex-shrink-0">
-              <h1 className="text-2xl font-bold text-white tracking-tight">AutoMATE Solutions</h1>
-            </div>
+          <div className="h-20 flex items-center justify-between">
+            <button
+              onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+              className="text-left"
+            >
+              <div className="text-white font-black tracking-tight text-2xl">AutoMATE Solutions</div>
+              <div className="text-xs text-slate-400 -mt-0.5">AI • Automation • Digital Systems</div>
+            </button>
 
-            {/* Desktop Navigation */}
-            <nav className="hidden md:flex space-x-8">
-              <button 
-                onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-                className="text-gray-300 hover:text-white px-3 py-2 text-sm font-medium transition duration-300 border-b-2 border-transparent hover:border-white"
+            <nav className="hidden md:flex items-center gap-7">
+              <button
+                onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+                className="text-slate-300 hover:text-white transition"
               >
                 Home
               </button>
-              <button 
+              <button
                 onClick={() => scrollToSection(servicesRef)}
-                className="text-gray-300 hover:text-white px-3 py-2 text-sm font-medium transition duration-300 border-b-2 border-transparent hover:border-white"
+                className="text-slate-300 hover:text-white transition"
               >
                 Services
               </button>
-              <button 
+              <button
                 onClick={() => scrollToSection(productsRef)}
-                className="text-gray-300 hover:text-white px-3 py-2 text-sm font-medium transition duration-300 border-b-2 border-transparent hover:border-white"
+                className="text-slate-300 hover:text-white transition"
               >
                 Products
               </button>
-              <button 
+              <button
+                onClick={() => scrollToSection(industriesRef)}
+                className="text-slate-300 hover:text-white transition"
+              >
+                Industries
+              </button>
+              <button
                 onClick={() => scrollToSection(faqRef)}
-                className="text-gray-300 hover:text-white px-3 py-2 text-sm font-medium transition duration-300 border-b-2 border-transparent hover:border-white"
+                className="text-slate-300 hover:text-white transition"
               >
                 FAQs
               </button>
-              <div className="flex items-center space-x-2 ml-4">
-                <span className="text-gray-300 text-sm font-medium border-l-2 border-gray-700 pl-4">English</span>
-              </div>
             </nav>
 
-            {/* CTA Button */}
-            <div className="hidden md:block">
-              <button 
+            <div className="hidden md:flex items-center gap-3">
+              <button
                 onClick={() => scrollToSection(contactRef)}
-                className="bg-blue-600 hover:bg-blue-500 text-white px-6 py-3 rounded-lg text-sm font-medium transition duration-300 transform hover:scale-105 shadow-lg hover:shadow-blue-500/25"
+                className="rounded-xl bg-blue-600 px-5 py-3 text-sm font-semibold text-white shadow-lg shadow-blue-600/20 transition hover:bg-blue-500"
               >
-                Start Today
+                Let’s Talk
               </button>
             </div>
 
-            {/* Mobile menu button */}
-            <div className="md:hidden">
-              <button 
-                onClick={() => setIsMenuOpen(!isMenuOpen)}
-                className="text-gray-300 p-2 hover:bg-gray-800 rounded-lg transition duration-300"
-              >
-                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
-                </svg>
-              </button>
-            </div>
+            <button
+              onClick={() => setIsMenuOpen((prev) => !prev)}
+              className="md:hidden inline-flex items-center justify-center rounded-lg border border-slate-700 bg-slate-900 p-2 text-slate-200"
+              aria-label="Toggle menu"
+            >
+              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 7h16M4 12h16M4 17h16" />
+              </svg>
+            </button>
           </div>
 
-          {/* Mobile Navigation */}
           {isMenuOpen && (
-            <div className="md:hidden py-4 border-t border-gray-800 bg-gray-800 rounded-b-lg">
-              <div className="flex flex-col space-y-3">
-                <button 
-                  onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-                  className="text-gray-300 hover:text-white px-3 py-2 text-sm font-medium hover:bg-gray-700 rounded-lg transition duration-300 text-left"
+            <div className="md:hidden pb-5">
+              <div className="rounded-2xl border border-slate-800 bg-slate-900 p-3 space-y-2">
+                <button
+                  onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+                  className="block w-full rounded-xl px-4 py-3 text-left text-slate-300 hover:bg-slate-800 hover:text-white"
                 >
                   Home
                 </button>
-                <button 
+                <button
                   onClick={() => scrollToSection(servicesRef)}
-                  className="text-gray-300 hover:text-white px-3 py-2 text-sm font-medium hover:bg-gray-700 rounded-lg transition duration-300 text-left"
+                  className="block w-full rounded-xl px-4 py-3 text-left text-slate-300 hover:bg-slate-800 hover:text-white"
                 >
                   Services
                 </button>
-                <button 
+                <button
                   onClick={() => scrollToSection(productsRef)}
-                  className="text-gray-300 hover:text-white px-3 py-2 text-sm font-medium hover:bg-gray-700 rounded-lg transition duration-300 text-left"
+                  className="block w-full rounded-xl px-4 py-3 text-left text-slate-300 hover:bg-slate-800 hover:text-white"
                 >
                   Products
                 </button>
-                <button 
+                <button
+                  onClick={() => scrollToSection(industriesRef)}
+                  className="block w-full rounded-xl px-4 py-3 text-left text-slate-300 hover:bg-slate-800 hover:text-white"
+                >
+                  Industries
+                </button>
+                <button
                   onClick={() => scrollToSection(faqRef)}
-                  className="text-gray-300 hover:text-white px-3 py-2 text-sm font-medium hover:bg-gray-700 rounded-lg transition duration-300 text-left"
+                  className="block w-full rounded-xl px-4 py-3 text-left text-slate-300 hover:bg-slate-800 hover:text-white"
                 >
                   FAQs
                 </button>
-                <button 
+                <button
                   onClick={() => scrollToSection(contactRef)}
-                  className="bg-blue-600 hover:bg-blue-500 text-white px-6 py-3 rounded-lg text-sm font-medium text-center mt-2 transition duration-300"
+                  className="mt-2 w-full rounded-xl bg-blue-600 px-4 py-3 text-sm font-semibold text-white hover:bg-blue-500"
                 >
-                  Start Today
+                  Let’s Talk
                 </button>
               </div>
             </div>
@@ -220,28 +449,23 @@ export default function Home() {
         </div>
       </header>
 
-      {/* Success Popup Modal */}
+      {/* Success Popup */}
       {showSuccessPopup && (
-        <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black bg-opacity-50 p-4">
-          <div className="bg-white rounded-2xl max-w-md w-full p-8 shadow-2xl transform transition-all duration-300 animate-fadeIn">
+        <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/60 p-4">
+          <div className="w-full max-w-md rounded-3xl bg-white p-8 shadow-2xl">
             <div className="text-center">
-              <div className="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6">
-                <svg className="w-10 h-10 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <div className="mx-auto mb-6 flex h-20 w-20 items-center justify-center rounded-full bg-green-100">
+                <svg className="h-10 w-10 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                 </svg>
               </div>
-              
-              <h3 className="text-2xl font-bold text-gray-900 mb-4">Thank You!</h3>
-              <p className="text-gray-600 mb-6">
-                Your message has been successfully sent to our team. We've received your inquiry and will review it shortly.
+              <h3 className="mb-4 text-2xl font-bold text-gray-900">Message Sent Successfully</h3>
+              <p className="mb-6 text-gray-600">
+                Thank you for reaching out to AutoMATE Solutions. We have received your message and will get back to you shortly.
               </p>
-              <p className="text-gray-600 mb-8">
-                Please check your email inbox (and spam folder) for our automatic confirmation. Our team will get back to you within <span className="font-semibold text-blue-600">24 hours</span>.
-              </p>
-              
               <button
                 onClick={() => setShowSuccessPopup(false)}
-                className="bg-blue-600 hover:bg-blue-500 text-white px-8 py-3 rounded-lg font-semibold transition-all duration-300 transform hover:scale-105 w-full"
+                className="w-full rounded-xl bg-blue-600 px-6 py-3 font-semibold text-white transition hover:bg-blue-500"
               >
                 Close
               </button>
@@ -250,640 +474,573 @@ export default function Home() {
         </div>
       )}
 
-      {/* Hero Section with Background Image and Carousel */}
-      <section className="relative h-screen flex items-center justify-center overflow-hidden pt-20">
-        {/* Background Image Only - No Overlay */}
-        <div className="absolute inset-0 z-0">
-          <div 
-            className="absolute inset-0 bg-cover bg-center bg-no-repeat"
-            style={{
-              backgroundImage: `url("image.webp")`
-            }}
+      {/* Hero */}
+      <section className="relative pt-24">
+        <div className="relative isolate overflow-hidden bg-slate-950">
+          <div
+            className="absolute inset-0 bg-cover bg-center opacity-30"
+            style={{ backgroundImage: `url("/image.webp")` }}
           />
-        </div>
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(59,130,246,0.25),transparent_30%),radial-gradient(circle_at_bottom_right,rgba(147,51,234,0.22),transparent_30%)]" />
+          <div className="absolute inset-0 bg-gradient-to-b from-slate-950/30 via-slate-950/65 to-slate-950" />
 
-        {/* Hero Content - Centered with proper spacing */}
-        <div className="relative z-10 text-center px-4 sm:px-6 lg:px-8 max-w-6xl mx-auto">
-          {/* Main content container with proper vertical spacing */}
-          <div className="flex flex-col items-center justify-center space-y-12 py-16">
-            
-            {/* Carousel Text Section */}
-            <div className="w-full max-w-4xl">
-              <div className="relative h-48 flex items-center justify-center">
-                {heroTexts.map((text, index) => (
-                  <div
-                    key={index}
-                    className={`absolute inset-0 transition-all duration-1000 ease-in-out flex flex-col items-center justify-center ${
-                      index === currentSlide
-                        ? 'opacity-100 transform translate-y-0'
-                        : 'opacity-0 transform translate-y-4'
-                    }`}
-                  >
-                    <h1 className={`text-4xl md:text-6xl lg:text-7xl font-bold mb-6 leading-tight text-center drop-shadow-2xl ${text.titleColor}`}>
-                      {text.title}
-                    </h1>
-                    <p className={`text-xl md:text-2xl lg:text-3xl max-w-3xl mx-auto leading-relaxed text-center drop-shadow-2xl font-medium ${text.subtitleColor}`}>
-                      {text.subtitle}
-                    </p>
-                  </div>
-                ))}
-              </div>
+          <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 min-h-[92vh] flex items-center">
+            <div className="grid lg:grid-cols-2 gap-12 items-center w-full py-16">
+              <div className="max-w-3xl">
+                <div className="inline-flex items-center gap-2 rounded-full border border-blue-500/20 bg-white/5 px-4 py-2 text-sm text-blue-200 backdrop-blur">
+                  <span className="h-2 w-2 rounded-full bg-blue-400 animate-pulse" />
+                  Engineering the Future of Intelligent Business
+                </div>
 
-              {/* Carousel Indicators */}
-              <div className="flex justify-center space-x-3 mt-8">
-                {heroTexts.map((_, index) => (
+                <div className="relative min-h-[260px] mt-8">
+                  {heroSlides.map((slide, index) => (
+                    <div
+                      key={index}
+                      className={`absolute inset-0 transition-all duration-700 ${
+                        currentSlide === index
+                          ? "opacity-100 translate-y-0"
+                          : "opacity-0 translate-y-4 pointer-events-none"
+                      }`}
+                    >
+                      <div className="mb-4 inline-block rounded-full bg-blue-500/10 border border-blue-400/20 px-4 py-1 text-sm font-medium text-blue-200">
+                        {slide.accent}
+                      </div>
+                      <h1 className="text-4xl sm:text-5xl lg:text-6xl font-black leading-tight text-white">
+                        {slide.title}
+                      </h1>
+                      <p className="mt-6 text-lg sm:text-xl leading-relaxed text-slate-300 max-w-2xl">
+                        {slide.subtitle}
+                      </p>
+                    </div>
+                  ))}
+                </div>
+
+                <div className="mt-8 flex flex-col sm:flex-row gap-4">
                   <button
-                    key={index}
-                    onClick={() => setCurrentSlide(index)}
-                    className={`w-3 h-3 rounded-full transition-all duration-300 ${
-                      index === currentSlide ? 'bg-blue-500 scale-125' : 'bg-white/70'
-                    }`}
-                  />
-                ))}
-              </div>
-            </div>
-
-            {/* CTA Buttons Section - Separated from text */}
-            <div className="flex flex-col sm:flex-row gap-6 justify-center items-center mt-8">
-              <button 
-                onClick={() => scrollToSection(contactRef)}
-                className="group bg-blue-600 hover:bg-blue-500 text-white px-8 py-4 rounded-lg text-lg font-semibold transition-all duration-300 transform hover:scale-105 hover:shadow-2xl shadow-blue-500/25 min-w-[200px] text-center drop-shadow-2xl"
-              >
-                <span className="flex items-center justify-center">
-                  Start Your Journey 
-                  <svg className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
-                  </svg>
-                </span>
-              </button>
-              <button 
-                onClick={() => scrollToSection(servicesRef)}
-                className="border-2 border-white hover:border-blue-300 text-white backdrop-blur-sm px-8 py-4 rounded-lg text-lg font-semibold transition-all duration-300 hover:bg-white/10 min-w-[200px] text-center drop-shadow-2xl"
-              >
-                Explore Solutions
-              </button>
-            </div>
-          </div>
-
-          {/* Scroll Indicator */}
-          <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2">
-            <div className="animate-bounce">
-              <svg className="w-6 h-6 text-white drop-shadow-2xl" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 14l-7 7m0 0l-7-7m7 7V3" />
-              </svg>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Mission Section with Background Image */}
-      <section className="relative py-20 bg-gray-900">
-        {/* Background Image */}
-        <div 
-          className="absolute inset-0 bg-cover bg-center bg-no-repeat opacity-20"
-          style={{
-            backgroundImage: `url("https://images.unsplash.com/photo-1451187580459-43490279c0fa?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2072&q=80")`
-          }}
-        />
-        <div className="relative max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 z-10">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl md:text-5xl font-bold text-white mb-6">
-              Our Mission
-            </h2>
-            <div className="w-24 h-1 bg-blue-600 mx-auto mb-8"></div>
-            <p className="text-xl text-gray-300 max-w-3xl mx-auto leading-relaxed">
-              Empowering businesses with cutting-edge digital solutions to automate, optimize, 
-              and scale their operations through modern technology.
-            </p>
-          </div>
-
-          <div className="bg-gray-800/80 backdrop-blur-sm rounded-2xl p-8 border border-gray-700">
-            <div className="max-w-3xl mx-auto text-center">
-              <h3 className="text-3xl font-bold text-white mb-6">Driving Digital Excellence</h3>
-              <p className="text-lg text-gray-300 leading-relaxed mb-6">
-                At AutoMATE Solutions, we believe that every business deserves access to 
-                cutting-edge technology that simplifies complexity and accelerates growth. 
-                Our mission is to bridge the gap between traditional business operations 
-                and modern digital solutions.
-              </p>
-              <p className="text-lg text-gray-300 leading-relaxed">
-                Whether you're looking to establish a robust online presence, automate 
-                repetitive tasks, or explore blockchain technology, we provide the tools 
-                and expertise to transform your business journey and scale new heights.
-              </p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Values Section - Light Background */}
-      <section className="py-20 bg-gray-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6">
-              Our Values
-            </h2>
-            <div className="w-24 h-1 bg-blue-600 mx-auto mb-8"></div>
-            <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-              The principles that guide everything we do at AutoMATE Solutions
-            </p>
-          </div>
-
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
-            {/* Data-Driven Efficiency */}
-            <div className="bg-white p-8 rounded-xl shadow-lg border border-gray-200 text-center">
-              <div className="w-20 h-20 bg-blue-100 rounded-2xl flex items-center justify-center mb-6 mx-auto">
-                <svg className="w-10 h-10 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
-                </svg>
-              </div>
-              <h3 className="text-xl font-bold text-gray-900 mb-4">Data-Driven Efficiency</h3>
-              <p className="text-gray-600 leading-relaxed">
-                Uses data and AI to automate tasks and optimize workflows, maximizing user time and resources.
-              </p>
-            </div>
-
-            {/* Human-Centric */}
-            <div className="bg-white p-8 rounded-xl shadow-lg border border-gray-200 text-center">
-              <div className="w-20 h-20 bg-green-100 rounded-2xl flex items-center justify-center mb-6 mx-auto">
-                <svg className="w-10 h-10 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197m13.5-9a2.5 2.5 0 11-5 0 2.5 2.5 0 015 0z" />
-                </svg>
-              </div>
-              <h3 className="text-xl font-bold text-gray-900 mb-4">Human-Centric</h3>
-              <p className="text-gray-600 leading-relaxed">
-                Empowers individuals and teams to thrive by fostering both personal and collective growth within the digital world.
-              </p>
-            </div>
-
-            {/* Harmony */}
-            <div className="bg-white p-8 rounded-xl shadow-lg border border-gray-200 text-center">
-              <div className="w-20 h-20 bg-purple-100 rounded-2xl flex items-center justify-center mb-6 mx-auto">
-                <svg className="w-10 h-10 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z" />
-                </svg>
-              </div>
-              <h3 className="text-xl font-bold text-gray-900 mb-4">Harmony</h3>
-              <p className="text-gray-600 leading-relaxed">
-                Decisions will prioritize creating a win-win situation for employers, recruiters, and talents.
-              </p>
-            </div>
-
-            {/* Security & Trust */}
-            <div className="bg-white p-8 rounded-xl shadow-lg border border-gray-200 text-center">
-              <div className="w-20 h-20 bg-orange-100 rounded-2xl flex items-center justify-center mb-6 mx-auto">
-                <svg className="w-10 h-10 text-orange-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
-                </svg>
-              </div>
-              <h3 className="text-xl font-bold text-gray-900 mb-4">Security & Trust</h3>
-              <p className="text-gray-600 leading-relaxed">
-                Protects user data and fosters a secure environment to help everyone confidently engage with the digital world.
-              </p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Services Section - Black Background */}
-      <section ref={servicesRef} className="py-20 bg-gray-900">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl md:text-5xl font-bold text-white mb-6">
-              Our Services
-            </h2>
-            <div className="w-24 h-1 bg-blue-600 mx-auto mb-8"></div>
-            <p className="text-xl text-gray-300 max-w-2xl mx-auto">
-              Comprehensive digital solutions to drive your business forward
-            </p>
-          </div>
-
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
-            {/* Web Development */}
-            <div className="bg-gray-800 p-8 rounded-xl shadow-lg border border-gray-700 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2">
-              <div className="w-16 h-16 bg-blue-900 rounded-2xl flex items-center justify-center mb-6 mx-auto">
-                <svg className="w-8 h-8 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" />
-                </svg>
-              </div>
-              <h3 className="text-2xl font-bold text-white mb-4 text-center">Web Development</h3>
-              <p className="text-gray-300 text-center leading-relaxed">
-                Custom, responsive websites and web applications built with modern frameworks 
-                to establish your digital presence and drive business growth.
-              </p>
-            </div>
-
-            {/* Smart Contract Development */}
-            <div className="bg-gray-800 p-8 rounded-xl shadow-lg border border-gray-700 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2">
-              <div className="w-16 h-16 bg-green-900 rounded-2xl flex items-center justify-center mb-6 mx-auto">
-                <svg className="w-8 h-8 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
-                </svg>
-              </div>
-              <h3 className="text-2xl font-bold text-white mb-4 text-center">Smart Contract Development</h3>
-              <p className="text-gray-300 text-center leading-relaxed">
-                Secure and audited smart contracts for blockchain solutions, DeFi applications, 
-                and Web3 integrations to future-proof your business.
-              </p>
-            </div>
-
-            {/* Email Automation */}
-            <div className="bg-gray-800 p-8 rounded-xl shadow-lg border border-gray-700 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2">
-              <div className="w-16 h-16 bg-purple-900 rounded-2xl flex items-center justify-center mb-6 mx-auto">
-                <svg className="w-8 h-8 text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-                </svg>
-              </div>
-              <h3 className="text-2xl font-bold text-white mb-4 text-center">Email Automation</h3>
-              <p className="text-gray-300 text-center leading-relaxed">
-                Automated email workflows, personalized campaigns, and lead nurturing systems 
-                that engage customers and drive conversions 24/7.
-              </p>
-            </div>
-
-            {/* Bot Development */}
-            <div className="bg-gray-800 p-8 rounded-xl shadow-lg border border-gray-700 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2">
-              <div className="w-16 h-16 bg-orange-900 rounded-2xl flex items-center justify-center mb-6 mx-auto">
-                <svg className="w-8 h-8 text-orange-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 3v2m6-2v2M9 19v2m6-2v2M5 9H3m2 6H3m18-6h-2m2 6h-2M7 19h10a2 2 0 002-2V7a2 2 0 00-2-2H7a2 2 0 00-2 2v10a2 2 0 002 2z" />
-                </svg>
-              </div>
-              <h3 className="text-2xl font-bold text-white mb-4 text-center">Bot Development</h3>
-              <p className="text-gray-300 text-center leading-relaxed">
-                AI-powered chatbots and automation bots for customer service, sales, 
-                and internal processes that work around the clock to enhance efficiency.
-              </p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* E-commerce Section - Light Background */}
-      <section ref={productsRef} className="py-20 bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid lg:grid-cols-2 gap-12 items-center">
-            {/* Content Section */}
-            <div className="space-y-8">
-              <div>
-                <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6">
-                  Launch Your Store in <span className="text-blue-600">10 Minutes</span>
-                </h2>
-                <div className="w-24 h-1 bg-blue-600 mb-8"></div>
-                <p className="text-xl text-gray-600 mb-8 leading-relaxed">
-                  Get your fully functional e-commerce store up and running in under 10 minutes. 
-                  No technical skills required - just your vision and our powerful platform.
-                </p>
-              </div>
-
-              {/* Features List */}
-              <div className="space-y-6">
-                <div className="flex items-start space-x-4">
-                  <div className="w-8 h-8 bg-green-100 rounded-full flex items-center justify-center flex-shrink-0 mt-1">
-                    <svg className="w-4 h-4 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
-                    </svg>
-                  </div>
-                  <div>
-                    <h3 className="text-lg font-semibold text-gray-900 mb-1">Custom Store URL</h3>
-                    <p className="text-gray-600">
-                      Your unique web address that represents your brand - customers can visit anytime to shop.
-                    </p>
-                  </div>
-                </div>
-
-                <div className="flex items-start space-x-4">
-                  <div className="w-8 h-8 bg-green-100 rounded-full flex items-center justify-center flex-shrink-0 mt-1">
-                    <svg className="w-4 h-4 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
-                    </svg>
-                  </div>
-                  <div>
-                    <h3 className="text-lg font-semibold text-gray-900 mb-1">WhatsApp Integration</h3>
-                    <p className="text-gray-600">
-                      Customers place orders directly to your WhatsApp DMs for personalized shopping experience.
-                    </p>
-                  </div>
-                </div>
-
-                <div className="flex items-start space-x-4">
-                  <div className="w-8 h-8 bg-green-100 rounded-full flex items-center justify-center flex-shrink-0 mt-1">
-                    <svg className="w-4 h-4 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
-                    </svg>
-                  </div>
-                  <div>
-                    <h3 className="text-lg font-semibold text-gray-900 mb-1">Complete Management Tools</h3>
-                    <p className="text-gray-600">
-                      Full dashboard access to manage products, track sales, monitor traffic, and handle orders.
-                    </p>
-                  </div>
-                </div>
-              </div>
-
-              {/* CTA Button - UPDATED: Now navigates to /auth/signup */}
-              <div className="pt-4">
-                <button 
-                  onClick={navigateToSignup}
-                  className="inline-flex items-center bg-blue-600 hover:bg-blue-500 text-white px-8 py-4 rounded-lg text-lg font-semibold transition-all duration-300 transform hover:scale-105 hover:shadow-2xl shadow-blue-500/25"
-                >
-                  <span className="flex items-center">
-                    Create Your Store Now
-                    <svg className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    onClick={() => scrollToSection(contactRef)}
+                    className="inline-flex items-center justify-center rounded-2xl bg-blue-600 px-7 py-4 text-base font-semibold text-white shadow-xl shadow-blue-600/20 transition hover:bg-blue-500"
+                  >
+                    Start a Project
+                    <svg className="ml-2 h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
                     </svg>
-                  </span>
+                  </button>
+
+                  <button
+                    onClick={() => scrollToSection(servicesRef)}
+                    className="inline-flex items-center justify-center rounded-2xl border border-white/20 bg-white/5 px-7 py-4 text-base font-semibold text-white backdrop-blur transition hover:bg-white/10"
+                  >
+                    Explore Services
+                  </button>
+                </div>
+
+                <div className="mt-8 flex items-center gap-3">
+                  {heroSlides.map((_, index) => (
+                    <button
+                      key={index}
+                      onClick={() => setCurrentSlide(index)}
+                      aria-label={`Go to slide ${index + 1}`}
+                      className={`h-3 rounded-full transition-all duration-300 ${
+                        currentSlide === index ? "w-10 bg-blue-500" : "w-3 bg-white/40"
+                      }`}
+                    />
+                  ))}
+                </div>
+              </div>
+
+              <div className="relative">
+                <div className="rounded-[28px] border border-white/10 bg-white/5 p-4 backdrop-blur-xl shadow-2xl shadow-black/30">
+                  <div className="rounded-[24px] border border-white/10 bg-slate-900/80 p-6">
+                    <div className="flex items-center justify-between mb-6">
+                      <div>
+                        <p className="text-sm text-slate-400">AutoMATE Intelligence Suite</p>
+                        <h3 className="text-2xl font-bold text-white">Modern systems for modern business</h3>
+                      </div>
+                      <div className="rounded-2xl bg-blue-500/10 px-3 py-2 text-sm text-blue-300 border border-blue-500/20">
+                        Live Workflow
+                      </div>
+                    </div>
+
+                    <div className="grid grid-cols-2 gap-4">
+                      <div className="rounded-2xl border border-white/10 bg-white/5 p-5">
+                        <p className="text-sm text-slate-400">Automation</p>
+                        <p className="mt-2 text-2xl font-bold text-white">24/7</p>
+                        <p className="mt-2 text-sm text-slate-300">Always-on systems for operations and customer engagement.</p>
+                      </div>
+                      <div className="rounded-2xl border border-white/10 bg-white/5 p-5">
+                        <p className="text-sm text-slate-400">Deployment Focus</p>
+                        <p className="mt-2 text-2xl font-bold text-white">Fast</p>
+                        <p className="mt-2 text-sm text-slate-300">From idea to launch with modern, scalable delivery.</p>
+                      </div>
+                      <div className="col-span-2 rounded-2xl border border-white/10 bg-gradient-to-r from-blue-600/15 to-purple-600/15 p-5">
+                        <div className="flex items-center justify-between gap-4">
+                          <div>
+                            <p className="text-sm text-slate-300">Solutions We Deliver</p>
+                            <h4 className="mt-1 text-xl font-bold text-white">
+                              Websites • Bots • Automation • E-commerce • Web3
+                            </h4>
+                          </div>
+                          <div className="hidden sm:flex h-14 w-14 items-center justify-center rounded-2xl bg-white/10">
+                            <svg className="w-7 h-7 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 11H5m14 0l-4-4m4 4l-4 4" />
+                            </svg>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="mt-6 grid sm:grid-cols-3 gap-4">
+                      <div className="rounded-2xl bg-emerald-500/10 border border-emerald-500/20 px-4 py-4">
+                        <div className="text-2xl font-black text-white">01</div>
+                        <div className="mt-1 text-sm text-emerald-200">Discover</div>
+                      </div>
+                      <div className="rounded-2xl bg-blue-500/10 border border-blue-500/20 px-4 py-4">
+                        <div className="text-2xl font-black text-white">02</div>
+                        <div className="mt-1 text-sm text-blue-200">Build</div>
+                      </div>
+                      <div className="rounded-2xl bg-purple-500/10 border border-purple-500/20 px-4 py-4">
+                        <div className="text-2xl font-black text-white">03</div>
+                        <div className="mt-1 text-sm text-purple-200">Scale</div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="absolute -top-5 -right-4 rounded-2xl border border-blue-400/20 bg-blue-500/10 px-4 py-3 text-sm text-blue-200 backdrop-blur">
+                  Premium Digital Execution
+                </div>
+                <div className="absolute -bottom-5 -left-4 rounded-2xl border border-emerald-400/20 bg-emerald-500/10 px-4 py-3 text-sm text-emerald-200 backdrop-blur">
+                  Built for Business Growth
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Trust / Stats */}
+      <section className="bg-white py-10 border-b border-gray-200">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+            {[
+              { value: "AI", label: "Powered business workflows" },
+              { value: "24/7", label: "Automation availability" },
+              { value: "Fast", label: "Project execution mindset" },
+              { value: "Scalable", label: "Built for long-term growth" },
+            ].map((item, index) => (
+              <div
+                key={index}
+                className="rounded-2xl border border-gray-200 bg-gray-50 px-6 py-6 text-center hover:shadow-md transition"
+              >
+                <div className="text-2xl md:text-3xl font-black text-gray-900">{item.value}</div>
+                <div className="mt-2 text-sm md:text-base text-gray-600">{item.label}</div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Mission */}
+      <section className="relative py-24 bg-slate-950 overflow-hidden">
+        <div className="absolute inset-0 opacity-15 bg-cover bg-center" style={{ backgroundImage: `url("https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&w=2072&q=80")` }} />
+        <div className="absolute inset-0 bg-gradient-to-r from-slate-950 via-slate-950/90 to-slate-900/90" />
+        <div className="relative max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          <div className="inline-flex rounded-full border border-blue-500/20 bg-blue-500/10 px-4 py-2 text-sm text-blue-200">
+            Our Mission
+          </div>
+          <h2 className="mt-6 text-4xl md:text-5xl font-black text-white">
+            Driving Digital Excellence for Modern Businesses
+          </h2>
+          <p className="mt-6 text-lg md:text-xl text-slate-300 leading-relaxed max-w-4xl mx-auto">
+            At AutoMATE Solutions, we help businesses bridge the gap between traditional operations and modern digital execution.
+            We create systems that improve visibility, reduce manual work, and position businesses for smarter growth.
+          </p>
+
+          <div className="mt-12 grid md:grid-cols-3 gap-6 text-left">
+            <div className="rounded-3xl border border-white/10 bg-white/5 p-6 backdrop-blur">
+              <h3 className="text-xl font-bold text-white mb-3">Modern Presence</h3>
+              <p className="text-slate-300">
+                Professional websites, products, and digital platforms that elevate brand perception.
+              </p>
+            </div>
+            <div className="rounded-3xl border border-white/10 bg-white/5 p-6 backdrop-blur">
+              <h3 className="text-xl font-bold text-white mb-3">Smart Automation</h3>
+              <p className="text-slate-300">
+                Intelligent systems that simplify workflows, improve responsiveness, and save valuable time.
+              </p>
+            </div>
+            <div className="rounded-3xl border border-white/10 bg-white/5 p-6 backdrop-blur">
+              <h3 className="text-xl font-bold text-white mb-3">Scalable Growth</h3>
+              <p className="text-slate-300">
+                Technology architecture designed to support business growth, expansion, and new opportunities.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Values */}
+      <section className="py-24 bg-slate-50">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="max-w-3xl">
+            <div className="inline-flex rounded-full border border-blue-200 bg-blue-50 px-4 py-2 text-sm text-blue-700">
+              Our Values
+            </div>
+            <h2 className="mt-5 text-4xl md:text-5xl font-black text-gray-900">
+              Principles that shape how we build
+            </h2>
+            <p className="mt-5 text-lg text-gray-600 leading-relaxed">
+              We combine strategy, design, development, and automation with a clear focus on usefulness, trust, and long-term value.
+            </p>
+          </div>
+
+          <div className="mt-14 grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+            {values.map((item, index) => (
+              <div
+                key={index}
+                className={`rounded-3xl border bg-gradient-to-br ${item.color} bg-white p-7 shadow-sm hover:shadow-lg transition`}
+              >
+                <div className="mb-5 inline-flex h-14 w-14 items-center justify-center rounded-2xl bg-slate-900">
+                  {item.icon}
+                </div>
+                <h3 className="text-xl font-bold text-gray-900">{item.title}</h3>
+                <p className="mt-3 text-gray-600 leading-relaxed">{item.description}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Services */}
+      <section ref={servicesRef} className="py-24 bg-slate-950">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="max-w-3xl">
+            <div className="inline-flex rounded-full border border-blue-500/20 bg-blue-500/10 px-4 py-2 text-sm text-blue-200">
+              Our Services
+            </div>
+            <h2 className="mt-5 text-4xl md:text-5xl font-black text-white">
+              Digital solutions built to move your business forward
+            </h2>
+            <p className="mt-5 text-lg text-slate-300 leading-relaxed">
+              We help businesses launch, automate, and improve digital systems with practical engineering and growth-focused execution.
+            </p>
+          </div>
+
+          <div className="mt-14 grid md:grid-cols-2 xl:grid-cols-3 gap-6">
+            {services.map((service, index) => (
+              <div
+                key={index}
+                className={`group rounded-3xl border ${service.color} bg-slate-900 p-7 hover:-translate-y-1 transition duration-300`}
+              >
+                <div className="mb-6 inline-flex h-14 w-14 items-center justify-center rounded-2xl bg-slate-800 border border-white/10">
+                  {service.icon}
+                </div>
+                <h3 className="text-2xl font-bold text-white">{service.title}</h3>
+                <p className="mt-4 text-slate-300 leading-relaxed">{service.description}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Product / Store */}
+      <section ref={productsRef} className="py-24 bg-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid lg:grid-cols-2 gap-14 items-center">
+            <div>
+              <div className="inline-flex rounded-full border border-emerald-200 bg-emerald-50 px-4 py-2 text-sm text-emerald-700">
+                Featured Product
+              </div>
+              <h2 className="mt-5 text-4xl md:text-5xl font-black text-gray-900">
+                Launch your e-commerce store in minutes
+              </h2>
+              <p className="mt-6 text-lg text-gray-600 leading-relaxed">
+                AutoMATE Solutions makes it easier for businesses to get online quickly with a streamlined store setup, management tools, and customer-ready experience.
+              </p>
+
+              <div className="mt-8 space-y-5">
+                {[
+                  {
+                    title: "Fast Store Setup",
+                    text: "Move from idea to a functional online store without unnecessary complexity.",
+                  },
+                  {
+                    title: "WhatsApp Integration",
+                    text: "Connect customers directly to your business for faster communication and order handling.",
+                  },
+                  {
+                    title: "Management Dashboard",
+                    text: "Monitor products, orders, and store activities from one centralized interface.",
+                  },
+                  {
+                    title: "Growth-Ready Design",
+                    text: "Built with branding, usability, and long-term scalability in mind.",
+                  },
+                ].map((item, index) => (
+                  <div key={index} className="flex items-start gap-4">
+                    <div className="mt-1 flex h-8 w-8 items-center justify-center rounded-full bg-emerald-100">
+                      <svg className="w-4 h-4 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
+                      </svg>
+                    </div>
+                    <div>
+                      <h3 className="text-lg font-bold text-gray-900">{item.title}</h3>
+                      <p className="mt-1 text-gray-600">{item.text}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+
+              <div className="mt-10 flex flex-col sm:flex-row gap-4">
+                <button
+                  onClick={navigateToSignup}
+                  className="inline-flex items-center justify-center rounded-2xl bg-blue-600 px-7 py-4 text-base font-semibold text-white shadow-lg shadow-blue-600/20 transition hover:bg-blue-500"
+                >
+                  Create Your Store Now
+                  <svg className="ml-2 w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
+                  </svg>
+                </button>
+
+                <button
+                  onClick={() => scrollToSection(contactRef)}
+                  className="inline-flex items-center justify-center rounded-2xl border border-gray-300 px-7 py-4 text-base font-semibold text-gray-900 transition hover:bg-gray-50"
+                >
+                  Request a Demo
                 </button>
               </div>
             </div>
 
-            {/* Dashboard Image Section */}
             <div className="relative">
-              <div className="bg-gray-900 rounded-2xl p-6 shadow-2xl border border-gray-800 transform hover:scale-[1.02] transition-transform duration-300">
-                {/* Actual Dashboard Image */}
-                <div className="bg-gray-800 rounded-lg overflow-hidden mb-4">
-                  <img 
-                    src="/store.png" 
-                    alt="E-commerce Dashboard Preview" 
+              <div className="rounded-[30px] border border-gray-200 bg-slate-950 p-5 shadow-2xl">
+                <div className="rounded-[24px] overflow-hidden border border-white/10 bg-slate-900">
+                  <img
+                    src="/store.png"
+                    alt="AutoMATE Solutions store dashboard preview"
                     className="w-full h-auto object-cover"
                   />
                 </div>
-                
-                <div className="text-center">
-                  <p className="text-gray-400 text-sm">
-                    Your complete store management dashboard - ready in minutes
-                  </p>
+                <p className="mt-4 text-center text-sm text-slate-400">
+                  Store dashboard preview for product management, operations, and growth
+                </p>
+              </div>
+
+              <div className="absolute -top-4 -right-4 rounded-2xl bg-blue-600 px-4 py-3 text-sm font-semibold text-white shadow-lg">
+                FAST SETUP
+              </div>
+              <div className="absolute -bottom-4 -left-4 rounded-2xl bg-emerald-600 px-4 py-3 text-sm font-semibold text-white shadow-lg">
+                GROWTH READY
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Industries */}
+      <section ref={industriesRef} className="py-24 bg-slate-50">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="max-w-3xl">
+            <div className="inline-flex rounded-full border border-purple-200 bg-purple-50 px-4 py-2 text-sm text-purple-700">
+              Industries We Serve
+            </div>
+            <h2 className="mt-5 text-4xl md:text-5xl font-black text-gray-900">
+              Built for businesses across multiple sectors
+            </h2>
+            <p className="mt-5 text-lg text-gray-600">
+              Our solutions are flexible enough to support different industries while staying tailored to each client’s unique workflow and goals.
+            </p>
+          </div>
+
+          <div className="mt-14 grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {industries.map((industry, index) => (
+              <div
+                key={index}
+                className="rounded-3xl border border-gray-200 bg-white p-7 shadow-sm hover:shadow-lg transition"
+              >
+                <h3 className="text-xl font-bold text-gray-900">{industry.title}</h3>
+                <p className="mt-3 text-gray-600 leading-relaxed">{industry.description}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Process */}
+      <section className="py-24 bg-slate-950">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="max-w-3xl">
+            <div className="inline-flex rounded-full border border-emerald-500/20 bg-emerald-500/10 px-4 py-2 text-sm text-emerald-200">
+              How We Work
+            </div>
+            <h2 className="mt-5 text-4xl md:text-5xl font-black text-white">
+              A clear process from idea to execution
+            </h2>
+            <p className="mt-5 text-lg text-slate-300">
+              We keep projects focused, practical, and business-driven from the first conversation to launch.
+            </p>
+          </div>
+
+          <div className="mt-14 grid md:grid-cols-2 xl:grid-cols-4 gap-6">
+            {processSteps.map((step, index) => (
+              <div
+                key={index}
+                className="rounded-3xl border border-white/10 bg-white/5 p-7 backdrop-blur"
+              >
+                <div className="text-4xl font-black text-blue-400">{step.step}</div>
+                <h3 className="mt-4 text-2xl font-bold text-white">{step.title}</h3>
+                <p className="mt-3 text-slate-300 leading-relaxed">{step.description}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* FAQ */}
+      <section ref={faqRef} className="py-24 bg-white">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center">
+            <div className="inline-flex rounded-full border border-blue-200 bg-blue-50 px-4 py-2 text-sm text-blue-700">
+              Frequently Asked Questions
+            </div>
+            <h2 className="mt-5 text-4xl md:text-5xl font-black text-gray-900">
+              Answers to common questions
+            </h2>
+            <p className="mt-5 text-lg text-gray-600">
+              Everything you need to know about working with AutoMATE Solutions.
+            </p>
+          </div>
+
+          <div className="mt-14 space-y-4">
+            {faqs.map((faq, index) => (
+              <div key={index} className="overflow-hidden rounded-3xl border border-gray-200 bg-gray-50">
+                <button
+                  onClick={() => toggleFAQ(index)}
+                  className="flex w-full items-center justify-between gap-4 px-6 py-5 text-left"
+                >
+                  <span className="text-lg font-semibold text-gray-900">{faq.question}</span>
+                  <span
+                    className={`flex h-10 w-10 items-center justify-center rounded-full bg-white border border-gray-200 transition ${
+                      openFAQ === index ? "rotate-180" : ""
+                    }`}
+                  >
+                    <svg className="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                    </svg>
+                  </span>
+                </button>
+
+                <div className={`${openFAQ === index ? "block" : "hidden"} px-6 pb-6`}>
+                  <p className="text-gray-600 leading-relaxed">{faq.answer}</p>
                 </div>
               </div>
-              
-              {/* Floating elements */}
-              <div className="absolute -top-4 -right-4 bg-green-500 text-white px-4 py-2 rounded-lg shadow-lg">
-                <span className="font-bold">10 MIN SETUP</span>
-              </div>
-              <div className="absolute -bottom-4 -left-4 bg-blue-500 text-white px-4 py-2 rounded-lg shadow-lg">
-                <span className="font-bold">24/7 SUPPORT</span>
-              </div>
-            </div>
+            ))}
           </div>
-        </div>
-      </section>
 
-      {/* FAQ Section - Light Background */}
-      <section ref={faqRef} className="py-20 bg-gray-50">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6">
-              Frequently Asked Questions
-            </h2>
-            <div className="w-24 h-1 bg-blue-600 mx-auto mb-8"></div>
-            <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-              Get answers to the most common questions about AutoMATE Solutions
+          <div className="mt-12 rounded-3xl border border-gray-200 bg-slate-950 p-8 text-center">
+            <h3 className="text-2xl font-bold text-white">Still have questions?</h3>
+            <p className="mt-3 text-slate-300">
+              Reach out and let’s discuss your project, business goals, or technical needs.
             </p>
-          </div>
-
-          <div className="space-y-6">
-            {/* FAQ Item 1 */}
-            <div className="bg-white rounded-2xl shadow-lg border border-gray-200 overflow-hidden">
-              <button 
-                onClick={() => toggleFAQ(0)}
-                className="flex justify-between items-center w-full p-6 text-left hover:bg-gray-50 transition duration-300"
-              >
-                <h3 className="text-lg font-semibold text-gray-900">
-                  Who are AutoMATE Solutions target customers?
-                </h3>
-                <svg 
-                  className={`w-5 h-5 text-gray-500 transform transition-transform duration-300 ${openFAQ === 0 ? 'rotate-180' : ''}`} 
-                  fill="none" 
-                  stroke="currentColor" 
-                  viewBox="0 0 24 24"
-                >
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                </svg>
-              </button>
-              <div className={`px-6 pb-6 transition-all duration-300 ${openFAQ === 0 ? 'block' : 'hidden'}`}>
-                <p className="text-gray-600 leading-relaxed">
-                  AutoMATE Solutions serves businesses of all sizes looking to embrace digital transformation. 
-                  Our target customers include entrepreneurs starting new ventures, small to medium businesses 
-                  seeking to scale operations, e-commerce store owners, and enterprises wanting to automate 
-                  repetitive tasks and leverage AI-powered solutions for growth.
-                </p>
-              </div>
-            </div>
-
-            {/* FAQ Item 2 */}
-            <div className="bg-white rounded-2xl shadow-lg border border-gray-200 overflow-hidden">
-              <button 
-                onClick={() => toggleFAQ(1)}
-                className="flex justify-between items-center w-full p-6 text-left hover:bg-gray-50 transition duration-300"
-              >
-                <h3 className="text-lg font-semibold text-gray-900">
-                  What are the benefits of using AutoMATE Solutions products?
-                </h3>
-                <svg 
-                  className={`w-5 h-5 text-gray-500 transform transition-transform duration-300 ${openFAQ === 1 ? 'rotate-180' : ''}`} 
-                  fill="none" 
-                  stroke="currentColor" 
-                  viewBox="0 0 24 24"
-                >
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                </svg>
-              </button>
-              <div className={`px-6 pb-6 transition-all duration-300 ${openFAQ === 1 ? 'block' : 'hidden'}`}>
-                <p className="text-gray-600 leading-relaxed">
-                  Our products deliver significant benefits including rapid deployment (stores in 10 minutes), 
-                  cost-effective automation reducing manual work by up to 70%, data-driven insights for better 
-                  decision-making, seamless WhatsApp integration for direct customer engagement, and comprehensive 
-                  analytics to track performance and growth metrics in real-time.
-                </p>
-              </div>
-            </div>
-
-            {/* FAQ Item 3 */}
-            <div className="bg-white rounded-2xl shadow-lg border border-gray-200 overflow-hidden">
-              <button 
-                onClick={() => toggleFAQ(2)}
-                className="flex justify-between items-center w-full p-6 text-left hover:bg-gray-50 transition duration-300"
-              >
-                <h3 className="text-lg font-semibold text-gray-900">
-                  When can I get started with AutoMATE Solutions services?
-                </h3>
-                <svg 
-                  className={`w-5 h-5 text-gray-500 transform transition-transform duration-300 ${openFAQ === 2 ? 'rotate-180' : ''}`} 
-                  fill="none" 
-                  stroke="currentColor" 
-                  viewBox="0 0 24 24"
-                >
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                </svg>
-              </button>
-              <div className={`px-6 pb-6 transition-all duration-300 ${openFAQ === 2 ? 'block' : 'hidden'}`}>
-                <p className="text-gray-600 leading-relaxed">
-                  You can start immediately! Our platform is designed for instant onboarding. 
-                  Click the "Start Today" or "Create Your Store Now" buttons to begin your journey. 
-                  For e-commerce stores, you can be up and running in under 10 minutes. For custom 
-                  development services, we typically begin projects within 24-48 hours of consultation 
-                  and requirements gathering.
-                </p>
-              </div>
-            </div>
-
-            {/* FAQ Item 4 */}
-            <div className="bg-white rounded-2xl shadow-lg border border-gray-200 overflow-hidden">
-              <button 
-                onClick={() => toggleFAQ(3)}
-                className="flex justify-between items-center w-full p-6 text-left hover:bg-gray-50 transition duration-300"
-              >
-                <h3 className="text-lg font-semibold text-gray-900">
-                  How can I get technical support?
-                </h3>
-                <svg 
-                  className={`w-5 h-5 text-gray-500 transform transition-transform duration-300 ${openFAQ === 3 ? 'rotate-180' : ''}`} 
-                  fill="none" 
-                  stroke="currentColor" 
-                  viewBox="0 0 24 24"
-                >
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                </svg>
-              </button>
-              <div className={`px-6 pb-6 transition-all duration-300 ${openFAQ === 3 ? 'block' : 'hidden'}`}>
-                <p className="text-gray-600 leading-relaxed">
-                  We offer comprehensive 24/7 technical support through multiple channels. You can reach us via:
-                  <br /><br />
-                  • <strong>Email:</strong> support@automate.com for detailed technical assistance
-                  <br />
-                  • <strong>Live Chat:</strong> Available directly through our platform dashboard
-                  <br />
-                  • <strong>Phone Support:</strong> +1 (555) 123-4567 during business hours
-                  <br />
-                  • <strong>Documentation:</strong> Extensive knowledge base and tutorials
-                  <br />
-                  • <strong>Community Forum:</strong> Connect with other users and experts
-                </p>
-              </div>
-            </div>
-          </div>
-
-          {/* Additional Support CTA */}
-          <div className="text-center mt-12">
-            <div className="bg-white rounded-2xl p-8 shadow-lg border border-gray-200">
-              <h3 className="text-2xl font-bold text-gray-900 mb-4">Need more specific answers?</h3>
-              <p className="text-gray-600 mb-6">
-                Our support team is ready to help you with any questions about our services and solutions.
-              </p>
-              <button 
-                onClick={() => scrollToSection(contactRef)}
-                className="inline-flex items-center bg-blue-600 hover:bg-blue-500 text-white px-6 py-3 rounded-lg font-semibold transition-all duration-300 transform hover:scale-105"
-              >
-                <span className="flex items-center">
-                  Contact Support
-                  <svg className="ml-2 w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
-                  </svg>
-                </span>
-              </button>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Contact Us Section */}
-      <section ref={contactRef} className="py-20 bg-gray-900">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl md:text-5xl font-bold text-white mb-6">
+            <button
+              onClick={() => scrollToSection(contactRef)}
+              className="mt-6 inline-flex items-center justify-center rounded-2xl bg-blue-600 px-6 py-3 font-semibold text-white transition hover:bg-blue-500"
+            >
               Contact Us
+            </button>
+          </div>
+        </div>
+      </section>
+
+      {/* Contact */}
+      <section ref={contactRef} className="py-24 bg-slate-950">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="max-w-3xl mb-14">
+            <div className="inline-flex rounded-full border border-blue-500/20 bg-blue-500/10 px-4 py-2 text-sm text-blue-200">
+              Contact Us
+            </div>
+            <h2 className="mt-5 text-4xl md:text-5xl font-black text-white">
+              Let’s build something valuable for your business
             </h2>
-            <div className="w-24 h-1 bg-blue-600 mx-auto mb-8"></div>
-            <p className="text-xl text-gray-300 max-w-2xl mx-auto">
-              Ready to transform your business? Get in touch with us today.
+            <p className="mt-5 text-lg text-slate-300">
+              Tell us what you need, and we’ll get back to you with the next steps.
             </p>
           </div>
 
-          <div className="grid lg:grid-cols-2 gap-12">
-            {/* Contact Information */}
-            <div className="space-y-8">
-              <div>
-                <h3 className="text-2xl font-bold text-white mb-6">Get in Touch</h3>
-                <p className="text-gray-300 mb-8">
-                  Have questions about our services? Ready to start your digital transformation journey? 
-                  Reach out to us and our team will get back to you within 24 hours.
+          <div className="grid lg:grid-cols-2 gap-10">
+            <div className="space-y-6">
+              <div className="rounded-3xl border border-white/10 bg-white/5 p-7">
+                <h3 className="text-2xl font-bold text-white mb-4">Get in Touch</h3>
+                <p className="text-slate-300 leading-relaxed">
+                  Whether you need a professional website, a custom platform, automation workflow, WhatsApp bot, or an e-commerce solution, AutoMATE Solutions is ready to help.
                 </p>
               </div>
 
-              <div className="space-y-6">
-                <div className="flex items-start space-x-4">
-                  <div className="w-12 h-12 bg-blue-600 rounded-lg flex items-center justify-center flex-shrink-0">
+              <div className="grid sm:grid-cols-2 gap-6">
+                <div className="rounded-3xl border border-white/10 bg-white/5 p-6">
+                  <div className="mb-4 inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-blue-600">
                     <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
                     </svg>
                   </div>
-                  <div>
-                    <h4 className="text-lg font-semibold text-white mb-1">Phone</h4>
-                    <p className="text-gray-300">+2349040360635</p>
-                    <p className="text-gray-400 text-sm">Mon-Fri from 8am to 6pm</p>
-                  </div>
+                  <h4 className="text-lg font-bold text-white">Phone</h4>
+                  <p className="mt-2 text-slate-300">+2349040360635</p>
+                  <p className="mt-1 text-sm text-slate-400">Mon - Fri, 8am - 6pm</p>
                 </div>
 
-                <div className="flex items-start space-x-4">
-                  <div className="w-12 h-12 bg-green-600 rounded-lg flex items-center justify-center flex-shrink-0">
+                <div className="rounded-3xl border border-white/10 bg-white/5 p-6">
+                  <div className="mb-4 inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-emerald-600">
                     <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l9 6 9-6m-18 8h18a2 2 0 002-2V8a2 2 0 00-2-2H3a2 2 0 00-2 2v6a2 2 0 002 2z" />
                     </svg>
                   </div>
-                  <div>
-                    <h4 className="text-lg font-semibold text-white mb-1">Email</h4>
-                    <p className="text-gray-300">automatesolutions011@gmail.com</p>
-                    <p className="text-gray-400 text-sm">We'll respond within 24 hours</p>
-                  </div>
+                  <h4 className="text-lg font-bold text-white">Email</h4>
+                  <p className="mt-2 text-slate-300 break-all">automatesolutions011@gmail.com</p>
+                  <p className="mt-1 text-sm text-slate-400">Response within 24 hours</p>
                 </div>
 
-                <div className="flex items-start space-x-4">
-                  <div className="w-12 h-12 bg-purple-600 rounded-lg flex items-center justify-center flex-shrink-0">
+                <div className="rounded-3xl border border-white/10 bg-white/5 p-6 sm:col-span-2">
+                  <div className="mb-4 inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-purple-600">
                     <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
                     </svg>
                   </div>
-                  <div>
-                    <h4 className="text-lg font-semibold text-white mb-1">Office</h4>
-                    <p className="text-gray-300">12 Independece Layout</p>
-                    <p className="text-gray-400 text-sm">Suite 100, Enugu State, TC 40001</p>
-                  </div>
+                  <h4 className="text-lg font-bold text-white">Office</h4>
+                  <p className="mt-2 text-slate-300">12 Independence Layout</p>
+                  <p className="mt-1 text-sm text-slate-400">Suite 100, Enugu State, Nigeria</p>
                 </div>
               </div>
             </div>
 
-            {/* Contact Form - Updated with FormSubmit */}
-            <div className="bg-gray-800 rounded-2xl p-8 border border-gray-700">
+            <div className="rounded-[32px] border border-white/10 bg-white/5 p-8 backdrop-blur">
               <h3 className="text-2xl font-bold text-white mb-6">Send us a Message</h3>
-              
-              {/* Form Status Messages */}
-              {formStatus.type === 'success' && (
-                <div className="mb-6 p-4 bg-green-100 border border-green-400 text-green-700 rounded-lg">
-                  {formStatus.message}
-                </div>
-              )}
-              
-              {formStatus.type === 'error' && (
-                <div className="mb-6 p-4 bg-red-100 border border-red-400 text-red-700 rounded-lg">
+
+              {formStatus.type === "success" && (
+                <div className="mb-6 rounded-2xl border border-green-500/20 bg-green-500/10 px-4 py-3 text-green-200">
                   {formStatus.message}
                 </div>
               )}
 
-              <form 
+              {formStatus.type === "error" && (
+                <div className="mb-6 rounded-2xl border border-red-500/20 bg-red-500/10 px-4 py-3 text-red-200">
+                  {formStatus.message}
+                </div>
+              )}
+
+              <form
                 onSubmit={handleSubmit}
-                className="space-y-6"
                 method="POST"
-                action={`https://formsubmit.co/automatesolutions011@gmail.com`}
+                action="https://formsubmit.co/automatesolutions011@gmail.com"
+                className="space-y-5"
               >
-                {/* Hidden inputs for FormSubmit configuration */}
                 <input type="hidden" name="_subject" value="New Contact Form Submission - AutoMATE Solutions" />
                 <input type="hidden" name="_template" value="table" />
                 <input type="hidden" name="_captcha" value="false" />
-                <input type="hidden" name="_honey" style={{display: 'none'}} />
+                <input type="hidden" name="_honey" style={{ display: "none" }} />
 
-                <div className="grid md:grid-cols-2 gap-6">
+                <div className="grid md:grid-cols-2 gap-5">
                   <div>
-                    <label htmlFor="firstName" className="block text-sm font-medium text-gray-300 mb-2">
+                    <label htmlFor="firstName" className="mb-2 block text-sm font-medium text-slate-300">
                       First Name *
                     </label>
                     <input
@@ -891,13 +1048,14 @@ export default function Home() {
                       id="firstName"
                       name="firstName"
                       required
-                      className="w-full px-4 py-3 bg-gray-700 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
-                      placeholder="John"
                       disabled={isSubmitting}
+                      placeholder="John"
+                      className="w-full rounded-2xl border border-white/10 bg-slate-900 px-4 py-3 text-white placeholder:text-slate-500 outline-none transition focus:border-blue-500"
                     />
                   </div>
+
                   <div>
-                    <label htmlFor="lastName" className="block text-sm font-medium text-gray-300 mb-2">
+                    <label htmlFor="lastName" className="mb-2 block text-sm font-medium text-slate-300">
                       Last Name *
                     </label>
                     <input
@@ -905,14 +1063,15 @@ export default function Home() {
                       id="lastName"
                       name="lastName"
                       required
-                      className="w-full px-4 py-3 bg-gray-700 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
-                      placeholder="Doe"
                       disabled={isSubmitting}
+                      placeholder="Doe"
+                      className="w-full rounded-2xl border border-white/10 bg-slate-900 px-4 py-3 text-white placeholder:text-slate-500 outline-none transition focus:border-blue-500"
                     />
                   </div>
                 </div>
+
                 <div>
-                  <label htmlFor="email" className="block text-sm font-medium text-gray-300 mb-2">
+                  <label htmlFor="email" className="mb-2 block text-sm font-medium text-slate-300">
                     Email Address *
                   </label>
                   <input
@@ -920,76 +1079,82 @@ export default function Home() {
                     id="email"
                     name="email"
                     required
-                    className="w-full px-4 py-3 bg-gray-700 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
-                    placeholder="john@example.com"
                     disabled={isSubmitting}
+                    placeholder="john@example.com"
+                    className="w-full rounded-2xl border border-white/10 bg-slate-900 px-4 py-3 text-white placeholder:text-slate-500 outline-none transition focus:border-blue-500"
                   />
                 </div>
+
                 <div>
-                  <label htmlFor="phone" className="block text-sm font-medium text-gray-300 mb-2">
+                  <label htmlFor="phone" className="mb-2 block text-sm font-medium text-slate-300">
                     Phone Number
                   </label>
                   <input
                     type="tel"
                     id="phone"
                     name="phone"
-                    className="w-full px-4 py-3 bg-gray-700 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
-                    placeholder="+234 123 456 7890"
                     disabled={isSubmitting}
+                    placeholder="+234 123 456 7890"
+                    className="w-full rounded-2xl border border-white/10 bg-slate-900 px-4 py-3 text-white placeholder:text-slate-500 outline-none transition focus:border-blue-500"
                   />
                 </div>
+
                 <div>
-                  <label htmlFor="service" className="block text-sm font-medium text-gray-300 mb-2">
+                  <label htmlFor="service" className="mb-2 block text-sm font-medium text-slate-300">
                     Service Interest *
                   </label>
                   <select
                     id="service"
                     name="service"
                     required
-                    className="w-full px-4 py-3 bg-gray-700 border border-gray-600 rounded-lg text-white focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 disabled:opacity-50"
                     disabled={isSubmitting}
+                    className="w-full rounded-2xl border border-white/10 bg-slate-900 px-4 py-3 text-white outline-none transition focus:border-blue-500"
                   >
                     <option value="">Select a service</option>
-                    <option value="ecommerce">E-commerce Store</option>
-                    <option value="webdev">Web Development</option>
-                    <option value="smartcontract">Smart Contract Development</option>
-                    <option value="email">Email Automation</option>
-                    <option value="bot">Bot Development</option>
+                    <option value="web-development">Web Development</option>
+                    <option value="automation">AI & Business Automation</option>
+                    <option value="ecommerce">E-commerce Solution</option>
+                    <option value="bot-development">Bot Development</option>
+                    <option value="email-automation">Email Automation</option>
+                    <option value="blockchain">Blockchain Solution</option>
                     <option value="other">Other</option>
                   </select>
                 </div>
+
                 <div>
-                  <label htmlFor="message" className="block text-sm font-medium text-gray-300 mb-2">
+                  <label htmlFor="message" className="mb-2 block text-sm font-medium text-slate-300">
                     Message *
                   </label>
                   <textarea
                     id="message"
                     name="message"
-                    rows={4}
+                    rows={5}
                     required
-                    className="w-full px-4 py-3 bg-gray-700 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 disabled:opacity-50"
-                    placeholder="Tell us about your project, requirements, or any questions you have..."
                     disabled={isSubmitting}
-                  ></textarea>
+                    placeholder="Tell us about your project, what you want to build, or what you want to improve..."
+                    className="w-full rounded-2xl border border-white/10 bg-slate-900 px-4 py-3 text-white placeholder:text-slate-500 outline-none transition focus:border-blue-500"
+                  />
                 </div>
+
                 <button
                   type="submit"
                   disabled={isSubmitting}
-                  className="w-full bg-blue-600 hover:bg-blue-500 text-white py-3 px-6 rounded-lg font-semibold transition-all duration-300 transform hover:scale-105 hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="w-full rounded-2xl bg-blue-600 px-6 py-4 font-semibold text-white transition hover:bg-blue-500 disabled:cursor-not-allowed disabled:opacity-60"
                 >
                   {isSubmitting ? (
-                    <span className="flex items-center justify-center">
-                      <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                        <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                        <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                    <span className="inline-flex items-center justify-center">
+                      <svg className="mr-3 h-5 w-5 animate-spin text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                        <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+                        <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
                       </svg>
                       Sending...
                     </span>
                   ) : (
-                    'Send Message'
+                    "Send Message"
                   )}
                 </button>
-                <p className="text-xs text-gray-400 text-center mt-4">
+
+                <p className="text-center text-xs text-slate-400">
                   By submitting this form, you agree to be contacted by AutoMATE Solutions regarding your inquiry.
                 </p>
               </form>
@@ -998,62 +1163,78 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Footer Section */}
-      <footer className="bg-gray-900 border-t border-gray-800 py-12">
+      {/* Footer */}
+      <footer className="border-t border-white/10 bg-black py-14">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid md:grid-cols-4 gap-8">
-            {/* Company Info */}
+          <div className="grid md:grid-cols-4 gap-10">
             <div className="md:col-span-2">
-              <h3 className="text-2xl font-bold text-white mb-4">AutoMATE Solutions</h3>
-              <p className="text-gray-400 mb-6 max-w-md">
-                Empowering businesses with cutting-edge digital solutions to automate, 
-                optimize, and scale operations through modern technology.
+              <h3 className="text-2xl font-black text-white">AutoMATE Solutions</h3>
+              <p className="mt-4 max-w-md text-slate-400 leading-relaxed">
+                We help businesses automate operations, launch modern digital products, and build systems that support growth.
               </p>
-              <div className="flex space-x-4">
-                <a href="#" className="text-gray-400 hover:text-white transition duration-300">
-                  <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
-                    <path d="M24 4.557c-.883.392-1.832.656-2.828.775 1.017-.609 1.798-1.574 2.165-2.724-.951.564-2.005.974-3.127 1.195-.897-.957-2.178-1.555-3.594-1.555-3.179 0-5.515 2.966-4.797 6.045-4.091-.205-7.719-2.165-10.148-5.144-1.29 2.213-.669 5.108 1.523 6.574-.806-.026-1.566-.247-2.229-.616-.054 2.281 1.581 4.415 3.949 4.89-.693.188-1.452.232-2.224.084.626 1.956 2.444 3.379 4.6 3.419-2.07 1.623-4.678 2.348-7.29 2.04 2.179 1.397 4.768 2.212 7.548 2.212 9.142 0 14.307-7.721 13.995-14.646.962-.695 1.797-1.562 2.457-2.549z"/>
+
+              <div className="mt-6 flex gap-4">
+                <a href="#" className="rounded-xl border border-white/10 bg-white/5 p-3 text-slate-400 transition hover:text-white">
+                  <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M22.46 6c-.77.35-1.6.58-2.46.69.88-.53 1.56-1.37 1.88-2.38-.83.5-1.75.85-2.72 1.05C18.37 4.5 17.26 4 16 4c-2.35 0-4.27 1.92-4.27 4.29 0 .34.04.67.11.98C8.28 9.09 5.11 7.38 3 4.79c-.37.63-.58 1.37-.58 2.15 0 1.49.75 2.81 1.91 3.56-.71 0-1.37-.2-1.95-.5v.03c0 2.08 1.48 3.82 3.44 4.21a4.22 4.22 0 0 1-1.93.07 4.28 4.28 0 0 0 4 2.98 8.521 8.521 0 0 1-5.33 1.84c-.34 0-.68-.02-1.02-.06C3.44 20.29 5.7 21 8.12 21 16 21 20.33 14.46 20.33 8.79c0-.19 0-.37-.01-.56.84-.6 1.56-1.36 2.14-2.23z" />
                   </svg>
                 </a>
-                <a href="#" className="text-gray-400 hover:text-white transition duration-300">
-                  <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
-                    <path d="M22.46 6c-.77.35-1.6.58-2.46.69.88-.53 1.56-1.37 1.88-2.38-.83.5-1.75.85-2.72 1.05C18.37 4.5 17.26 4 16 4c-2.35 0-4.27 1.92-4.27 4.29 0 .34.04.67.11.98C8.28 9.09 5.11 7.38 3 4.79c-.37.63-.58 1.37-.58 2.15 0 1.49.75 2.81 1.91 3.56-.71 0-1.37-.2-1.95-.5v.03c0 2.08 1.48 3.82 3.44 4.21a4.22 4.22 0 0 1-1.93.07 4.28 4.28 0 0 0 4 2.98 8.521 8.521 0 0 1-5.33 1.84c-.34 0-.68-.02-1.02-.06C3.44 20.29 5.7 21 8.12 21 16 21 20.33 14.46 20.33 8.79c0-.19 0-.37-.01-.56.84-.6 1.56-1.36 2.14-2.23z"/>
+                <a href="#" className="rounded-xl border border-white/10 bg-white/5 p-3 text-slate-400 transition hover:text-white">
+                  <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003zM7.119 20.452H3.555V9h3.564v11.452zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm15.11 13.019h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286z" />
                   </svg>
                 </a>
-                <a href="#" className="text-gray-400 hover:text-white transition duration-300">
-                  <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
-                    <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+                <a href="#" className="rounded-xl border border-white/10 bg-white/5 p-3 text-slate-400 transition hover:text-white">
+                  <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M12 2.04c-5.5 0-9.96 4.46-9.96 9.96 0 1.76.46 3.49 1.33 5.01L2 22l5.14-1.34A9.93 9.93 0 0012 21.96c5.5 0 9.96-4.46 9.96-9.96s-4.46-9.96-9.96-9.96zm5.78 13.74c-.24.68-1.42 1.29-1.95 1.37-.5.08-1.12.11-1.8-.11-.41-.13-.93-.3-1.6-.59-2.82-1.22-4.66-4.08-4.8-4.28-.14-.19-1.15-1.53-1.15-2.91s.72-2.06.97-2.34c.25-.28.55-.35.73-.35.18 0 .37 0 .53.01.17.01.4-.06.63.49.24.58.81 1.99.88 2.13.07.14.12.31.02.5-.1.19-.14.31-.28.47-.14.16-.3.36-.43.48-.14.13-.28.27-.12.53.16.27.71 1.17 1.53 1.9 1.05.94 1.94 1.24 2.21 1.38.27.14.43.12.59-.07.16-.19.68-.79.86-1.06.18-.27.36-.22.61-.13.25.09 1.6.76 1.87.9.27.14.45.21.51.33.06.12.06.71-.18 1.39z" />
                   </svg>
                 </a>
               </div>
             </div>
 
-            {/* Quick Links */}
             <div>
-              <h4 className="text-lg font-semibold text-white mb-4">Quick Links</h4>
-              <ul className="space-y-2">
-                <li><button onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })} className="text-gray-400 hover:text-white transition duration-300">Home</button></li>
-                <li><button onClick={() => scrollToSection(servicesRef)} className="text-gray-400 hover:text-white transition duration-300">Services</button></li>
-                <li><button onClick={() => scrollToSection(productsRef)} className="text-gray-400 hover:text-white transition duration-300">Products</button></li>
-                <li><button onClick={() => scrollToSection(faqRef)} className="text-gray-400 hover:text-white transition duration-300">FAQs</button></li>
-                <li><button onClick={() => scrollToSection(contactRef)} className="text-gray-400 hover:text-white transition duration-300">Contact</button></li>
+              <h4 className="text-lg font-bold text-white">Quick Links</h4>
+              <ul className="mt-4 space-y-3">
+                <li>
+                  <button onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })} className="text-slate-400 hover:text-white transition">
+                    Home
+                  </button>
+                </li>
+                <li>
+                  <button onClick={() => scrollToSection(servicesRef)} className="text-slate-400 hover:text-white transition">
+                    Services
+                  </button>
+                </li>
+                <li>
+                  <button onClick={() => scrollToSection(productsRef)} className="text-slate-400 hover:text-white transition">
+                    Products
+                  </button>
+                </li>
+                <li>
+                  <button onClick={() => scrollToSection(industriesRef)} className="text-slate-400 hover:text-white transition">
+                    Industries
+                  </button>
+                </li>
+                <li>
+                  <button onClick={() => scrollToSection(contactRef)} className="text-slate-400 hover:text-white transition">
+                    Contact
+                  </button>
+                </li>
               </ul>
             </div>
 
-            {/* Contact Info */}
             <div>
-              <h4 className="text-lg font-semibold text-white mb-4">Contact</h4>
-              <ul className="space-y-2 text-gray-400">
-                <li>Email: automatesolutions011@gmail.com</li>
-                <li>Phone: +2349040360635</li>
+              <h4 className="text-lg font-bold text-white">Contact</h4>
+              <ul className="mt-4 space-y-3 text-slate-400">
+                <li>automatesolutions011@gmail.com</li>
+                <li>+2349040360635</li>
+                <li>Enugu State, Nigeria</li>
               </ul>
             </div>
           </div>
 
-          <div className="border-t border-gray-800 mt-8 pt-8 text-center">
-            <p className="text-gray-400">
-              © 2025 AutoMATE Solutions. All rights reserved.
-            </p>
+          <div className="mt-10 border-t border-white/10 pt-8 text-center text-slate-500 text-sm">
+            © 2026 AutoMATE Solutions. All rights reserved.
           </div>
         </div>
       </footer>
