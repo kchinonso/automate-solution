@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 
 type HeroSlide = {
   title: string;
@@ -16,14 +16,14 @@ type FAQItem = {
 type ServiceItem = {
   title: string;
   description: string;
-  icon: JSX.Element;
+  icon: React.ReactNode;
   color: string;
 };
 
 type ValueItem = {
   title: string;
   description: string;
-  icon: JSX.Element;
+  icon: React.ReactNode;
   color: string;
 };
 
