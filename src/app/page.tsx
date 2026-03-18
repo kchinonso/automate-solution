@@ -676,19 +676,19 @@ export default function Home() {
               <div className="grid grid-cols-2 gap-4">
                 <div className="rounded-2xl bg-slate-950 p-6 hover:scale-105 transition">
                   <p className="text-sm text-slate-400">Execution</p>
-                  <h3 className="mt-2 text-2xl font-bold text-white">Modern</h3>
+                  <h4 className="mt-2 text-2xl font-bold text-white">Modern</h4>
                 </div>
                 <div className="rounded-2xl bg-blue-600 p-6 hover:scale-105 transition">
                   <p className="text-sm text-blue-100">Approach</p>
-                  <h3 className="mt-2 text-2xl font-bold text-white">Strategic</h3>
+                  <h4 className="mt-2 text-2xl font-bold text-white">Strategic</h4>
                 </div>
                 <div className="rounded-2xl bg-emerald-600 p-6 hover:scale-105 transition">
                   <p className="text-sm text-emerald-100">Systems</p>
-                  <h3 className="mt-2 text-2xl font-bold text-white">Scalable</h3>
+                  <h4 className="mt-2 text-2xl font-bold text-white">Scalable</h4>
                 </div>
                 <div className="rounded-2xl bg-purple-600 p-6 hover:scale-105 transition">
                   <p className="text-sm text-purple-100">Partnership</p>
-                  <h3 className="mt-2 text-2xl font-bold text-white">Reliable</h3>
+                  <h4 className="mt-2 text-2xl font-bold text-white">Reliable</h4>
                 </div>
               </div>
 
@@ -935,7 +935,7 @@ export default function Home() {
               <div className="flex items-center justify-center h-56 rounded-3xl bg-gradient-to-br from-slate-900 to-slate-800 text-white text-center px-6">
                 <div>
                   <p className="text-sm text-slate-400">Founder & Lead Strategist</p>
-                  <h3 className="mt-3 text-3xl font-black">Chukwuebuka Collins</h3>
+                  <h3 className="mt-3 text-3xl font-black">Kingsley Chinonso</h3>
                   <p className="mt-3 text-slate-300">
                     Building practical systems for digital transformation, automation, and growth since 2020.
                   </p>
