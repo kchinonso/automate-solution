@@ -38,6 +38,13 @@ type ProcessItem = {
   description: string;
 };
 
+type ProjectItem = {
+  title: string;
+  category: string;
+  description: string;
+  highlights: string[];
+};
+
 export default function Home() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [currentSlide, setCurrentSlide] = useState(0);
@@ -50,10 +57,13 @@ export default function Home() {
   }>({ type: null, message: "" });
 
   const servicesRef = useRef<HTMLElement | null>(null);
+  const credibilityRef = useRef<HTMLElement | null>(null);
+  const projectsRef = useRef<HTMLElement | null>(null);
   const productsRef = useRef<HTMLElement | null>(null);
   const industriesRef = useRef<HTMLElement | null>(null);
   const faqRef = useRef<HTMLElement | null>(null);
   const contactRef = useRef<HTMLElement | null>(null);
+  const founderRef = useRef<HTMLElement | null>(null);
 
   const heroSlides: HeroSlide[] = [
     {
@@ -246,6 +256,30 @@ export default function Home() {
     },
   ];
 
+  const projects: ProjectItem[] = [
+    {
+      title: "E-commerce Store Platform",
+      category: "Commerce",
+      description:
+        "A modern online selling system with product management, dashboard visibility, and customer-ready storefront experience.",
+      highlights: ["Store setup", "Dashboard tools", "Growth-ready UX"],
+    },
+    {
+      title: "WhatsApp Automation System",
+      category: "Automation",
+      description:
+        "A business messaging workflow built to support automated engagement, customer interaction, and process efficiency.",
+      highlights: ["WhatsApp flow", "Automation logic", "Faster response handling"],
+    },
+    {
+      title: "Business Web Platform",
+      category: "Web Development",
+      description:
+        "A conversion-focused company platform designed to present services professionally and generate quality leads.",
+      highlights: ["Professional UI", "Lead generation", "Brand credibility"],
+    },
+  ];
+
   const faqs: FAQItem[] = [
     {
       question: "Who does AutoMATE Solutions work with?",
@@ -339,7 +373,6 @@ export default function Home() {
 
   return (
     <div className="min-h-screen bg-white text-gray-900 overflow-x-hidden">
-      {/* Header */}
       <header className="fixed top-0 left-0 right-0 z-50 border-b border-white/10 bg-slate-950/80 backdrop-blur-xl">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="h-20 flex items-center justify-between">
@@ -363,6 +396,18 @@ export default function Home() {
                 className="text-slate-300 hover:text-white transition"
               >
                 Services
+              </button>
+              <button
+                onClick={() => scrollToSection(credibilityRef)}
+                className="text-slate-300 hover:text-white transition"
+              >
+                Trust
+              </button>
+              <button
+                onClick={() => scrollToSection(projectsRef)}
+                className="text-slate-300 hover:text-white transition"
+              >
+                Projects
               </button>
               <button
                 onClick={() => scrollToSection(productsRef)}
@@ -420,6 +465,18 @@ export default function Home() {
                   Services
                 </button>
                 <button
+                  onClick={() => scrollToSection(credibilityRef)}
+                  className="block w-full rounded-xl px-4 py-3 text-left text-slate-300 hover:bg-slate-800 hover:text-white"
+                >
+                  Trust
+                </button>
+                <button
+                  onClick={() => scrollToSection(projectsRef)}
+                  className="block w-full rounded-xl px-4 py-3 text-left text-slate-300 hover:bg-slate-800 hover:text-white"
+                >
+                  Projects
+                </button>
+                <button
                   onClick={() => scrollToSection(productsRef)}
                   className="block w-full rounded-xl px-4 py-3 text-left text-slate-300 hover:bg-slate-800 hover:text-white"
                 >
@@ -449,7 +506,6 @@ export default function Home() {
         </div>
       </header>
 
-      {/* Success Popup */}
       {showSuccessPopup && (
         <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/60 p-4">
           <div className="w-full max-w-md rounded-3xl bg-white p-8 shadow-2xl">
@@ -474,7 +530,6 @@ export default function Home() {
         </div>
       )}
 
-      {/* Hero */}
       <section className="relative pt-24">
         <div className="relative isolate overflow-hidden bg-slate-950">
           <div
@@ -521,9 +576,6 @@ export default function Home() {
                     className="inline-flex items-center justify-center rounded-2xl bg-blue-600 px-7 py-4 text-base font-semibold text-white shadow-xl shadow-blue-600/20 transition hover:bg-blue-500"
                   >
                     Start a Project
-                    <svg className="ml-2 h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
-                    </svg>
                   </button>
 
                   <button
@@ -573,34 +625,10 @@ export default function Home() {
                         <p className="mt-2 text-sm text-slate-300">From idea to launch with modern, scalable delivery.</p>
                       </div>
                       <div className="col-span-2 rounded-2xl border border-white/10 bg-gradient-to-r from-blue-600/15 to-purple-600/15 p-5">
-                        <div className="flex items-center justify-between gap-4">
-                          <div>
-                            <p className="text-sm text-slate-300">Solutions We Deliver</p>
-                            <h4 className="mt-1 text-xl font-bold text-white">
-                              Websites • Bots • Automation • E-commerce • Web3
-                            </h4>
-                          </div>
-                          <div className="hidden sm:flex h-14 w-14 items-center justify-center rounded-2xl bg-white/10">
-                            <svg className="w-7 h-7 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 11H5m14 0l-4-4m4 4l-4 4" />
-                            </svg>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-
-                    <div className="mt-6 grid sm:grid-cols-3 gap-4">
-                      <div className="rounded-2xl bg-emerald-500/10 border border-emerald-500/20 px-4 py-4">
-                        <div className="text-2xl font-black text-white">01</div>
-                        <div className="mt-1 text-sm text-emerald-200">Discover</div>
-                      </div>
-                      <div className="rounded-2xl bg-blue-500/10 border border-blue-500/20 px-4 py-4">
-                        <div className="text-2xl font-black text-white">02</div>
-                        <div className="mt-1 text-sm text-blue-200">Build</div>
-                      </div>
-                      <div className="rounded-2xl bg-purple-500/10 border border-purple-500/20 px-4 py-4">
-                        <div className="text-2xl font-black text-white">03</div>
-                        <div className="mt-1 text-sm text-purple-200">Scale</div>
+                        <p className="text-sm text-slate-300">Solutions We Deliver</p>
+                        <h4 className="mt-1 text-xl font-bold text-white">
+                          Websites • Bots • Automation • E-commerce • Web3
+                        </h4>
                       </div>
                     </div>
                   </div>
@@ -618,7 +646,6 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Trust / Stats */}
       <section className="bg-white py-10 border-b border-gray-200">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
@@ -640,7 +667,72 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Mission */}
+      <section ref={credibilityRef} className="py-24 bg-slate-50">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid lg:grid-cols-2 gap-12 items-center">
+            <div>
+              <div className="inline-flex rounded-full border border-blue-200 bg-blue-50 px-4 py-2 text-sm text-blue-700">
+                Company Credibility
+              </div>
+              <h2 className="mt-5 text-4xl md:text-5xl font-black text-gray-900">
+                Trusted Digital Engineering Partner
+              </h2>
+              <p className="mt-6 text-lg text-gray-600 leading-relaxed">
+                AutoMATE Solutions helps businesses build reliable digital products, automate workflows, and create systems designed for long-term growth.
+              </p>
+
+              <div className="mt-8 grid sm:grid-cols-2 gap-4">
+                {[
+                  "Web Development",
+                  "AI Automation",
+                  "Business Process Systems",
+                  "E-commerce Platforms",
+                  "Blockchain Solutions",
+                  "Bot Development",
+                ].map((item, index) => (
+                  <div key={index} className="flex items-center gap-3 rounded-2xl border border-gray-200 bg-white px-4 py-4 shadow-sm">
+                    <div className="flex h-8 w-8 items-center justify-center rounded-full bg-emerald-100">
+                      <svg className="w-4 h-4 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
+                      </svg>
+                    </div>
+                    <span className="font-medium text-gray-800">{item}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            <div className="rounded-[32px] border border-slate-200 bg-white p-8 shadow-xl">
+              <div className="grid grid-cols-2 gap-4">
+                <div className="rounded-2xl bg-slate-950 p-6">
+                  <p className="text-sm text-slate-400">Execution</p>
+                  <h3 className="mt-2 text-2xl font-bold text-white">Modern</h3>
+                </div>
+                <div className="rounded-2xl bg-blue-600 p-6">
+                  <p className="text-sm text-blue-100">Approach</p>
+                  <h3 className="mt-2 text-2xl font-bold text-white">Strategic</h3>
+                </div>
+                <div className="rounded-2xl bg-emerald-600 p-6">
+                  <p className="text-sm text-emerald-100">Systems</p>
+                  <h3 className="mt-2 text-2xl font-bold text-white">Scalable</h3>
+                </div>
+                <div className="rounded-2xl bg-purple-600 p-6">
+                  <p className="text-sm text-purple-100">Partnership</p>
+                  <h3 className="mt-2 text-2xl font-bold text-white">Reliable</h3>
+                </div>
+              </div>
+
+              <div className="mt-6 rounded-2xl border border-gray-200 bg-gray-50 p-6">
+                <p className="text-sm text-gray-500">What clients look for</p>
+                <p className="mt-2 text-lg font-semibold text-gray-900">
+                  Professional execution, clear communication, strong systems, and solutions that actually support business growth.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
       <section className="relative py-24 bg-slate-950 overflow-hidden">
         <div className="absolute inset-0 opacity-15 bg-cover bg-center" style={{ backgroundImage: `url("https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&w=2072&q=80")` }} />
         <div className="absolute inset-0 bg-gradient-to-r from-slate-950 via-slate-950/90 to-slate-900/90" />
@@ -655,31 +747,9 @@ export default function Home() {
             At AutoMATE Solutions, we help businesses bridge the gap between traditional operations and modern digital execution.
             We create systems that improve visibility, reduce manual work, and position businesses for smarter growth.
           </p>
-
-          <div className="mt-12 grid md:grid-cols-3 gap-6 text-left">
-            <div className="rounded-3xl border border-white/10 bg-white/5 p-6 backdrop-blur">
-              <h3 className="text-xl font-bold text-white mb-3">Modern Presence</h3>
-              <p className="text-slate-300">
-                Professional websites, products, and digital platforms that elevate brand perception.
-              </p>
-            </div>
-            <div className="rounded-3xl border border-white/10 bg-white/5 p-6 backdrop-blur">
-              <h3 className="text-xl font-bold text-white mb-3">Smart Automation</h3>
-              <p className="text-slate-300">
-                Intelligent systems that simplify workflows, improve responsiveness, and save valuable time.
-              </p>
-            </div>
-            <div className="rounded-3xl border border-white/10 bg-white/5 p-6 backdrop-blur">
-              <h3 className="text-xl font-bold text-white mb-3">Scalable Growth</h3>
-              <p className="text-slate-300">
-                Technology architecture designed to support business growth, expansion, and new opportunities.
-              </p>
-            </div>
-          </div>
         </div>
       </section>
 
-      {/* Values */}
       <section className="py-24 bg-slate-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="max-w-3xl">
@@ -711,7 +781,6 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Services */}
       <section ref={servicesRef} className="py-24 bg-slate-950">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="max-w-3xl">
@@ -743,7 +812,47 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Product / Store */}
+      <section ref={projectsRef} className="py-24 bg-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="max-w-3xl">
+            <div className="inline-flex rounded-full border border-purple-200 bg-purple-50 px-4 py-2 text-sm text-purple-700">
+              Featured Projects
+            </div>
+            <h2 className="mt-5 text-4xl md:text-5xl font-black text-gray-900">
+              Examples of the kind of solutions we build
+            </h2>
+            <p className="mt-5 text-lg text-gray-600 leading-relaxed">
+              These showcase the type of business-focused systems AutoMATE Solutions can design, build, and improve.
+            </p>
+          </div>
+
+          <div className="mt-14 grid lg:grid-cols-3 gap-6">
+            {projects.map((project, index) => (
+              <div key={index} className="rounded-3xl border border-gray-200 bg-gray-50 p-7 shadow-sm hover:shadow-lg transition">
+                <div className="inline-flex rounded-full border border-gray-300 bg-white px-3 py-1 text-xs font-semibold uppercase tracking-wide text-gray-600">
+                  {project.category}
+                </div>
+                <h3 className="mt-5 text-2xl font-bold text-gray-900">{project.title}</h3>
+                <p className="mt-4 text-gray-600 leading-relaxed">{project.description}</p>
+
+                <div className="mt-6 space-y-3">
+                  {project.highlights.map((highlight, i) => (
+                    <div key={i} className="flex items-center gap-3">
+                      <div className="flex h-7 w-7 items-center justify-center rounded-full bg-blue-100">
+                        <svg className="w-3.5 h-3.5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
+                        </svg>
+                      </div>
+                      <span className="text-sm font-medium text-gray-700">{highlight}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
       <section ref={productsRef} className="py-24 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid lg:grid-cols-2 gap-14 items-center">
@@ -797,9 +906,6 @@ export default function Home() {
                   className="inline-flex items-center justify-center rounded-2xl bg-blue-600 px-7 py-4 text-base font-semibold text-white shadow-lg shadow-blue-600/20 transition hover:bg-blue-500"
                 >
                   Create Your Store Now
-                  <svg className="ml-2 w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
-                  </svg>
                 </button>
 
                 <button
@@ -836,7 +942,6 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Industries */}
       <section ref={industriesRef} className="py-24 bg-slate-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="max-w-3xl">
@@ -865,7 +970,6 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Process */}
       <section className="py-24 bg-slate-950">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="max-w-3xl">
@@ -895,7 +999,52 @@ export default function Home() {
         </div>
       </section>
 
-      {/* FAQ */}
+      <section ref={founderRef} className="py-24 bg-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid lg:grid-cols-2 gap-12 items-center">
+            <div className="rounded-[32px] border border-gray-200 bg-slate-50 p-8 shadow-sm">
+              <div className="flex items-center justify-center h-56 rounded-3xl bg-slate-950 text-white text-center px-6">
+                <div>
+                  <p className="text-sm text-slate-400">Founder / Leadership</p>
+                  <h3 className="mt-3 text-3xl font-black">AutoMATE Solutions</h3>
+                  <p className="mt-3 text-slate-300">
+                    Building practical systems for digital transformation, automation, and growth.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <div>
+              <div className="inline-flex rounded-full border border-orange-200 bg-orange-50 px-4 py-2 text-sm text-orange-700">
+                Founder / Company Authority
+              </div>
+              <h2 className="mt-5 text-4xl md:text-5xl font-black text-gray-900">
+                Leadership with a builder’s mindset
+              </h2>
+              <p className="mt-6 text-lg text-gray-600 leading-relaxed">
+                AutoMATE Solutions is built around solving real business problems with modern technology. The company’s direction focuses on usable systems, strong execution, and solutions that help businesses operate more efficiently.
+              </p>
+              <p className="mt-4 text-lg text-gray-600 leading-relaxed">
+                This section increases trust because it shows there is a clear vision, a responsible team behind the brand, and a practical approach to building digital products.
+              </p>
+
+              <div className="mt-8 grid sm:grid-cols-2 gap-4">
+                {[
+                  "Business-focused execution",
+                  "Practical technology strategy",
+                  "Modern product delivery",
+                  "Long-term partnership mindset",
+                ].map((item, index) => (
+                  <div key={index} className="rounded-2xl border border-gray-200 bg-white px-4 py-4 shadow-sm">
+                    <span className="font-medium text-gray-800">{item}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
       <section ref={faqRef} className="py-24 bg-white">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center">
@@ -935,23 +1084,9 @@ export default function Home() {
               </div>
             ))}
           </div>
-
-          <div className="mt-12 rounded-3xl border border-gray-200 bg-slate-950 p-8 text-center">
-            <h3 className="text-2xl font-bold text-white">Still have questions?</h3>
-            <p className="mt-3 text-slate-300">
-              Reach out and let’s discuss your project, business goals, or technical needs.
-            </p>
-            <button
-              onClick={() => scrollToSection(contactRef)}
-              className="mt-6 inline-flex items-center justify-center rounded-2xl bg-blue-600 px-6 py-3 font-semibold text-white transition hover:bg-blue-500"
-            >
-              Contact Us
-            </button>
-          </div>
         </div>
       </section>
 
-      {/* Contact */}
       <section ref={contactRef} className="py-24 bg-slate-950">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="max-w-3xl mb-14">
@@ -973,42 +1108,6 @@ export default function Home() {
                 <p className="text-slate-300 leading-relaxed">
                   Whether you need a professional website, a custom platform, automation workflow, WhatsApp bot, or an e-commerce solution, AutoMATE Solutions is ready to help.
                 </p>
-              </div>
-
-              <div className="grid sm:grid-cols-2 gap-6">
-                <div className="rounded-3xl border border-white/10 bg-white/5 p-6">
-                  <div className="mb-4 inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-blue-600">
-                    <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
-                    </svg>
-                  </div>
-                  <h4 className="text-lg font-bold text-white">Phone</h4>
-                  <p className="mt-2 text-slate-300">+2349040360635</p>
-                  <p className="mt-1 text-sm text-slate-400">Mon - Fri, 8am - 6pm</p>
-                </div>
-
-                <div className="rounded-3xl border border-white/10 bg-white/5 p-6">
-                  <div className="mb-4 inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-emerald-600">
-                    <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l9 6 9-6m-18 8h18a2 2 0 002-2V8a2 2 0 00-2-2H3a2 2 0 00-2 2v6a2 2 0 002 2z" />
-                    </svg>
-                  </div>
-                  <h4 className="text-lg font-bold text-white">Email</h4>
-                  <p className="mt-2 text-slate-300 break-all">automatesolutions011@gmail.com</p>
-                  <p className="mt-1 text-sm text-slate-400">Response within 24 hours</p>
-                </div>
-
-                <div className="rounded-3xl border border-white/10 bg-white/5 p-6 sm:col-span-2">
-                  <div className="mb-4 inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-purple-600">
-                    <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
-                    </svg>
-                  </div>
-                  <h4 className="text-lg font-bold text-white">Office</h4>
-                  <p className="mt-2 text-slate-300">12 Independence Layout</p>
-                  <p className="mt-1 text-sm text-slate-400">Suite 100, Enugu State, Nigeria</p>
-                </div>
               </div>
             </div>
 
@@ -1141,17 +1240,7 @@ export default function Home() {
                   disabled={isSubmitting}
                   className="w-full rounded-2xl bg-blue-600 px-6 py-4 font-semibold text-white transition hover:bg-blue-500 disabled:cursor-not-allowed disabled:opacity-60"
                 >
-                  {isSubmitting ? (
-                    <span className="inline-flex items-center justify-center">
-                      <svg className="mr-3 h-5 w-5 animate-spin text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                        <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
-                        <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
-                      </svg>
-                      Sending...
-                    </span>
-                  ) : (
-                    "Send Message"
-                  )}
+                  {isSubmitting ? "Sending..." : "Send Message"}
                 </button>
 
                 <p className="text-center text-xs text-slate-400">
@@ -1163,7 +1252,6 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Footer */}
       <footer className="border-t border-white/10 bg-black py-14">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid md:grid-cols-4 gap-10">
@@ -1172,54 +1260,15 @@ export default function Home() {
               <p className="mt-4 max-w-md text-slate-400 leading-relaxed">
                 We help businesses automate operations, launch modern digital products, and build systems that support growth.
               </p>
-
-              <div className="mt-6 flex gap-4">
-                <a href="#" className="rounded-xl border border-white/10 bg-white/5 p-3 text-slate-400 transition hover:text-white">
-                  <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-                    <path d="M22.46 6c-.77.35-1.6.58-2.46.69.88-.53 1.56-1.37 1.88-2.38-.83.5-1.75.85-2.72 1.05C18.37 4.5 17.26 4 16 4c-2.35 0-4.27 1.92-4.27 4.29 0 .34.04.67.11.98C8.28 9.09 5.11 7.38 3 4.79c-.37.63-.58 1.37-.58 2.15 0 1.49.75 2.81 1.91 3.56-.71 0-1.37-.2-1.95-.5v.03c0 2.08 1.48 3.82 3.44 4.21a4.22 4.22 0 0 1-1.93.07 4.28 4.28 0 0 0 4 2.98 8.521 8.521 0 0 1-5.33 1.84c-.34 0-.68-.02-1.02-.06C3.44 20.29 5.7 21 8.12 21 16 21 20.33 14.46 20.33 8.79c0-.19 0-.37-.01-.56.84-.6 1.56-1.36 2.14-2.23z" />
-                  </svg>
-                </a>
-                <a href="#" className="rounded-xl border border-white/10 bg-white/5 p-3 text-slate-400 transition hover:text-white">
-                  <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-                    <path d="M22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003zM7.119 20.452H3.555V9h3.564v11.452zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm15.11 13.019h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286z" />
-                  </svg>
-                </a>
-                <a href="#" className="rounded-xl border border-white/10 bg-white/5 p-3 text-slate-400 transition hover:text-white">
-                  <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-                    <path d="M12 2.04c-5.5 0-9.96 4.46-9.96 9.96 0 1.76.46 3.49 1.33 5.01L2 22l5.14-1.34A9.93 9.93 0 0012 21.96c5.5 0 9.96-4.46 9.96-9.96s-4.46-9.96-9.96-9.96zm5.78 13.74c-.24.68-1.42 1.29-1.95 1.37-.5.08-1.12.11-1.8-.11-.41-.13-.93-.3-1.6-.59-2.82-1.22-4.66-4.08-4.8-4.28-.14-.19-1.15-1.53-1.15-2.91s.72-2.06.97-2.34c.25-.28.55-.35.73-.35.18 0 .37 0 .53.01.17.01.4-.06.63.49.24.58.81 1.99.88 2.13.07.14.12.31.02.5-.1.19-.14.31-.28.47-.14.16-.3.36-.43.48-.14.13-.28.27-.12.53.16.27.71 1.17 1.53 1.9 1.05.94 1.94 1.24 2.21 1.38.27.14.43.12.59-.07.16-.19.68-.79.86-1.06.18-.27.36-.22.61-.13.25.09 1.6.76 1.87.9.27.14.45.21.51.33.06.12.06.71-.18 1.39z" />
-                  </svg>
-                </a>
-              </div>
             </div>
 
             <div>
               <h4 className="text-lg font-bold text-white">Quick Links</h4>
               <ul className="mt-4 space-y-3">
-                <li>
-                  <button onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })} className="text-slate-400 hover:text-white transition">
-                    Home
-                  </button>
-                </li>
-                <li>
-                  <button onClick={() => scrollToSection(servicesRef)} className="text-slate-400 hover:text-white transition">
-                    Services
-                  </button>
-                </li>
-                <li>
-                  <button onClick={() => scrollToSection(productsRef)} className="text-slate-400 hover:text-white transition">
-                    Products
-                  </button>
-                </li>
-                <li>
-                  <button onClick={() => scrollToSection(industriesRef)} className="text-slate-400 hover:text-white transition">
-                    Industries
-                  </button>
-                </li>
-                <li>
-                  <button onClick={() => scrollToSection(contactRef)} className="text-slate-400 hover:text-white transition">
-                    Contact
-                  </button>
-                </li>
+                <li><button onClick={() => scrollToSection(servicesRef)} className="text-slate-400 hover:text-white transition">Services</button></li>
+                <li><button onClick={() => scrollToSection(credibilityRef)} className="text-slate-400 hover:text-white transition">Trust</button></li>
+                <li><button onClick={() => scrollToSection(projectsRef)} className="text-slate-400 hover:text-white transition">Projects</button></li>
+                <li><button onClick={() => scrollToSection(contactRef)} className="text-slate-400 hover:text-white transition">Contact</button></li>
               </ul>
             </div>
 
