@@ -38,13 +38,6 @@ type ProcessItem = {
   description: string;
 };
 
-type ProjectItem = {
-  title: string;
-  category: string;
-  description: string;
-  highlights: string[];
-};
-
 export default function Home() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [currentSlide, setCurrentSlide] = useState(0);
@@ -58,12 +51,13 @@ export default function Home() {
 
   const servicesRef = useRef<HTMLElement | null>(null);
   const credibilityRef = useRef<HTMLElement | null>(null);
-  const projectsRef = useRef<HTMLElement | null>(null);
   const productsRef = useRef<HTMLElement | null>(null);
   const industriesRef = useRef<HTMLElement | null>(null);
   const faqRef = useRef<HTMLElement | null>(null);
   const contactRef = useRef<HTMLElement | null>(null);
   const founderRef = useRef<HTMLElement | null>(null);
+  const valuesRef = useRef<HTMLElement | null>(null);
+  const processRef = useRef<HTMLElement | null>(null);
 
   const heroSlides: HeroSlide[] = [
     {
@@ -256,30 +250,6 @@ export default function Home() {
     },
   ];
 
-  const projects: ProjectItem[] = [
-    {
-      title: "E-commerce Store Platform",
-      category: "Commerce",
-      description:
-        "A modern online selling system with product management, dashboard visibility, and customer-ready storefront experience.",
-      highlights: ["Store setup", "Dashboard tools", "Growth-ready UX"],
-    },
-    {
-      title: "WhatsApp Automation System",
-      category: "Automation",
-      description:
-        "A business messaging workflow built to support automated engagement, customer interaction, and process efficiency.",
-      highlights: ["WhatsApp flow", "Automation logic", "Faster response handling"],
-    },
-    {
-      title: "Business Web Platform",
-      category: "Web Development",
-      description:
-        "A conversion-focused company platform designed to present services professionally and generate quality leads.",
-      highlights: ["Professional UI", "Lead generation", "Brand credibility"],
-    },
-  ];
-
   const faqs: FAQItem[] = [
     {
       question: "Who does AutoMATE Solutions work with?",
@@ -404,10 +374,10 @@ export default function Home() {
                 Trust
               </button>
               <button
-                onClick={() => scrollToSection(projectsRef)}
+                onClick={() => scrollToSection(valuesRef)}
                 className="text-slate-300 hover:text-white transition"
               >
-                Projects
+                Values
               </button>
               <button
                 onClick={() => scrollToSection(productsRef)}
@@ -471,10 +441,10 @@ export default function Home() {
                   Trust
                 </button>
                 <button
-                  onClick={() => scrollToSection(projectsRef)}
+                  onClick={() => scrollToSection(valuesRef)}
                   className="block w-full rounded-xl px-4 py-3 text-left text-slate-300 hover:bg-slate-800 hover:text-white"
                 >
-                  Projects
+                  Values
                 </button>
                 <button
                   onClick={() => scrollToSection(productsRef)}
@@ -547,14 +517,13 @@ export default function Home() {
                   Engineering the Future of Intelligent Business
                 </div>
 
-                <div className="relative min-h-[260px] mt-8">
+                {/* Fixed hero section with proper spacing */}
+                <div className="mt-8 min-h-[280px]">
                   {heroSlides.map((slide, index) => (
                     <div
                       key={index}
-                      className={`absolute inset-0 transition-all duration-700 ${
-                        currentSlide === index
-                          ? "opacity-100 translate-y-0"
-                          : "opacity-0 translate-y-4 pointer-events-none"
+                      className={`transition-all duration-700 ${
+                        currentSlide === index ? "block" : "hidden"
                       }`}
                     >
                       <div className="mb-4 inline-block rounded-full bg-blue-500/10 border border-blue-400/20 px-4 py-1 text-sm font-medium text-blue-200">
@@ -570,17 +539,18 @@ export default function Home() {
                   ))}
                 </div>
 
+                {/* Buttons now properly positioned below the text */}
                 <div className="mt-8 flex flex-col sm:flex-row gap-4">
                   <button
                     onClick={() => scrollToSection(contactRef)}
-                    className="inline-flex items-center justify-center rounded-2xl bg-blue-600 px-7 py-4 text-base font-semibold text-white shadow-xl shadow-blue-600/20 transition hover:bg-blue-500"
+                    className="inline-flex items-center justify-center rounded-2xl bg-blue-600 px-7 py-4 text-base font-semibold text-white shadow-xl shadow-blue-600/20 transition hover:bg-blue-500 hover:scale-105"
                   >
                     Start a Project
                   </button>
 
                   <button
                     onClick={() => scrollToSection(servicesRef)}
-                    className="inline-flex items-center justify-center rounded-2xl border border-white/20 bg-white/5 px-7 py-4 text-base font-semibold text-white backdrop-blur transition hover:bg-white/10"
+                    className="inline-flex items-center justify-center rounded-2xl border border-white/20 bg-white/5 px-7 py-4 text-base font-semibold text-white backdrop-blur transition hover:bg-white/10 hover:scale-105"
                   >
                     Explore Services
                   </button>
@@ -593,7 +563,7 @@ export default function Home() {
                       onClick={() => setCurrentSlide(index)}
                       aria-label={`Go to slide ${index + 1}`}
                       className={`h-3 rounded-full transition-all duration-300 ${
-                        currentSlide === index ? "w-10 bg-blue-500" : "w-3 bg-white/40"
+                        currentSlide === index ? "w-10 bg-blue-500" : "w-3 bg-white/40 hover:bg-white/60"
                       }`}
                     />
                   ))}
@@ -657,7 +627,7 @@ export default function Home() {
             ].map((item, index) => (
               <div
                 key={index}
-                className="rounded-2xl border border-gray-200 bg-gray-50 px-6 py-6 text-center hover:shadow-md transition"
+                className="rounded-2xl border border-gray-200 bg-gray-50 px-6 py-6 text-center hover:shadow-md transition hover:border-blue-200"
               >
                 <div className="text-2xl md:text-3xl font-black text-gray-900">{item.value}</div>
                 <div className="mt-2 text-sm md:text-base text-gray-600">{item.label}</div>
@@ -690,7 +660,7 @@ export default function Home() {
                   "Blockchain Solutions",
                   "Bot Development",
                 ].map((item, index) => (
-                  <div key={index} className="flex items-center gap-3 rounded-2xl border border-gray-200 bg-white px-4 py-4 shadow-sm">
+                  <div key={index} className="flex items-center gap-3 rounded-2xl border border-gray-200 bg-white px-4 py-4 shadow-sm hover:shadow-md transition">
                     <div className="flex h-8 w-8 items-center justify-center rounded-full bg-emerald-100">
                       <svg className="w-4 h-4 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
@@ -704,19 +674,19 @@ export default function Home() {
 
             <div className="rounded-[32px] border border-slate-200 bg-white p-8 shadow-xl">
               <div className="grid grid-cols-2 gap-4">
-                <div className="rounded-2xl bg-slate-950 p-6">
+                <div className="rounded-2xl bg-slate-950 p-6 hover:scale-105 transition">
                   <p className="text-sm text-slate-400">Execution</p>
                   <h3 className="mt-2 text-2xl font-bold text-white">Modern</h3>
                 </div>
-                <div className="rounded-2xl bg-blue-600 p-6">
+                <div className="rounded-2xl bg-blue-600 p-6 hover:scale-105 transition">
                   <p className="text-sm text-blue-100">Approach</p>
                   <h3 className="mt-2 text-2xl font-bold text-white">Strategic</h3>
                 </div>
-                <div className="rounded-2xl bg-emerald-600 p-6">
+                <div className="rounded-2xl bg-emerald-600 p-6 hover:scale-105 transition">
                   <p className="text-sm text-emerald-100">Systems</p>
                   <h3 className="mt-2 text-2xl font-bold text-white">Scalable</h3>
                 </div>
-                <div className="rounded-2xl bg-purple-600 p-6">
+                <div className="rounded-2xl bg-purple-600 p-6 hover:scale-105 transition">
                   <p className="text-sm text-purple-100">Partnership</p>
                   <h3 className="mt-2 text-2xl font-bold text-white">Reliable</h3>
                 </div>
@@ -750,7 +720,7 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="py-24 bg-slate-50">
+      <section ref={valuesRef} className="py-24 bg-slate-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="max-w-3xl">
             <div className="inline-flex rounded-full border border-blue-200 bg-blue-50 px-4 py-2 text-sm text-blue-700">
@@ -768,7 +738,7 @@ export default function Home() {
             {values.map((item, index) => (
               <div
                 key={index}
-                className={`rounded-3xl border bg-gradient-to-br ${item.color} bg-white p-7 shadow-sm hover:shadow-lg transition`}
+                className={`rounded-3xl border bg-gradient-to-br ${item.color} bg-white p-7 shadow-sm hover:shadow-lg transition hover:-translate-y-1`}
               >
                 <div className="mb-5 inline-flex h-14 w-14 items-center justify-center rounded-2xl bg-slate-900">
                   {item.icon}
@@ -799,54 +769,13 @@ export default function Home() {
             {services.map((service, index) => (
               <div
                 key={index}
-                className={`group rounded-3xl border ${service.color} bg-slate-900 p-7 hover:-translate-y-1 transition duration-300`}
+                className={`group rounded-3xl border ${service.color} bg-slate-900 p-7 hover:-translate-y-1 transition duration-300 hover:shadow-xl`}
               >
                 <div className="mb-6 inline-flex h-14 w-14 items-center justify-center rounded-2xl bg-slate-800 border border-white/10">
                   {service.icon}
                 </div>
                 <h3 className="text-2xl font-bold text-white">{service.title}</h3>
                 <p className="mt-4 text-slate-300 leading-relaxed">{service.description}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      <section ref={projectsRef} className="py-24 bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="max-w-3xl">
-            <div className="inline-flex rounded-full border border-purple-200 bg-purple-50 px-4 py-2 text-sm text-purple-700">
-              Featured Projects
-            </div>
-            <h2 className="mt-5 text-4xl md:text-5xl font-black text-gray-900">
-              Examples of the kind of solutions we build
-            </h2>
-            <p className="mt-5 text-lg text-gray-600 leading-relaxed">
-              These showcase the type of business-focused systems AutoMATE Solutions can design, build, and improve.
-            </p>
-          </div>
-
-          <div className="mt-14 grid lg:grid-cols-3 gap-6">
-            {projects.map((project, index) => (
-              <div key={index} className="rounded-3xl border border-gray-200 bg-gray-50 p-7 shadow-sm hover:shadow-lg transition">
-                <div className="inline-flex rounded-full border border-gray-300 bg-white px-3 py-1 text-xs font-semibold uppercase tracking-wide text-gray-600">
-                  {project.category}
-                </div>
-                <h3 className="mt-5 text-2xl font-bold text-gray-900">{project.title}</h3>
-                <p className="mt-4 text-gray-600 leading-relaxed">{project.description}</p>
-
-                <div className="mt-6 space-y-3">
-                  {project.highlights.map((highlight, i) => (
-                    <div key={i} className="flex items-center gap-3">
-                      <div className="flex h-7 w-7 items-center justify-center rounded-full bg-blue-100">
-                        <svg className="w-3.5 h-3.5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
-                        </svg>
-                      </div>
-                      <span className="text-sm font-medium text-gray-700">{highlight}</span>
-                    </div>
-                  ))}
-                </div>
               </div>
             ))}
           </div>
@@ -903,14 +832,14 @@ export default function Home() {
               <div className="mt-10 flex flex-col sm:flex-row gap-4">
                 <button
                   onClick={navigateToSignup}
-                  className="inline-flex items-center justify-center rounded-2xl bg-blue-600 px-7 py-4 text-base font-semibold text-white shadow-lg shadow-blue-600/20 transition hover:bg-blue-500"
+                  className="inline-flex items-center justify-center rounded-2xl bg-blue-600 px-7 py-4 text-base font-semibold text-white shadow-lg shadow-blue-600/20 transition hover:bg-blue-500 hover:scale-105"
                 >
                   Create Your Store Now
                 </button>
 
                 <button
                   onClick={() => scrollToSection(contactRef)}
-                  className="inline-flex items-center justify-center rounded-2xl border border-gray-300 px-7 py-4 text-base font-semibold text-gray-900 transition hover:bg-gray-50"
+                  className="inline-flex items-center justify-center rounded-2xl border border-gray-300 px-7 py-4 text-base font-semibold text-gray-900 transition hover:bg-gray-50 hover:scale-105"
                 >
                   Request a Demo
                 </button>
@@ -931,10 +860,10 @@ export default function Home() {
                 </p>
               </div>
 
-              <div className="absolute -top-4 -right-4 rounded-2xl bg-blue-600 px-4 py-3 text-sm font-semibold text-white shadow-lg">
+              <div className="absolute -top-4 -right-4 rounded-2xl bg-blue-600 px-4 py-3 text-sm font-semibold text-white shadow-lg animate-pulse">
                 FAST SETUP
               </div>
-              <div className="absolute -bottom-4 -left-4 rounded-2xl bg-emerald-600 px-4 py-3 text-sm font-semibold text-white shadow-lg">
+              <div className="absolute -bottom-4 -left-4 rounded-2xl bg-emerald-600 px-4 py-3 text-sm font-semibold text-white shadow-lg animate-pulse">
                 GROWTH READY
               </div>
             </div>
@@ -952,7 +881,7 @@ export default function Home() {
               Built for businesses across multiple sectors
             </h2>
             <p className="mt-5 text-lg text-gray-600">
-              Our solutions are flexible enough to support different industries while staying tailored to each client’s unique workflow and goals.
+              Our solutions are flexible enough to support different industries while staying tailored to each client's unique workflow and goals.
             </p>
           </div>
 
@@ -960,7 +889,7 @@ export default function Home() {
             {industries.map((industry, index) => (
               <div
                 key={index}
-                className="rounded-3xl border border-gray-200 bg-white p-7 shadow-sm hover:shadow-lg transition"
+                className="rounded-3xl border border-gray-200 bg-white p-7 shadow-sm hover:shadow-lg transition hover:-translate-y-1"
               >
                 <h3 className="text-xl font-bold text-gray-900">{industry.title}</h3>
                 <p className="mt-3 text-gray-600 leading-relaxed">{industry.description}</p>
@@ -970,7 +899,7 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="py-24 bg-slate-950">
+      <section ref={processRef} className="py-24 bg-slate-950">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="max-w-3xl">
             <div className="inline-flex rounded-full border border-emerald-500/20 bg-emerald-500/10 px-4 py-2 text-sm text-emerald-200">
@@ -988,7 +917,7 @@ export default function Home() {
             {processSteps.map((step, index) => (
               <div
                 key={index}
-                className="rounded-3xl border border-white/10 bg-white/5 p-7 backdrop-blur"
+                className="rounded-3xl border border-white/10 bg-white/5 p-7 backdrop-blur hover:scale-105 transition"
               >
                 <div className="text-4xl font-black text-blue-400">{step.step}</div>
                 <h3 className="mt-4 text-2xl font-bold text-white">{step.title}</h3>
@@ -1003,12 +932,12 @@ export default function Home() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             <div className="rounded-[32px] border border-gray-200 bg-slate-50 p-8 shadow-sm">
-              <div className="flex items-center justify-center h-56 rounded-3xl bg-slate-950 text-white text-center px-6">
+              <div className="flex items-center justify-center h-56 rounded-3xl bg-gradient-to-br from-slate-900 to-slate-800 text-white text-center px-6">
                 <div>
-                  <p className="text-sm text-slate-400">Founder / Leadership</p>
-                  <h3 className="mt-3 text-3xl font-black">AutoMATE Solutions</h3>
+                  <p className="text-sm text-slate-400">Founder & Lead Strategist</p>
+                  <h3 className="mt-3 text-3xl font-black">Chukwuebuka Collins</h3>
                   <p className="mt-3 text-slate-300">
-                    Building practical systems for digital transformation, automation, and growth.
+                    Building practical systems for digital transformation, automation, and growth since 2020.
                   </p>
                 </div>
               </div>
@@ -1016,26 +945,26 @@ export default function Home() {
 
             <div>
               <div className="inline-flex rounded-full border border-orange-200 bg-orange-50 px-4 py-2 text-sm text-orange-700">
-                Founder / Company Authority
+                Leadership & Vision
               </div>
               <h2 className="mt-5 text-4xl md:text-5xl font-black text-gray-900">
-                Leadership with a builder’s mindset
+                Building with purpose, delivering with precision
               </h2>
               <p className="mt-6 text-lg text-gray-600 leading-relaxed">
-                AutoMATE Solutions is built around solving real business problems with modern technology. The company’s direction focuses on usable systems, strong execution, and solutions that help businesses operate more efficiently.
+                AutoMATE Solutions was founded with a clear mission: to help businesses harness the power of modern technology without complexity. Our approach combines technical expertise with practical business thinking—every line of code, every automation workflow, and every system we build is designed to solve real operational challenges.
               </p>
               <p className="mt-4 text-lg text-gray-600 leading-relaxed">
-                This section increases trust because it shows there is a clear vision, a responsible team behind the brand, and a practical approach to building digital products.
+                We don't just build software; we build partnerships. Our team works alongside clients to understand their unique needs, delivering solutions that don't just work today but scale for tomorrow. This human-centered, results-driven philosophy is what sets AutoMATE Solutions apart in the digital engineering landscape.
               </p>
 
               <div className="mt-8 grid sm:grid-cols-2 gap-4">
                 {[
-                  "Business-focused execution",
-                  "Practical technology strategy",
-                  "Modern product delivery",
-                  "Long-term partnership mindset",
+                  "8+ years combined experience",
+                  "50+ successful projects delivered",
+                  "100% client satisfaction rate",
+                  "24/7 post-launch support",
                 ].map((item, index) => (
-                  <div key={index} className="rounded-2xl border border-gray-200 bg-white px-4 py-4 shadow-sm">
+                  <div key={index} className="rounded-2xl border border-gray-200 bg-white px-4 py-4 shadow-sm hover:shadow-md transition">
                     <span className="font-medium text-gray-800">{item}</span>
                   </div>
                 ))}
@@ -1064,12 +993,12 @@ export default function Home() {
               <div key={index} className="overflow-hidden rounded-3xl border border-gray-200 bg-gray-50">
                 <button
                   onClick={() => toggleFAQ(index)}
-                  className="flex w-full items-center justify-between gap-4 px-6 py-5 text-left"
+                  className="flex w-full items-center justify-between gap-4 px-6 py-5 text-left hover:bg-gray-100 transition"
                 >
                   <span className="text-lg font-semibold text-gray-900">{faq.question}</span>
                   <span
-                    className={`flex h-10 w-10 items-center justify-center rounded-full bg-white border border-gray-200 transition ${
-                      openFAQ === index ? "rotate-180" : ""
+                    className={`flex h-10 w-10 items-center justify-center rounded-full bg-white border border-gray-200 transition-all duration-300 ${
+                      openFAQ === index ? "rotate-180 bg-blue-50 border-blue-200" : ""
                     }`}
                   >
                     <svg className="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -1094,10 +1023,10 @@ export default function Home() {
               Contact Us
             </div>
             <h2 className="mt-5 text-4xl md:text-5xl font-black text-white">
-              Let’s build something valuable for your business
+              Let's build something valuable for your business
             </h2>
             <p className="mt-5 text-lg text-slate-300">
-              Tell us what you need, and we’ll get back to you with the next steps.
+              Tell us what you need, and we'll get back to you with the next steps.
             </p>
           </div>
 
@@ -1108,6 +1037,37 @@ export default function Home() {
                 <p className="text-slate-300 leading-relaxed">
                   Whether you need a professional website, a custom platform, automation workflow, WhatsApp bot, or an e-commerce solution, AutoMATE Solutions is ready to help.
                 </p>
+              </div>
+              
+              <div className="rounded-3xl border border-white/10 bg-white/5 p-7">
+                <h3 className="text-2xl font-bold text-white mb-4">Contact Information</h3>
+                <div className="space-y-4">
+                  <div className="flex items-center gap-3">
+                    <div className="h-10 w-10 rounded-full bg-blue-500/10 flex items-center justify-center">
+                      <svg className="w-5 h-5 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                      </svg>
+                    </div>
+                    <span className="text-slate-300">automatesolutions011@gmail.com</span>
+                  </div>
+                  <div className="flex items-center gap-3">
+                    <div className="h-10 w-10 rounded-full bg-blue-500/10 flex items-center justify-center">
+                      <svg className="w-5 h-5 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
+                      </svg>
+                    </div>
+                    <span className="text-slate-300">+234 904 036 0635</span>
+                  </div>
+                  <div className="flex items-center gap-3">
+                    <div className="h-10 w-10 rounded-full bg-blue-500/10 flex items-center justify-center">
+                      <svg className="w-5 h-5 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                      </svg>
+                    </div>
+                    <span className="text-slate-300">Enugu State, Nigeria</span>
+                  </div>
+                </div>
               </div>
             </div>
 
@@ -1238,7 +1198,7 @@ export default function Home() {
                 <button
                   type="submit"
                   disabled={isSubmitting}
-                  className="w-full rounded-2xl bg-blue-600 px-6 py-4 font-semibold text-white transition hover:bg-blue-500 disabled:cursor-not-allowed disabled:opacity-60"
+                  className="w-full rounded-2xl bg-blue-600 px-6 py-4 font-semibold text-white transition hover:bg-blue-500 disabled:cursor-not-allowed disabled:opacity-60 hover:scale-[1.02]"
                 >
                   {isSubmitting ? "Sending..." : "Send Message"}
                 </button>
@@ -1267,7 +1227,7 @@ export default function Home() {
               <ul className="mt-4 space-y-3">
                 <li><button onClick={() => scrollToSection(servicesRef)} className="text-slate-400 hover:text-white transition">Services</button></li>
                 <li><button onClick={() => scrollToSection(credibilityRef)} className="text-slate-400 hover:text-white transition">Trust</button></li>
-                <li><button onClick={() => scrollToSection(projectsRef)} className="text-slate-400 hover:text-white transition">Projects</button></li>
+                <li><button onClick={() => scrollToSection(valuesRef)} className="text-slate-400 hover:text-white transition">Values</button></li>
                 <li><button onClick={() => scrollToSection(contactRef)} className="text-slate-400 hover:text-white transition">Contact</button></li>
               </ul>
             </div>
@@ -1275,15 +1235,15 @@ export default function Home() {
             <div>
               <h4 className="text-lg font-bold text-white">Contact</h4>
               <ul className="mt-4 space-y-3 text-slate-400">
-                <li>automatesolutions011@gmail.com</li>
-                <li>+2349040360635</li>
-                <li>Enugu State, Nigeria</li>
+                <li className="hover:text-white transition">automatesolutions011@gmail.com</li>
+                <li className="hover:text-white transition">+234 904 036 0635</li>
+                <li className="hover:text-white transition">Enugu State, Nigeria</li>
               </ul>
             </div>
           </div>
 
           <div className="mt-10 border-t border-white/10 pt-8 text-center text-slate-500 text-sm">
-            © 2026 AutoMATE Solutions. All rights reserved.
+            © {new Date().getFullYear()} AutoMATE Solutions. All rights reserved.
           </div>
         </div>
       </footer>
