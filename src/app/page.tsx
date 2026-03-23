@@ -355,7 +355,7 @@ export default function Home() {
                 alt="AutoMATE Solutions Logo" 
                 className="h-20 w-auto object-contain"
               />
-               <div className="text-xs text-slate-400 -mt-0.5">AI • Automation • Digital Systems</div>
+               {/* <div className="text-xs text-slate-400 -mt-0.5">AI • Automation • Digital Systems</div> */}
               <div>
                 {/* <div className="text-white font-black tracking-tight text-2xl">AutoMATE Solutions</div>
                 <div className="text-xs text-slate-400 -mt-0.5">AI • Automation • Digital Systems</div> */}
@@ -1230,10 +1230,10 @@ export default function Home() {
                   alt="AutoMATE Solutions Logo" 
                   className="h-20 w-auto object-contain"
                 />
-                <div>
+                {/* <div>
                   <h3 className="text-2xl font-black text-white">AutoMATE Solutions</h3>
                   <p className="text-sm text-slate-400">AI • Automation • Digital Systems</p>
-                </div>
+                </div> */}
               </div>
               <p className="mt-4 max-w-md text-slate-400 leading-relaxed">
                 We help businesses automate operations, launch modern digital products, and build systems that support growth.
