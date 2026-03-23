@@ -16,7 +16,7 @@ type FAQItem = {
 type ServiceItem = {
   title: string;
   description: string;
-  icon: React.ReverseNode;
+  icon: React.ReactNode;
   color: string;
   image: string;
 };
@@ -308,18 +308,12 @@ export default function Home() {
               <img src="/automate-logo.png" alt="AutoMATE Solutions Logo" className="h-16 w-auto object-contain" />
             </button>
             <nav className="hidden md:flex items-center gap-7">
-              {["Services", "Trust", "Values", "Products", "Industries", "FAQs"].map((item) => (
-                <button 
-                  key={item} 
-                  onClick={() => {
-                    const refs: any = { Services: servicesRef, Trust: credibilityRef, Values: valuesRef, Products: productsRef, Industries: industriesRef, FAQs: faqRef };
-                    scrollToSection(refs[item]);
-                  }} 
-                  className="text-slate-300 hover:text-white transition text-sm font-medium"
-                >
-                  {item}
-                </button>
-              ))}
+              <button onClick={() => scrollToSection(servicesRef)} className="text-slate-300 hover:text-white transition text-sm font-medium">Services</button>
+              <button onClick={() => scrollToSection(credibilityRef)} className="text-slate-300 hover:text-white transition text-sm font-medium">Trust</button>
+              <button onClick={() => scrollToSection(valuesRef)} className="text-slate-300 hover:text-white transition text-sm font-medium">Values</button>
+              <button onClick={() => scrollToSection(productsRef)} className="text-slate-300 hover:text-white transition text-sm font-medium">Products</button>
+              <button onClick={() => scrollToSection(industriesRef)} className="text-slate-300 hover:text-white transition text-sm font-medium">Industries</button>
+              <button onClick={() => scrollToSection(faqRef)} className="text-slate-300 hover:text-white transition text-sm font-medium">FAQs</button>
             </nav>
             <button onClick={() => scrollToSection(contactRef)} className="hidden md:block rounded-xl bg-blue-600 px-6 py-2.5 text-sm font-semibold text-white transition hover:bg-blue-500">
               Let's Talk
@@ -454,6 +448,24 @@ export default function Home() {
         </div>
       </section>
 
+      {/* VALUES SECTION */}
+      <section ref={valuesRef} className="py-24 bg-white border-t border-gray-100">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-16">
+            <h2 className="text-4xl font-black text-gray-900">Our Core Values</h2>
+          </div>
+          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-8">
+            {values.map((v, i) => (
+              <div key={i} className={`p-8 rounded-3xl border bg-gradient-to-br ${v.color}`}>
+                <div className="mb-4">{v.icon}</div>
+                <h3 className="text-xl font-bold text-gray-900">{v.title}</h3>
+                <p className="mt-2 text-gray-600 text-sm">{v.description}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* INDUSTRIES SECTION */}
       <section ref={industriesRef} className="py-24 bg-slate-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -509,6 +521,24 @@ export default function Home() {
                  <img src="https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=1000&q=80" alt="Modern Office" className="w-full h-full object-cover" />
               </div>
            </div>
+        </div>
+      </section>
+
+      {/* FAQ SECTION */}
+      <section ref={faqRef} className="py-24 bg-slate-50">
+        <div className="max-w-3xl mx-auto px-4">
+          <h2 className="text-4xl font-black text-gray-900 text-center mb-12">Common Questions</h2>
+          <div className="space-y-4">
+            {faqs.map((faq, i) => (
+              <div key={i} className="bg-white rounded-2xl border border-gray-200 overflow-hidden">
+                <button onClick={() => toggleFAQ(i)} className="w-full p-6 text-left flex justify-between items-center font-bold">
+                  {faq.question}
+                  <span>{openFAQ === i ? "−" : "+"}</span>
+                </button>
+                {openFAQ === i && <div className="p-6 pt-0 text-gray-600 border-t border-gray-50">{faq.answer}</div>}
+              </div>
+            ))}
+          </div>
         </div>
       </section>
 
