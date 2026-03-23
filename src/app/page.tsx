@@ -1227,7 +1227,7 @@ export default function Home() {
                 <img 
                   src="/automate-logo.png" 
                   alt="AutoMATE Solutions Logo" 
-                  className="h-12 w-auto object-contain"
+                  className="h-15 w-auto object-contain"
                 />
                 <div>
                   <h3 className="text-2xl font-black text-white">AutoMATE Solutions</h3>
