@@ -353,11 +353,12 @@ export default function Home() {
               <img 
                 src="/automate-logo.png" 
                 alt="AutoMATE Solutions Logo" 
-                className="h-12 w-auto object-contain"
+                className="h-20 w-auto object-contain"
               />
+               <div className="text-xs text-slate-400 -mt-0.5">AI • Automation • Digital Systems</div>
               <div>
-                <div className="text-white font-black tracking-tight text-2xl">AutoMATE Solutions</div>
-                <div className="text-xs text-slate-400 -mt-0.5">AI • Automation • Digital Systems</div>
+                {/* <div className="text-white font-black tracking-tight text-2xl">AutoMATE Solutions</div>
+                <div className="text-xs text-slate-400 -mt-0.5">AI • Automation • Digital Systems</div> */}
               </div>
             </button>
 
