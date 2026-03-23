@@ -348,10 +348,17 @@ export default function Home() {
           <div className="h-20 flex items-center justify-between">
             <button
               onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
-              className="text-left"
+              className="text-left flex items-center gap-3"
             >
-              <div className="text-white font-black tracking-tight text-2xl">AutoMATE Solutions</div>
-              <div className="text-xs text-slate-400 -mt-0.5">AI • Automation • Digital Systems</div>
+              <img 
+                src="/automate-logo.png" 
+                alt="AutoMATE Solutions Logo" 
+                className="h-12 w-auto object-contain"
+              />
+              <div>
+                <div className="text-white font-black tracking-tight text-2xl">AutoMATE Solutions</div>
+                <div className="text-xs text-slate-400 -mt-0.5">AI • Automation • Digital Systems</div>
+              </div>
             </button>
 
             <nav className="hidden md:flex items-center gap-7">
@@ -404,7 +411,7 @@ export default function Home() {
                 onClick={() => scrollToSection(contactRef)}
                 className="rounded-xl bg-blue-600 px-5 py-3 text-sm font-semibold text-white shadow-lg shadow-blue-600/20 transition hover:bg-blue-500"
               >
-                Let’s Talk
+                Let's Talk
               </button>
             </div>
 
@@ -468,7 +475,7 @@ export default function Home() {
                   onClick={() => scrollToSection(contactRef)}
                   className="mt-2 w-full rounded-xl bg-blue-600 px-4 py-3 text-sm font-semibold text-white hover:bg-blue-500"
                 >
-                  Let’s Talk
+                  Let's Talk
                 </button>
               </div>
             </div>
@@ -1216,7 +1223,17 @@ export default function Home() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid md:grid-cols-4 gap-10">
             <div className="md:col-span-2">
-              <h3 className="text-2xl font-black text-white">AutoMATE Solutions</h3>
+              <div className="flex items-center gap-3">
+                <img 
+                  src="/automate-logo.png" 
+                  alt="AutoMATE Solutions Logo" 
+                  className="h-12 w-auto object-contain"
+                />
+                <div>
+                  <h3 className="text-2xl font-black text-white">AutoMATE Solutions</h3>
+                  <p className="text-sm text-slate-400">AI • Automation • Digital Systems</p>
+                </div>
+              </div>
               <p className="mt-4 max-w-md text-slate-400 leading-relaxed">
                 We help businesses automate operations, launch modern digital products, and build systems that support growth.
               </p>
