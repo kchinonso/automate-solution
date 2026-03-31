@@ -1047,59 +1047,115 @@ export default function Home() {
       </section>
 
       <section ref={founderRef} className="py-24 bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid lg:grid-cols-2 gap-12 items-center">
-            <div className="rounded-[32px] border border-gray-200 bg-slate-50 p-5 shadow-sm">
-              <div className="overflow-hidden rounded-[26px]">
-                <img
-                  src="https://images.unsplash.com/photo-1556157382-97eda2d62296?auto=format&fit=crop&w=1400&q=80"
-                  alt="Leadership and digital strategy"
-                  className="h-[420px] w-full object-cover"
-                />
-              </div>
-            </div>
+  <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div className="text-center max-w-3xl mx-auto">
+      <div className="inline-flex rounded-full border border-blue-200 bg-blue-50 px-4 py-2 text-sm text-blue-700">
+        Meet the Team
+      </div>
+      <h2 className="mt-5 text-4xl md:text-5xl font-black text-gray-900">
+        The minds driving innovation at AutoMATE Solutions
+      </h2>
+      <p className="mt-6 text-lg text-gray-600 leading-relaxed">
+        Our team combines software engineering, blockchain innovation, AI systems,
+        and data-driven thinking to build modern digital solutions for businesses.
+      </p>
+    </div>
 
-            <div>
-              <div className="inline-flex rounded-full border border-orange-200 bg-orange-50 px-4 py-2 text-sm text-orange-700">
-                Leadership & Vision
-              </div>
-              <h2 className="mt-5 text-4xl md:text-5xl font-black text-gray-900">
-                Building with purpose, delivering with precision
-              </h2>
-              <p className="mt-6 text-lg text-gray-600 leading-relaxed">
-                AutoMATE Solutions was founded with a clear mission: to help businesses harness the power of modern technology without complexity. Our approach combines technical expertise with practical business thinking—every line of code, every automation workflow, and every system we build is designed to solve real operational challenges.
-              </p>
-              <p className="mt-4 text-lg text-gray-600 leading-relaxed">
-                We don't just build software; we build partnerships. Our team works alongside clients to understand their unique needs, delivering solutions that don't just work today but scale for tomorrow. This human-centered, results-driven philosophy is what sets AutoMATE Solutions apart in the digital engineering landscape.
-              </p>
+    <div className="mt-16 grid md:grid-cols-2 gap-8">
+      {[
+        {
+          name: "Kingsley Chinonso",
+          role: "Founder • Blockchain & Software Developer",
+          image: "/kingsley-chinonso.jpg",
+          linkedin: "https://www.linkedin.com/in/kingsley-chinonso",
+          bio: "Kingsley leads the vision of AutoMATE Solutions, building scalable software products, blockchain-powered solutions, and modern digital systems that help businesses grow efficiently.",
+        },
+        {
+          name: "Stella Onyinyechi",
+          role: "Founder, Hi Techniversity Limited • AI & Data Analyst",
+          image: "/stella-onyinyechi.jpg",
+          linkedin: "https://www.linkedin.com/in/stella-onyinyechi",
+          bio: "Stella brings strength in AI and data analysis, helping drive smart decision-making, intelligent automation, and insight-led execution across modern business solutions.",
+        },
+      ].map((member, index) => (
+        <div
+          key={index}
+          className="group overflow-hidden rounded-[32px] border border-gray-200 bg-slate-50 shadow-sm transition duration-300 hover:-translate-y-2 hover:shadow-2xl"
+        >
+          <div className="relative overflow-hidden">
+            <img
+              src={member.image}
+              alt={member.name}
+              className="h-[420px] w-full object-cover transition duration-500 group-hover:scale-105"
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-slate-950/70 via-slate-950/20 to-transparent" />
 
-              <div className="mt-6 rounded-3xl border border-gray-200 bg-white p-6 shadow-sm">
-                <p className="text-sm text-gray-500">Founder & Lead Strategist</p>
-                <h3 className="mt-2 text-3xl font-black text-gray-900">Kingsley Chinonso</h3>
-                <p className="mt-2 text-gray-600">
-                  Building practical systems for digital transformation, automation, and growth since 2020.
-                </p>
-              </div>
+            <a
+              href={member.linkedin}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label={`${member.name} LinkedIn profile`}
+              className="absolute top-5 right-5 inline-flex h-12 w-12 items-center justify-center rounded-full bg-white/90 text-slate-900 shadow-lg transition hover:bg-blue-600 hover:text-white"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 24 24"
+                fill="currentColor"
+                className="h-6 w-6"
+              >
+                <path d="M6.94 8.5H3.56V20h3.38V8.5ZM5.25 3A2.03 2.03 0 0 0 3.2 5.03 2.03 2.03 0 0 0 5.25 7.06 2.03 2.03 0 0 0 7.3 5.03 2.03 2.03 0 0 0 5.25 3ZM20.44 13.02c0-3.16-1.69-4.63-3.95-4.63-1.82 0-2.63 1-3.08 1.71V8.5h-3.38c.04 1.06 0 11.5 0 11.5h3.38v-6.42c0-.34.02-.68.13-.92.27-.68.88-1.38 1.9-1.38 1.34 0 1.88 1.02 1.88 2.52V20h3.38v-6.98Z" />
+              </svg>
+            </a>
+          </div>
 
-              <div className="mt-8 grid sm:grid-cols-2 gap-4">
-                {[
-                  "8+ years combined experience",
-                  "50+ successful projects delivered",
-                  "100% client satisfaction rate",
-                  "24/7 post-launch support",
-                ].map((item, index) => (
-                  <div
-                    key={index}
-                    className="rounded-2xl border border-gray-200 bg-white px-4 py-4 shadow-sm hover:shadow-md transition"
-                  >
-                    <span className="font-medium text-gray-800">{item}</span>
-                  </div>
-                ))}
-              </div>
+          <div className="p-8">
+            <h3 className="text-2xl font-black text-gray-900">{member.name}</h3>
+            <p className="mt-2 text-sm font-semibold uppercase tracking-[0.2em] text-blue-600">
+              {member.role}
+            </p>
+            <p className="mt-5 text-gray-600 leading-relaxed">
+              {member.bio}
+            </p>
+
+            <div className="mt-6">
+              <a
+                href={member.linkedin}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 rounded-xl border border-gray-300 bg-white px-5 py-3 text-sm font-semibold text-gray-900 transition hover:border-blue-600 hover:text-blue-600"
+              >
+                View LinkedIn
+                <svg
+                  className="h-4 w-4"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M14 5h5m0 0v5m0-5L10 14"
+                  />
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M5 12v7h7"
+                  />
+                </svg>
+              </a>
             </div>
           </div>
         </div>
-      </section>
+      ))}
+    </div>
+  </div>
+</section>
+
+           
+
+              
 
       <section ref={faqRef} className="py-24 bg-white">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
