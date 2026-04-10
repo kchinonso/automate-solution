@@ -949,7 +949,7 @@ export default function Home() {
               <div className="rounded-[30px] border border-gray-200 bg-slate-950 p-5 shadow-2xl">
                 <div className="rounded-[24px] overflow-hidden border border-white/10 bg-slate-900">
                   <img
-                    src="/store.png"
+                    src="/stella-onyinyechi.jpg"
                     alt="AutoMATE Solutions store dashboard preview"
                     className="w-full h-auto object-cover"
                   />
