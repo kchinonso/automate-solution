@@ -1066,14 +1066,14 @@ export default function Home() {
         {
           name: "Kingsley Chinonso",
           role: "Founder • Blockchain & Software Developer",
-          image: "/kingsley-chinonso.jpg",
+          image: "kingsley-chinonso.jpg",
           linkedin: "https://www.linkedin.com/in/kingsley-chinonso",
           bio: "Kingsley leads the vision of AutoMATE Solutions, building scalable software products, blockchain-powered solutions, and modern digital systems that help businesses grow efficiently.",
         },
         {
           name: "Stella Onyinyechi",
           role: "Founder, Hi Techniversity Limited • AI & Data Analyst",
-          image: "/stella-onyinyechi.jpg",
+          image: "stella-onyinyechi.jpg",
           linkedin: "https://www.linkedin.com/in/stella-onyinyechi",
           bio: "Stella brings strength in AI and data analysis, helping drive smart decision-making, intelligent automation, and insight-led execution across modern business solutions.",
         },
