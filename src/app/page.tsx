@@ -78,7 +78,7 @@ export default function Home() {
     {
       title: "Turn Ideas into Reliable, Revenue-Driving Products",
       subtitle:
-        "We help founders, startups, and growing businesses launch digital solutions that look professional, work efficiently, and scale with confidence.",
+        "AutoMATE Solutions, in partnership with Hi Techniversity Limited, helps founders, startups, and growing businesses launch digital solutions that look professional, work efficiently, and scale with confidence.",
       accent: "Growth-Focused",
     },
   ];
@@ -713,7 +713,7 @@ export default function Home() {
                 Trusted Digital Engineering Partner
               </h2>
               <p className="mt-6 text-lg text-gray-600 leading-relaxed">
-                AutoMATE Solutions helps businesses build reliable digital products, automate workflows, and create systems designed for long-term growth.
+                AutoMATE Solutions, in partnership with Hi Techniversity Limited, helps businesses build reliable digital products, automate workflows, and create systems designed for long-term growth.
               </p>
 
               <div className="mt-8 grid sm:grid-cols-2 gap-4">
@@ -949,7 +949,7 @@ export default function Home() {
               <div className="rounded-[30px] border border-gray-200 bg-slate-950 p-5 shadow-2xl">
                 <div className="rounded-[24px] overflow-hidden border border-white/10 bg-slate-900">
                   <img
-                    src="/store.png"
+                    src="/stella-onyinyechi[1].jpg"
                     alt="AutoMATE Solutions store dashboard preview"
                     className="w-full h-auto object-cover"
                   />
@@ -1056,7 +1056,7 @@ export default function Home() {
         The minds driving innovation at AutoMATE Solutions
       </h2>
       <p className="mt-6 text-lg text-gray-600 leading-relaxed">
-        Our team combines software engineering, blockchain innovation, AI systems,
+        Through the partnership between AutoMATE Solutions and Hi Techniversity Limited, our team combines software engineering, blockchain innovation, AI systems,
         and data-driven thinking to build modern digital solutions for businesses.
       </p>
     </div>
@@ -1067,14 +1067,14 @@ export default function Home() {
           name: "Kingsley Chinonso",
           role: "Founder • Blockchain & Software Developer",
           image: "/kingsley-chinonso.jpg",
-          linkedin: "https://www.linkedin.com/in/kingsley-chinonso-95352a2b6?utm_source=share_via&utm_content=profile&utm_medium=member_android",
+          linkedin: "https://www.linkedin.com/in/kingsley-chinonso",
           bio: "Kingsley leads the vision of AutoMATE Solutions, building scalable software products, blockchain-powered solutions, and modern digital systems that help businesses grow efficiently.",
         },
         {
           name: "Stella Onyinyechi",
           role: "Founder, Hi Techniversity Limited • AI & Data Analyst",
           image: "/stella-onyinyechi.jpg",
-          linkedin: "#",
+          linkedin: "https://www.linkedin.com/in/stella-onyinyechi",
           bio: "Stella brings strength in AI and data analysis, helping drive smart decision-making, intelligent automation, and insight-led execution across modern business solutions.",
         },
       ].map((member, index) => (
