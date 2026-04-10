@@ -949,7 +949,7 @@ export default function Home() {
               <div className="rounded-[30px] border border-gray-200 bg-slate-950 p-5 shadow-2xl">
                 <div className="rounded-[24px] overflow-hidden border border-white/10 bg-slate-900">
                   <img
-                    src="/stella-onyinyechi[1].jpg"
+                    src="/store.png"
                     alt="AutoMATE Solutions store dashboard preview"
                     className="w-full h-auto object-cover"
                   />
@@ -1067,14 +1067,14 @@ export default function Home() {
           name: "Kingsley Chinonso",
           role: "Founder • Blockchain & Software Developer",
           image: "/kingsley-chinonso.jpg",
-          linkedin: "https://www.linkedin.com/in/kingsley-chinonso",
+          linkedin: "https://www.linkedin.com/in/kingsley-chinonso-95352a2b6?utm_source=share_via&utm_content=profile&utm_medium=member_android",
           bio: "Kingsley leads the vision of AutoMATE Solutions, building scalable software products, blockchain-powered solutions, and modern digital systems that help businesses grow efficiently.",
         },
         {
           name: "Stella Onyinyechi",
           role: "Founder, Hi Techniversity Limited • AI & Data Analyst",
           image: "/stella-onyinyechi.jpg",
-          linkedin: "https://www.linkedin.com/in/stella-onyinyechi",
+          linkedin: "#",
           bio: "Stella brings strength in AI and data analysis, helping drive smart decision-making, intelligent automation, and insight-led execution across modern business solutions.",
         },
       ].map((member, index) => (
